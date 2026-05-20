@@ -1,0 +1,6 @@
+@NoNeed2Ask.Api_HostAddress = http://localhost:5273
+
+GET {{NoNeed2Ask.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
