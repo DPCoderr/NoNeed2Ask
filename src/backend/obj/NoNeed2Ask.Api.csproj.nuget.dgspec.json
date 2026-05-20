@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\NoNeed2Ask.Api.csproj": {}
+    "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\NoNeed2Ask.Api.csproj": {}
   },
   "projects": {
-    "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\NoNeed2Ask.Api.csproj": {
+    "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\NoNeed2Ask.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\NoNeed2Ask.Api.csproj",
+        "projectUniqueName": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\NoNeed2Ask.Api.csproj",
         "projectName": "NoNeed2Ask.Api",
-        "projectPath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\NoNeed2Ask.Api.csproj",
+        "projectPath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\NoNeed2Ask.Api.csproj",
         "packagesPath": "C:\\Users\\dppc2\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\obj\\",
+        "outputPath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dppc2\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj": {
-                "projectPath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj"
+              "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj": {
+                "projectPath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj"
               }
             }
           }
@@ -494,14 +494,14 @@
         }
       }
     },
-    "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj": {
+    "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
+        "projectUniqueName": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
         "projectName": "NoNeed2Ask.ServiceDefaults",
-        "projectPath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
+        "projectPath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
         "packagesPath": "C:\\Users\\dppc2\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\obj\\",
+        "outputPath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dppc2\\AppData\\Roaming\\NuGet\\NuGet.Config"

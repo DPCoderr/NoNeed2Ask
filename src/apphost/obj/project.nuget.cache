@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "U2Pw4henc9g=",
+  "dgSpecHash": "s4SQKGhQ73s=",
   "success": true,
-  "projectFilePath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj",
+  "projectFilePath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dppc2\\.nuget\\packages\\aspire.dashboard.sdk.win-x64\\13.2.4\\aspire.dashboard.sdk.win-x64.13.2.4.nupkg.sha512",
     "C:\\Users\\dppc2\\.nuget\\packages\\aspire.hosting\\13.2.4\\aspire.hosting.13.2.4.nupkg.sha512",

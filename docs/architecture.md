@@ -1,5 +1,28 @@
 # Architecture
 
+## Visual architecture overview
+
+These Mermaid diagrams describe the target MVP architecture. They live in separate files so this document can stay readable as the design grows:
+
+- [System context](./diagrams/system-context.md)
+- [Runtime container architecture](./diagrams/runtime-container-architecture.md)
+- [MVP entity relationship model](./diagrams/mvp-erd.md)
+- [Owner authentication flow](./diagrams/owner-authentication-flow.md)
+- [Private application management flow](./diagrams/private-application-management-flow.md)
+- [Public status page flow](./diagrams/public-status-page-flow.md)
+
+## Other flows worth diagramming
+
+The ERD is important, but the visual understanding of this product mostly depends on boundaries and data exposure. These diagrams are the highest-value set for the MVP:
+
+- **System context:** who uses the product and what major services exist.
+- **Runtime/container architecture:** where Next.js, ASP.NET Core, PostgreSQL, Aspire, and feature slices fit.
+- **ERD:** the owner profile and job applications relationship.
+- **Authentication flow:** how the secure cookie is created and used.
+- **Private CRUD flow:** how ownership checks protect dashboard data.
+- **Public status flow:** how the public DTO prevents private data leakage.
+- **Deployment/runtime flow:** useful later when Aspire, Docker, and production hosting are finalized.
+
 ## Target monorepo structure
 
 The project uses this structure:

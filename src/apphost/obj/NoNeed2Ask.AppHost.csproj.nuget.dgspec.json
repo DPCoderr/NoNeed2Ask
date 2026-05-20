@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj": {}
+    "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj": {}
   },
   "projects": {
-    "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj": {
+    "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj",
+        "projectUniqueName": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj",
         "projectName": "NoNeed2Ask.AppHost",
-        "projectPath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj",
+        "projectPath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\NoNeed2Ask.AppHost.csproj",
         "packagesPath": "C:\\Users\\dppc2\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\obj\\",
+        "outputPath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dppc2\\AppData\\Roaming\\NuGet\\NuGet.Config"
