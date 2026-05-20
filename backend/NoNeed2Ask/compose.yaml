@@ -1,7 +1,0 @@
-﻿services:
-  noneed2ask.api:
-    image: noneed2ask.api
-    build:
-      context: .
-      dockerfile: NoNeed2Ask.Api/Dockerfile
-
