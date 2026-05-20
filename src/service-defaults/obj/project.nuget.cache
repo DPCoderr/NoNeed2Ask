@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xOmyoKp/XAE=",
+  "dgSpecHash": "FGyLun6D5/c=",
   "success": true,
-  "projectFilePath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask-structure\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
+  "projectFilePath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dppc2\\.nuget\\packages\\microsoft.extensions.ambientmetadata.application\\10.2.0\\microsoft.extensions.ambientmetadata.application.10.2.0.nupkg.sha512",
     "C:\\Users\\dppc2\\.nuget\\packages\\microsoft.extensions.compliance.abstractions\\10.2.0\\microsoft.extensions.compliance.abstractions.10.2.0.nupkg.sha512",

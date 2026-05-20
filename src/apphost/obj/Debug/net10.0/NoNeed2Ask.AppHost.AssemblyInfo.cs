@@ -15,15 +15,15 @@ using System.Reflection;
     "dcp.exe"))]
 [assembly: System.Reflection.AssemblyMetadata("dcpextensionpaths", ("C:\\Users\\dppc2\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\13.2.4\\tools\\" +
     "ext\\"))]
-[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask-structure\\src\\apphost")]
+[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost")]
 [assembly: System.Reflection.AssemblyMetadata("apphostprojectname", "NoNeed2Ask.AppHost.csproj")]
 [assembly: System.Reflection.AssemblyMetadata("aspiredashboardpath", ("C:\\Users\\dppc2\\.nuget\\packages\\aspire.dashboard.sdk.win-x64\\13.2.4\\tools\\Aspire.D" +
     "ashboard.exe"))]
-[assembly: System.Reflection.AssemblyMetadataAttribute("apphostprojectbaseintermediateoutputpath", "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask-structure\\src\\apphost\\obj\\")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("apphostprojectbaseintermediateoutputpath", "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\apphost\\obj\\")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("NoNeed2Ask.AppHost")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6409e93cfeb08ef72ebcb15348fe856d487ba9aa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3fb3566788d0e73afa365ef903393c17cf7713fc")]
 [assembly: System.Reflection.AssemblyProductAttribute("NoNeed2Ask.AppHost")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NoNeed2Ask.AppHost")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

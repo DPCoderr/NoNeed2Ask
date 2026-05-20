@@ -15,7 +15,7 @@ public class NoNeed2Ask_Api : global::Aspire.Hosting.IProjectMetadata
     /// <summary>
     /// The path to the NoNeed2Ask_Api project.
     /// </summary>
-    public string ProjectPath => """C:\Users\dppc2\Documents\Projects\NoNeed2Ask-structure\src\backend\NoNeed2Ask.Api.csproj""";
+    public string ProjectPath => """C:\Users\dppc2\Documents\Projects\NoNeed2Ask\src\backend\NoNeed2Ask.Api.csproj""";
 
     /// <summary>
     /// Gets a value indicating whether building the project before running it should be suppressed.

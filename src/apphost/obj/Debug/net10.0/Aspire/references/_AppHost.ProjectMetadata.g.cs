@@ -17,5 +17,5 @@ public class NoNeed2Ask_AppHost
     /// <summary>
     /// The path to the Aspire Host project.
     /// </summary>
-    public static string ProjectPath => """C:\Users\dppc2\Documents\Projects\NoNeed2Ask-structure\src\apphost""";
+    public static string ProjectPath => """C:\Users\dppc2\Documents\Projects\NoNeed2Ask\src\apphost""";
 }

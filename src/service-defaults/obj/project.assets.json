@@ -965,11 +965,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask-structure\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
+      "projectUniqueName": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
       "projectName": "NoNeed2Ask.ServiceDefaults",
-      "projectPath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask-structure\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
+      "projectPath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\NoNeed2Ask.ServiceDefaults.csproj",
       "packagesPath": "C:\\Users\\dppc2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask-structure\\src\\service-defaults\\obj\\",
+      "outputPath": "c:\\Users\\dppc2\\Documents\\Projects\\NoNeed2Ask\\src\\service-defaults\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\dppc2\\AppData\\Roaming\\NuGet\\NuGet.Config"
