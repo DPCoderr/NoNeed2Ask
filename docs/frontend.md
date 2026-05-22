@@ -138,6 +138,90 @@ It must not look like a recruiter dashboard, CRM, or admin panel.
 - Handle loading, empty, and error states explicitly.
 - Prefer invalidating or updating the smallest useful query after mutations.
 
+## Data fetching and mutation rules
+
+Use one default rule for the MVP: feature pages and components fetch and mutate through React Query on the client, using small typed functions in `lib/api` or feature-local API files.
+
+### Client queries
+
+Use React Query client queries for:
+
+- authenticated dashboard reads
+- public status reads that need client-side refresh or interactive states
+- data that is invalidated after a mutation
+- loading, empty, and error states shown inside a feature surface
+
+Keep query functions boring:
+
+- call a typed API helper such as `apiFetch<T>()`
+- keep query keys in `lib/query-keys` or a feature query-key file when the feature grows
+- return typed DTOs
+- do not put presentation logic in query functions
+
+### Client mutations
+
+Use React Query mutations for:
+
+- create, update, delete, and toggle operations
+- auth form submissions when the result affects client state
+- settings changes that should invalidate or update cached data
+
+After a mutation:
+
+- invalidate the smallest useful query key
+- update cache directly only when it is simpler than refetching and easy to keep correct
+- keep optimistic updates rare until the MVP behavior is stable
+
+### Server Components
+
+Use Server Components for:
+
+- route structure
+- static or mostly static layout
+- metadata
+- non-interactive composition
+
+Do not use Server Components as the default API data-fetching layer for MVP feature data. Most MVP data should flow through React Query so loading, error, invalidation, and mutation behavior stay consistent.
+
+Server Component fetching is allowed when:
+
+- the data is needed before rendering the route
+- the page is read-only
+- there is no client mutation path that needs to invalidate it
+- the data does not depend on browser-only auth state
+
+### Server Actions
+
+Do not use Server Actions as the default mutation mechanism for the MVP.
+
+Use Server Actions only when:
+
+- the mutation is tightly coupled to a server-rendered form
+- progressive enhancement is a clear requirement
+- the action avoids exposing server-only secrets or logic to the browser
+
+If a Server Action changes data also read by React Query, explicitly refresh or invalidate the affected client state. Do not mix mutation paths casually.
+
+### Next.js API routes
+
+Do not add Next.js API routes as a proxy to the backend by default.
+
+Use Next.js API routes only when the frontend must own a web-specific boundary, such as:
+
+- setting or clearing HTTP-only cookies
+- handling OAuth callbacks
+- protecting server-only credentials
+- adapting a browser upload or webhook before it reaches the backend
+
+For normal application CRUD and public status behavior, call the backend API directly from typed frontend query and mutation functions.
+
+### Validation and errors
+
+- Centralize repeated transport concerns, such as auth headers and non-2xx response handling, in `lib/api`.
+- Keep feature-specific data validation close to the feature query or mutation.
+- Use zod for runtime validation when the response shape is user-facing, risky, or shared across multiple features.
+- Avoid broad generic data layers until repeated feature code proves they are needed.
+
 ## Form rules
 
 - Every user-editable form should have frontend validation.
