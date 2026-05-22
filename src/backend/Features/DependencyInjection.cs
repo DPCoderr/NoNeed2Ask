@@ -7,10 +7,13 @@ namespace NoNeed2Ask.Api.Features;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddDataAccess(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("noneed2askdb")
-            ?? throw new InvalidOperationException("Connection string 'noneed2askdb' was not found.");
+            ?? throw new InvalidOperationException(
+                "Connection string 'noneed2askdb' was not found. " +
+                "When running through Aspire AppHost, this is provided automatically via the Postgres resource reference. " +
+                "When running the backend project directly, configure it with user secrets or an environment variable.");
 
         services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 

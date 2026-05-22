@@ -108,6 +108,28 @@ Use it for:
 
 Keep AppHost focused on composition, not business logic.
 
+### Local database configuration
+
+Use the Aspire AppHost as the default local development entry point for backend work.
+
+When running through AppHost:
+
+- define PostgreSQL in `src/apphost/AppHost.cs`
+- create the logical app database there
+- pass it to the backend with `.WithReference(...)`
+- let Aspire inject the backend connection string
+
+When running the backend project directly without AppHost:
+
+- provide `ConnectionStrings__noneed2askdb` as an environment variable, or
+- store the connection string in user secrets
+
+Do not keep local database passwords in `appsettings.Development.json`.
+
+Use one logical database per service or bounded context by default.
+If this API is the only owner of the app data, one database such as `noneed2askdb` is the right setup.
+If another service later owns separate data and lifecycle concerns, give that service its own database instead of sharing the same application database.
+
 ## Endpoint rules
 
 - Keep `Program.cs` minimal.
