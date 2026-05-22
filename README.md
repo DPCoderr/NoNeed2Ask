@@ -18,11 +18,6 @@ This repository is organized as a small monorepo with:
 - Provide a read-only public status page for visitors
 - Keep private notes and private application data off the public page
 
-## Current repository note
-
-The repository has already been migrated toward the target `/src/...` structure.
-Feature work should continue from this layout.
-
 ## Documentation
 
 - [Product requirements](./docs/product-requirements.md)
