@@ -1,2 +1,5 @@
 export * from "./client"
 export * from "./errors"
+export * from "./fixtures"
+export * from "./mock"
+export * from "./types"
