@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { MvpNavigation } from "@/components/layout/mvp-navigation"
 import { PageShell } from "@/components/layout/page-shell"
 import { RoutePlaceholder } from "@/components/layout/route-placeholder"
 import { Button } from "@/components/ui/button"
@@ -15,8 +14,6 @@ export default function SettingsPage() {
       title="Settings"
       description="A placeholder for public sharing controls, account details, and status-page ownership."
     >
-      <MvpNavigation />
-
       <section className="grid gap-4 md:grid-cols-2">
         <div className="rounded-lg border bg-card p-5 text-card-foreground shadow-sm">
           <h2 className="text-base font-semibold">Public profile</h2>
