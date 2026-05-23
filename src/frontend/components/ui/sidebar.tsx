@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Menu01Icon } from "@hugeicons/core-free-icons"
+import { PanelLeftIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Slot } from "radix-ui"
 
@@ -112,7 +112,7 @@ function SidebarTrigger({
       variant="ghost"
       {...props}
     >
-      <HugeiconsIcon icon={Menu01Icon} />
+      <HugeiconsIcon icon={PanelLeftIcon} />
     </Button>
   )
 }
