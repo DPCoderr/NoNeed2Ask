@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { MvpNavigation } from "@/components/layout/mvp-navigation"
 import { PageShell } from "@/components/layout/page-shell"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -86,7 +85,6 @@ export default async function PublicStatusPage({
         title="This status page is private"
         description={publicStatus.message}
       >
-        <MvpNavigation />
         <section className="rounded-lg border bg-card p-5 text-card-foreground shadow-sm">
           <h2 className="text-base font-semibold">Sharing is currently off</h2>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -117,8 +115,6 @@ export default async function PublicStatusPage({
       title={`${profile.displayName}'s job-search status`}
       description="A read-only status board for recruiters and collaborators, with only the updates intended for sharing."
     >
-      <MvpNavigation />
-
       <section className="grid gap-4 md:grid-cols-3">
         <div className="rounded-lg border bg-card p-5 text-card-foreground shadow-sm">
           <p className="text-sm text-muted-foreground">Active applications</p>
@@ -204,7 +200,7 @@ export default async function PublicStatusPage({
           <Link href="/">Back home</Link>
         </Button>
         <Button asChild>
-          <Link href="/dashboard">Owner dashboard</Link>
+          <Link href="/">Owner dashboard</Link>
         </Button>
       </div>
     </PageShell>
