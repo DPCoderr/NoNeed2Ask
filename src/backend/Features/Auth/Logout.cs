@@ -1,6 +1,17 @@
-﻿namespace NoNeed2Ask.Api.Features.Auth;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using NoNeed2Ask.Api.Domain.Entities;
 
-public class Logout
+namespace NoNeed2Ask.Api.Features.Auth;
+
+public static class Logout
 {
-    
+    public static async Task<RedirectHttpResult> Handle(
+        SignInManager<AppUser> signInManager
+    )
+    {
+        await signInManager.SignOutAsync();
+
+        return TypedResults.Redirect("auth/login");
+    }
 }

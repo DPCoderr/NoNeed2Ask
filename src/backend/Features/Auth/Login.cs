@@ -6,15 +6,15 @@ namespace NoNeed2Ask.Api.Features.Auth;
 
 public static class Login
 {
-    public record LoginRequest(string Email, string Password);
-    public record LoginResponse(string AccessToken);
+    public record LoginRequestDto(string Email, string Password);
+    public record LoginResponseDto(Guid Id, string Username, string Email);
 
-    public static async Task<Results<Ok<LoginResponse>, ProblemHttpResult>> Handle(
-        LoginRequest loginRequest,
+    public static async Task<Results<Ok<LoginResponseDto>, ProblemHttpResult>> Handle(
+        LoginRequestDto request,
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager)
     {
-        var user = await userManager.FindByEmailAsync(loginRequest.Email);
+        var user = await userManager.FindByEmailAsync(request.Email);
 
         if (user == null)
         {
@@ -25,10 +25,13 @@ public static class Login
             );
         }
 
-        var result = await signInManager.CheckPasswordSignInAsync(
+        var result = await signInManager.PasswordSignInAsync(
             user, 
-            loginRequest.Password, 
-            true);
+            request.Password, 
+            isPersistent: true,
+            lockoutOnFailure: true
+            );
+
 
         if (!result.Succeeded)
         {
@@ -39,8 +42,6 @@ public static class Login
             );
         }
         
-        var accessToken = new LoginResponse("AccessToken");
-        
-        return TypedResults.Ok(accessToken);
+        return TypedResults.Ok(new LoginResponseDto(user.Id, user.UserName!, user.Email!));
     }
 }

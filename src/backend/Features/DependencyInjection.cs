@@ -18,6 +18,7 @@ public static class DependencyInjection
 
         services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
+        // Cookie auth
         services.AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddIdentityCookies();
 
@@ -47,8 +48,6 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<AppDbContext>()
             .AddSignInManager()
             .AddDefaultTokenProviders();
-        
-        // JWT Bearer token
 
         return services;
     }

@@ -9,6 +9,8 @@ public static class AuthEndpoints
 
         group.MapPost("/register", Register.Handle);
         group.MapPost("/login", Login.Handle);
+        group.MapPost("/logout", Logout.Handle);
+        // group.MapGet("/me", );
         
         return app;
     }

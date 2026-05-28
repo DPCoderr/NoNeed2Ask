@@ -7,12 +7,12 @@ namespace NoNeed2Ask.Api.Features.Auth;
 public static class Register
 {
     public record RegisterRequest(string Username, string Email, string Password);
-    public record RegisterResponse(string AccessToken, string RefreshToken);
+    public record RegisterResponseDto(Guid Id, string Username, string Email);
 
-    public static async Task<Results<Ok<RegisterResponse>, BadRequest<IEnumerable<IdentityError>>>> Handle(
+    public static async Task<Results<Ok<RegisterResponseDto>, BadRequest<IEnumerable<IdentityError>>>> Handle(
         RegisterRequest request, 
-        UserManager<AppUser> userManager
-        )
+        UserManager<AppUser> userManager,
+        SignInManager<AppUser> signInManager)
     {
         var user = new AppUser()
         {
@@ -27,10 +27,8 @@ public static class Register
             return TypedResults.BadRequest(result.Errors);
         }
         
-        var response = new RegisterResponse("AccessToken", "RefreshToken");
-
+        await  signInManager.SignInAsync(user, isPersistent: true);
         
-        
-        return TypedResults.Ok(response);
+        return TypedResults.Ok(new RegisterResponseDto(user.Id, user.UserName!, user.Email!));
     }
 }
