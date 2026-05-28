@@ -1,4 +1,4 @@
-namespace NoNeed2Ask.Api.Database;
+namespace NoNeed2Ask.Api.Domain.Entities;
 
 public static class ApplicationStatuses
 {

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using NoNeed2Ask.Api.Domain.Entities;
 
 namespace NoNeed2Ask.Api.Database;
 

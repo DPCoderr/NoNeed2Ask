@@ -4,9 +4,12 @@ public static class AuthEndpoints
 {
     public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGroup("/auth")
+        var group = app.MapGroup("/auth")
             .WithTags("Auth");
 
+        group.MapPost("/register", Register.Handle);
+        group.MapPost("/login", Login.Handle);
+        
         return app;
     }
 }
