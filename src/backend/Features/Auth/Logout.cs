@@ -6,12 +6,9 @@ namespace NoNeed2Ask.Api.Features.Auth;
 
 public static class Logout
 {
-    public static async Task<RedirectHttpResult> Handle(
-        SignInManager<AppUser> signInManager
-    )
+    public static async Task<NoContent> Handle(SignInManager<AppUser> signInManager)
     {
         await signInManager.SignOutAsync();
-
-        return TypedResults.Redirect("auth/login");
+        return TypedResults.NoContent();
     }
 }

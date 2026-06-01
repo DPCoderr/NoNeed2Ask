@@ -6,7 +6,7 @@ namespace NoNeed2Ask.Api.Features.Auth;
 
 public static class Register
 {
-    public record RegisterRequest(string Username, string Email, string Password);
+    public record RegisterRequest(string Username, string Email, string Password, bool RememberMe);
     public record RegisterResponseDto(Guid Id, string Username, string Email);
 
     public static async Task<Results<Ok<RegisterResponseDto>, BadRequest<IEnumerable<IdentityError>>>> Handle(
@@ -27,7 +27,7 @@ public static class Register
             return TypedResults.BadRequest(result.Errors);
         }
         
-        await  signInManager.SignInAsync(user, isPersistent: true);
+        await  signInManager.SignInAsync(user, isPersistent: request.RememberMe);
         
         return TypedResults.Ok(new RegisterResponseDto(user.Id, user.UserName!, user.Email!));
     }

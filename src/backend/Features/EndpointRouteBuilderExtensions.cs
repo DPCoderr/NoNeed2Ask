@@ -1,4 +1,4 @@
-using NoNeed2Ask.Api.Features.Applications;
+using NoNeed2Ask.Api.Features.Application;
 using NoNeed2Ask.Api.Features.Auth;
 using NoNeed2Ask.Api.Features.PublicStatus;
 using NoNeed2Ask.Api.Features.Settings;

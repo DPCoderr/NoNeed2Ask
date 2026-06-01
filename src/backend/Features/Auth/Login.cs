@@ -6,7 +6,7 @@ namespace NoNeed2Ask.Api.Features.Auth;
 
 public static class Login
 {
-    public record LoginRequestDto(string Email, string Password);
+    public record LoginRequestDto(string Email, string Password, bool RememberMe);
     public record LoginResponseDto(Guid Id, string Username, string Email);
 
     public static async Task<Results<Ok<LoginResponseDto>, ProblemHttpResult>> Handle(
@@ -28,7 +28,7 @@ public static class Login
         var result = await signInManager.PasswordSignInAsync(
             user, 
             request.Password, 
-            isPersistent: true,
+            isPersistent: request.RememberMe,
             lockoutOnFailure: true
             );
 
