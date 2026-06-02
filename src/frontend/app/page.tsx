@@ -1,12 +1,16 @@
-import Link from "next/link"
-import Image from "next/image"
+import Link from "next/link";
+import Image from "next/image";
 
-import { PageShell } from "@/components/layout/page-shell"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { mockIsSignedIn } from "@/lib/auth/session"
-import { mockOwnerDashboardResponse } from "@/lib/api/fixtures"
-import type { ApplicationStatus, PrivateApplicationDto } from "@/lib/api/types"
+import { LandingReveal } from "@/components/landing/landing-reveal";
+import { LandingNavbar } from "@/components/layout/landing-navbar";
+import { PageShell } from "@/components/layout/page-shell";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { mockIsSignedIn } from "@/lib/auth/session";
+import { mockOwnerDashboardResponse } from "@/lib/api/fixtures";
+import type { ApplicationStatus, PrivateApplicationDto } from "@/lib/api/types";
+
+import landingDashboardImage from ".././public/landingpage-img-noneed2ask.png";
 
 const statusLabels: Record<ApplicationStatus, string> = {
   applied: "Applied",
@@ -17,7 +21,7 @@ const statusLabels: Record<ApplicationStatus, string> = {
   rejected: "Rejected",
   ghosted: "Ghosted",
   paused: "Paused",
-}
+};
 
 const activeStatuses: ApplicationStatus[] = [
   "applied",
@@ -25,17 +29,17 @@ const activeStatuses: ApplicationStatus[] = [
   "interview_planned",
   "interview_done",
   "offer",
-]
+];
 
 function formatDate(value: string | null) {
   if (!value) {
-    return "Not scheduled"
+    return "Not scheduled";
   }
 
   return new Intl.DateTimeFormat("en", {
     month: "short",
     day: "numeric",
-  }).format(new Date(value))
+  }).format(new Date(value));
 }
 
 function getNextAction(applications: PrivateApplicationDto[]) {
@@ -44,8 +48,8 @@ function getNextAction(applications: PrivateApplicationDto[]) {
     .sort(
       (first, second) =>
         new Date(first.nextActionAt ?? "").getTime() -
-        new Date(second.nextActionAt ?? "").getTime()
-    )[0]
+        new Date(second.nextActionAt ?? "").getTime(),
+    )[0];
 }
 
 function LandingPage() {
@@ -60,35 +64,27 @@ function LandingPage() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-background/25 to-background/70" />
-        <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-b from-transparent via-background/75 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-background/25 to-background/70 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-1000" />
+        <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-b from-transparent via-background/75 to-background motion-safe:animate-in motion-safe:fade-in motion-safe:duration-1000" />
 
-        <header className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 md:px-8">
-          <Link className="flex items-center gap-2 font-semibold" href="/">
-            <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
-              N
-            </span>
-            <span>NoNeed2Ask</span>
-          </Link>
-          <nav className="hidden items-center gap-8 text-sm font-medium text-foreground/80 md:flex">
-            <a href="#features">Features</a>
-            <a href="#public-page">Public page</a>
-            <a href="#control">Control</a>
-          </nav>
-          <Button asChild className="rounded-full px-6">
-            <Link href="/register">Start tracking</Link>
-          </Button>
-        </header>
+        <LandingNavbar />
 
         <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col items-center px-6 pb-0 pt-12 text-center md:px-8 md:pt-20">
-          <h1 className="mt-8 max-w-5xl text-5xl font-semibold tracking-normal text-foreground sm:text-6xl md:text-7xl">
-            Track jobs. Share status.
-          </h1>
-          <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground md:text-xl md:leading-8">
-            Keep your job search organized. Share a public URL when you want,
-            and turn it off anytime.
-          </p>
-          <div className="mt-9 flex flex-wrap justify-center gap-3">
+          <LandingReveal>
+            <h1 className="mt-8 max-w-5xl text-5xl font-semibold tracking-normal text-foreground sm:text-6xl md:text-7xl">
+              Track jobs. Share status.
+            </h1>
+          </LandingReveal>
+          <LandingReveal delay={150}>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground md:text-xl md:leading-8">
+              Keep your job search organized. Share a public URL when you want,
+              and turn it off anytime.
+            </p>
+          </LandingReveal>
+          <LandingReveal
+            className="mt-9 flex flex-wrap justify-center gap-3"
+            delay={300}
+          >
             <Button asChild size="lg" className="rounded-full px-7">
               <Link href="/register">Create your tracker</Link>
             </Button>
@@ -100,18 +96,22 @@ function LandingPage() {
             >
               <Link href="/status/daniel-job-search">View public example</Link>
             </Button>
-          </div>
+          </LandingReveal>
 
-          <div className="mt-10 w-full max-w-5xl translate-y-10 overflow-hidden rounded-lg border bg-card/80 p-2 shadow-2xl backdrop-blur md:mt-12 md:translate-y-14">
+          <LandingReveal
+            className="mt-10 w-full max-w-5xl translate-y-10 overflow-hidden rounded-lg border bg-card/80 p-2 shadow-2xl backdrop-blur md:mt-12 md:translate-y-14"
+            delay={500}
+            motion="fade"
+          >
             <Image
-              src="/landingpage-img-noneed2ask.png"
+              src={landingDashboardImage}
               alt="NoNeed2Ask applications dashboard with sidebar and tracked job applications"
               width={1920}
               height={930}
               priority
               className="h-auto w-full rounded-md"
             />
-          </div>
+          </LandingReveal>
         </div>
       </section>
 
@@ -135,9 +135,10 @@ function LandingPage() {
             "Instant off switch",
             "Turn sharing on or off whenever your search gets sensitive or simply needs quiet.",
           ],
-        ].map(([id, title, description]) => (
-          <div
-            className="rounded-lg border bg-card p-5 shadow-sm"
+        ].map(([id, title, description], index) => (
+          <LandingReveal
+            className="rounded-lg border bg-card p-5 shadow-sm hover:-translate-y-1 hover:shadow-md"
+            delay={index * 120}
             id={id}
             key={title}
           >
@@ -145,36 +146,37 @@ function LandingPage() {
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
               {description}
             </p>
-          </div>
+          </LandingReveal>
         ))}
       </section>
     </main>
-  )
+  );
 }
 
 export default function DashboardPage() {
   if (!mockIsSignedIn) {
-    return <LandingPage />
+    return <LandingPage />;
   }
 
-  const { applications, publicProfile, user } = mockOwnerDashboardResponse
-  const publicSlug = publicProfile.publicSlug
+  const { applications, publicProfile, user } = mockOwnerDashboardResponse;
+  const publicSlug = publicProfile.publicSlug;
   const activeApplications = applications.filter((application) =>
-    activeStatuses.includes(application.status)
-  ).length
+    activeStatuses.includes(application.status),
+  ).length;
   const interviewCount = applications.filter((application) =>
-    ["interview_planned", "interview_done"].includes(application.status)
-  ).length
+    ["interview_planned", "interview_done"].includes(application.status),
+  ).length;
   const waitingCount = applications.filter(
-    (application) => application.status === "waiting_response"
-  ).length
-  const nextAction = getNextAction(applications)
+    (application) => application.status === "waiting_response",
+  ).length;
+  const nextAction = getNextAction(applications);
   const recentlyUpdated = [...applications]
     .sort(
       (first, second) =>
-        new Date(second.updatedAt).getTime() - new Date(first.updatedAt).getTime()
+        new Date(second.updatedAt).getTime() -
+        new Date(first.updatedAt).getTime(),
     )
-    .slice(0, 3)
+    .slice(0, 3);
 
   return (
     <PageShell
@@ -263,7 +265,9 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-center justify-between gap-4">
               <dt className="text-muted-foreground">Last profile update</dt>
-              <dd className="font-medium">{formatDate(publicProfile.updatedAt)}</dd>
+              <dd className="font-medium">
+                {formatDate(publicProfile.updatedAt)}
+              </dd>
             </div>
           </dl>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -310,5 +314,5 @@ export default function DashboardPage() {
         </div>
       </section>
     </PageShell>
-  )
+  );
 }
