@@ -72,7 +72,14 @@ function LandingPage() {
         <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col items-center px-6 pb-0 pt-12 text-center md:px-8 md:pt-20">
           <LandingReveal>
             <h1 className="mt-8 max-w-5xl text-5xl font-semibold tracking-normal text-foreground sm:text-6xl md:text-7xl">
-              Track jobs. Share status.
+              <span className="block md:inline">Track jobs,</span>{" "}
+              <span className="relative mt-1 inline-block whitespace-nowrap px-3 pb-2 text-primary sm:mt-2 sm:px-4 md:mt-0">
+                <span className="relative z-10">share status.</span>
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 bottom-2 h-5 rounded-full bg-primary/15 sm:h-7 md:h-8"
+                />
+              </span>
             </h1>
           </LandingReveal>
           <LandingReveal delay={150}>
