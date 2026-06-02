@@ -13,6 +13,9 @@ builder.Services.AddFeatureServices();
 builder.Services.AddAuthorization();
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
+
+// Render terminates HTTPS at its proxy, then forwards to the app over HTTP.
+// So trust forwarded headers to recover the original HTTPS scheme.
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;

@@ -1,8 +1,10 @@
 import Link from "next/link"
+import Image from "next/image"
 
 import { PageShell } from "@/components/layout/page-shell"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { mockIsSignedIn } from "@/lib/auth/session"
 import { mockOwnerDashboardResponse } from "@/lib/api/fixtures"
 import type { ApplicationStatus, PrivateApplicationDto } from "@/lib/api/types"
 
@@ -46,7 +48,115 @@ function getNextAction(applications: PrivateApplicationDto[]) {
     )[0]
 }
 
+function LandingPage() {
+  return (
+    <main className="min-h-svh overflow-hidden bg-background text-foreground">
+      <section className="relative flex min-h-svh flex-col overflow-hidden">
+        <Image
+          src="/bg-landing-noneed2ask.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-background/25 to-background/70" />
+        <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-b from-transparent via-background/75 to-background" />
+
+        <header className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 md:px-8">
+          <Link className="flex items-center gap-2 font-semibold" href="/">
+            <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
+              N
+            </span>
+            <span>NoNeed2Ask</span>
+          </Link>
+          <nav className="hidden items-center gap-8 text-sm font-medium text-foreground/80 md:flex">
+            <a href="#features">Features</a>
+            <a href="#public-page">Public page</a>
+            <a href="#control">Control</a>
+          </nav>
+          <Button asChild className="rounded-full px-6">
+            <Link href="/register">Start tracking</Link>
+          </Button>
+        </header>
+
+        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col items-center px-6 pb-0 pt-12 text-center md:px-8 md:pt-20">
+          <h1 className="mt-8 max-w-5xl text-5xl font-semibold tracking-normal text-foreground sm:text-6xl md:text-7xl">
+            Track jobs. Share status.
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground md:text-xl md:leading-8">
+            Keep your job search organized. Share a public URL when you want,
+            and turn it off anytime.
+          </p>
+          <div className="mt-9 flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg" className="rounded-full px-7">
+              <Link href="/register">Create your tracker</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="secondary"
+              className="rounded-full bg-background/60 px-7 backdrop-blur hover:bg-background/80"
+            >
+              <Link href="/status/daniel-job-search">View public example</Link>
+            </Button>
+          </div>
+
+          <div className="mt-10 w-full max-w-5xl translate-y-10 overflow-hidden rounded-lg border bg-card/80 p-2 shadow-2xl backdrop-blur md:mt-12 md:translate-y-14">
+            <Image
+              src="/landingpage-img-noneed2ask.png"
+              alt="NoNeed2Ask applications dashboard with sidebar and tracked job applications"
+              width={1920}
+              height={930}
+              priority
+              className="h-auto w-full rounded-md"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative mx-auto grid w-full max-w-6xl gap-4 px-6 pb-16 pt-24 md:grid-cols-3 md:px-8 md:pt-28"
+        id="features"
+      >
+        {[
+          [
+            "private-pipeline",
+            "Private pipeline",
+            "Track company, role, stage, notes, contact dates, and the next thing to do.",
+          ],
+          [
+            "public-page",
+            "Public status URL",
+            "Share a clean page for friends, recruiters, or coaches without exposing private notes.",
+          ],
+          [
+            "control",
+            "Instant off switch",
+            "Turn sharing on or off whenever your search gets sensitive or simply needs quiet.",
+          ],
+        ].map(([id, title, description]) => (
+          <div
+            className="rounded-lg border bg-card p-5 shadow-sm"
+            id={id}
+            key={title}
+          >
+            <h2 className="font-semibold">{title}</h2>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              {description}
+            </p>
+          </div>
+        ))}
+      </section>
+    </main>
+  )
+}
+
 export default function DashboardPage() {
+  if (!mockIsSignedIn) {
+    return <LandingPage />
+  }
+
   const { applications, publicProfile, user } = mockOwnerDashboardResponse
   const publicSlug = publicProfile.publicSlug
   const activeApplications = applications.filter((application) =>

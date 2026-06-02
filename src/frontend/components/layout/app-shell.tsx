@@ -18,6 +18,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { mockIsSignedIn } from "@/lib/auth/session"
 import { mockPrivateApplications } from "@/lib/api/fixtures"
 
 const segmentLabels: Record<string, string> = {
@@ -54,6 +55,15 @@ function getBreadcrumbs(pathname: string) {
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const breadcrumbs = getBreadcrumbs(pathname)
+  const isPublicRoute =
+    pathname === "/" ||
+    pathname === "/login" ||
+    pathname === "/register" ||
+    pathname.startsWith("/status/")
+
+  if (isPublicRoute && !mockIsSignedIn) {
+    return children
+  }
 
   return (
     <SidebarProvider>
