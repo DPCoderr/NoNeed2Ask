@@ -34,8 +34,8 @@ export function SignupForm({
           <form>
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="name">Full Name</FieldLabel>
-                <Input id="name" type="text" placeholder="John Doe" required />
+                <FieldLabel htmlFor="username">Username</FieldLabel>
+                <Input id="username" type="text" placeholder="John" required />
               </Field>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>

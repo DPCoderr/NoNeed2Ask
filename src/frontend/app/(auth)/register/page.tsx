@@ -1,22 +1,40 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { SignupForm } from "@/components/signup-form"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { LayoutBottomIcon } from "@hugeicons/core-free-icons"
+import Link from "next/link";
+import Image from "next/image";
+
+import { SignupForm } from "@/components/signup-form";
+import { LandingNavbar } from "@/components/layout/landing-navbar";
+import { Button } from "@/components/ui/button";
 
 export default function SignupPage() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
-      <div className="flex w-full max-w-sm flex-col gap-6">
-        <Link href="/" className="flex items-center gap-2 self-center font-medium">
-          <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <HugeiconsIcon icon={LayoutBottomIcon} strokeWidth={2} className="size-4" />
-          </div>
-          NoNeed2Ask
-        </Link>
-        <SignupForm />
-      </div>
+    <div className="relative flex min-h-svh flex-col overflow-hidden bg-background text-foreground">
+      <Image
+        src="/bg-landing-noneed2ask.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-background/25 to-background/70" />
+      <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-b from-transparent via-background/75 to-background" />
+
+      <LandingNavbar />
+
+      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-6 py-12 md:px-8 md:py-16">
+        <div className="flex w-full max-w-sm flex-col gap-5">
+          <SignupForm />
+          <Button
+            asChild
+            variant="secondary"
+            className="self-center rounded-full bg-background/70 px-5 backdrop-blur hover:bg-background/90"
+          >
+            <Link href="/">Return to landing page</Link>
+          </Button>
+        </div>
+      </main>
     </div>
-  )
+  );
 }

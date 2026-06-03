@@ -13,12 +13,17 @@ export class ApiResponseError extends Error {
 type ErrorBody = {
   detail?: string
   error?: string
+  errors?: Record<string, string[]>
   message?: string
   title?: string
 }
 
 function getErrorBodyMessage(body: ErrorBody) {
-  return body.detail ?? body.message ?? body.error ?? body.title
+  const validationMessages = body.errors
+    ? Object.values(body.errors).flat().join(" ")
+    : undefined
+
+  return validationMessages ?? body.detail ?? body.message ?? body.error ?? body.title
 }
 
 export async function throwIfApiError(response: Response) {
@@ -28,7 +33,7 @@ export async function throwIfApiError(response: Response) {
 
   const contentType = response.headers.get("content-type")
 
-  if (contentType?.includes("application/json")) {
+  if (contentType?.includes("json")) {
     const body = (await response.clone().json().catch(() => null)) as
       | ErrorBody
       | null

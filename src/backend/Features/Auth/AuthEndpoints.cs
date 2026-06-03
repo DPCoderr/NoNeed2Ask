@@ -1,3 +1,5 @@
+using NoNeed2Ask.Api.Features;
+
 namespace NoNeed2Ask.Api.Features.Auth;
 
 public static class AuthEndpoints
@@ -7,8 +9,12 @@ public static class AuthEndpoints
         var group = app.MapGroup("/auth")
             .WithTags("Auth");
 
-        group.MapPost("/register", Register.Handle);
-        group.MapPost("/login", Login.Handle);
+        group.MapPost("/register", Register.Handle)
+            .AddEndpointFilter<ValidationFilter<Register.RegisterRequest>>();
+
+        group.MapPost("/login", Login.Handle)
+            .AddEndpointFilter<ValidationFilter<Login.LoginRequestDto>>();
+
         group.MapPost("/logout", Logout.Handle).RequireAuthorization();
         group.MapGet("/me", Me.Handle).RequireAuthorization();
         

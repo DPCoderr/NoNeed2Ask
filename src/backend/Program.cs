@@ -13,6 +13,19 @@ builder.Services.AddFeatureServices();
 builder.Services.AddAuthorization();
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        policy
+            .WithOrigins(
+                "https://no-need2-ask.vercel.app",
+                "http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 
 // Render terminates HTTPS at its proxy, then forwards to the app over HTTP.
 // So trust forwarded headers to recover the original HTTPS scheme.
@@ -22,20 +35,6 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.KnownIPNetworks.Clear();
     options.KnownProxies.Clear();
 });
-
-// builder.Services.AddCors(options =>
-// {
-//     options.AddPolicy("Frontend", policy =>
-//     {
-//         policy
-//             .WithOrigins(
-//                 "https://your-frontend-domain.com",
-//                 "http://localhost:5173")
-//             .AllowAnyHeader()
-//             .AllowAnyMethod()
-//             .AllowCredentials();
-//     });
-// });
 
 var app = builder.Build();
 
@@ -51,6 +50,7 @@ app.MapOpenApi();
 app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
+app.UseCors("Frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapDefaultEndpoints();

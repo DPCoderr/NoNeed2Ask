@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
 import {
   Briefcase02Icon,
   DashboardSquare01Icon,
   Globe02Icon,
-  Login02Icon,
+  Logout02Icon,
   Setting07Icon,
-} from "@hugeicons/core-free-icons"
-import { HugeiconsIcon } from "@hugeicons/react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Sidebar,
@@ -22,7 +22,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import Image from "next/image";
 
 const mainRoutes = [
   { href: "/", label: "Home", icon: DashboardSquare01Icon },
@@ -31,29 +32,29 @@ const mainRoutes = [
     label: "Applications",
     icon: Briefcase02Icon,
   },
-  { href: "/settings", label: "Settings", icon: Setting07Icon },
+  // { href: "/settings", label: "Settings", icon: Setting07Icon },
   {
     href: "/status/daniel-job-search",
     label: "Public status",
     icon: Globe02Icon,
   },
-]
+];
 
 const authRoutes = [
-  { href: "/login", label: "Log in", icon: Login02Icon },
-  { href: "/register", label: "Register", icon: Login02Icon },
-]
+  { href: "/settings", label: "Settings", icon: Setting07Icon },
+  { href: "/logout", label: "Logout", icon: Logout02Icon },
+];
 
 function isActiveRoute(pathname: string, href: string) {
   if (href === "/") {
-    return pathname === href
+    return pathname === href;
   }
 
-  return pathname === href || pathname.startsWith(`${href}/`)
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 export function AppSidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <Sidebar>
@@ -62,9 +63,12 @@ export function AppSidebar() {
           className="flex h-10 items-center gap-2 rounded-lg px-2 font-semibold transition-colors hover:bg-sidebar-accent"
           href="/"
         >
-          <span className="flex size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sm font-semibold text-sidebar-primary-foreground">
-            N
-          </span>
+          <Image
+            src="/logo-transparent.png"
+            height={36}
+            width={36}
+            alt="NoNeed2Ask logo"
+          />
           <span className="truncate group-data-[collapsible=icon]/sidebar-wrapper:sr-only">
             NoNeed2Ask
           </span>
@@ -117,5 +121,5 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
