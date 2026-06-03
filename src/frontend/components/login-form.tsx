@@ -62,8 +62,7 @@ export function LoginForm({
           ? returnTo
           : "/applications"
 
-      router.push(safeReturnTo)
-      router.refresh()
+      router.replace(safeReturnTo)
     } catch (caughtError) {
       applyApiFormErrors({
         error: caughtError,

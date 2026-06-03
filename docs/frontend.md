@@ -215,6 +215,34 @@ Use Next.js API routes only when the frontend must own a web-specific boundary, 
 
 For normal application CRUD and public status behavior, call the backend API directly from typed frontend query and mutation functions.
 
+#### Production auth proxy
+
+Auth is the current exception to the "do not proxy by default" rule.
+
+In local development, the frontend and backend both run on `localhost`, even though they use different ports:
+
+- Frontend: `http://localhost:3000`
+- Backend auth API: `https://localhost:7156/auth`
+
+Because browser cookies are scoped by host, not by port, the ASP.NET Identity cookie set by the backend is still visible to the Next.js frontend on localhost. This lets `proxy.ts`, `cookies()`, and the app shell detect the `.AspNetCore.Identity.Application` cookie after login.
+
+In production, the free hosting URLs are different hosts:
+
+- Frontend: `https://no-need2-ask.vercel.app`
+- Backend auth API: `https://noneed2ask.onrender.com/auth`
+
+A cookie set directly by the Render backend belongs to `noneed2ask.onrender.com`. The Vercel frontend cannot read that cookie, so Next.js thinks the user is logged out even when the backend login request succeeded. The result is that protected pages redirect back to login and auth routes remain visible.
+
+To avoid requiring a paid custom domain for a portfolio project, production auth calls go through the Next.js route handler at `app/api/auth/[...path]/route.ts`:
+
+```text
+Browser -> /api/auth/login on Vercel -> /auth/login on Render
+```
+
+The route handler forwards the request to the backend, then returns the backend response and `Set-Cookie` header from the Vercel origin. The browser stores the auth cookie for `no-need2-ask.vercel.app`, which means the frontend middleware and Server Components can see it.
+
+Keep this boundary small and auth-specific. If normal CRUD endpoints need authentication later, either proxy those authenticated API calls through a similarly intentional frontend boundary or move to a shared custom domain such as `app.example.com` and `api.example.com` with a shared cookie domain.
+
 ### Validation and errors
 
 - Centralize repeated transport concerns, such as auth headers and non-2xx response handling, in `lib/api`.

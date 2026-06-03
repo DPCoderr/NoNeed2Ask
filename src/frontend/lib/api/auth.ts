@@ -1,7 +1,7 @@
 import { apiFetch } from "./client"
 
-const prodAuthBaseUrl = "https://noneed2ask.onrender.com/auth"
 const devAuthBaseUrl = "https://localhost:7156/auth"
+const proxiedAuthBaseUrl = "/api/auth"
 
 export type AuthLoginResponseDto = {
   id: string
@@ -36,7 +36,7 @@ export type RegisterRequestDto = {
 
 function getAuthBaseUrl() {
   return process.env.NODE_ENV === "production"
-    ? prodAuthBaseUrl
+    ? proxiedAuthBaseUrl
     : devAuthBaseUrl
 }
 
