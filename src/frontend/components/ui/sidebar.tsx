@@ -12,7 +12,9 @@ import { cn } from "@/lib/utils"
 type SidebarContextValue = {
   isMobile: boolean
   open: boolean
+  openMobile: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setOpenMobile: React.Dispatch<React.SetStateAction<boolean>>
   toggleSidebar: () => void
 }
 
@@ -38,11 +40,19 @@ function SidebarProvider({
 }) {
   const isMobile = useIsMobile()
   const [open, setOpen] = React.useState(defaultOpen)
-  const toggleSidebar = React.useCallback(() => setOpen((value) => !value), [])
+  const [openMobile, setOpenMobile] = React.useState(false)
+  const toggleSidebar = React.useCallback(() => {
+    if (isMobile) {
+      setOpenMobile((value) => !value)
+      return
+    }
+
+    setOpen((value) => !value)
+  }, [isMobile])
 
   return (
     <SidebarContext.Provider
-      value={{ isMobile, open, setOpen, toggleSidebar }}
+      value={{ isMobile, open, openMobile, setOpen, setOpenMobile, toggleSidebar }}
     >
       <div
         data-slot="sidebar-wrapper"
@@ -64,7 +74,34 @@ function Sidebar({
   className,
   ...props
 }: React.ComponentProps<"aside">) {
-  const { open } = useSidebar()
+  const { isMobile, open, openMobile, setOpenMobile } = useSidebar()
+
+  if (isMobile) {
+    return (
+      <>
+        {openMobile ? (
+          <button
+            aria-label="Close sidebar"
+            className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden"
+            onClick={() => setOpenMobile(false)}
+            type="button"
+          />
+        ) : null}
+        <aside
+          data-slot="sidebar"
+          data-state={openMobile ? "expanded" : "collapsed"}
+          className={cn(
+            "fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col border-r bg-sidebar text-sidebar-foreground shadow-lg transition-transform duration-200 ease-linear md:hidden",
+            openMobile ? "translate-x-0" : "-translate-x-full",
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </aside>
+      </>
+    )
+  }
 
   return (
     <aside

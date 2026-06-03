@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
+import { cookies } from "next/headers";
 
 import { LandingReveal } from "@/components/landing/landing-reveal";
 import { LandingNavbar } from "@/components/layout/landing-navbar";
 import { PageShell } from "@/components/layout/page-shell";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { mockIsSignedIn } from "@/lib/auth/session";
 import { mockOwnerDashboardResponse } from "@/lib/api/fixtures";
+import { authCookieName } from "@/lib/auth/cookies";
 import type { ApplicationStatus, PrivateApplicationDto } from "@/lib/api/types";
 
 import landingDashboardImage from ".././public/landingpage-img-noneed2ask.png";
@@ -160,8 +161,10 @@ function LandingPage() {
   );
 }
 
-export default function DashboardPage() {
-  if (!mockIsSignedIn) {
+export default async function DashboardPage() {
+  const cookieStore = await cookies();
+
+  if (!cookieStore.has(authCookieName)) {
     return <LandingPage />;
   }
 

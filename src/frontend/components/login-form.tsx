@@ -54,8 +54,13 @@ export function LoginForm({
 
     try {
       await login(values)
+      const returnTo = new URLSearchParams(window.location.search).get("returnTo")
+      const safeReturnTo =
+        returnTo?.startsWith("/") && !returnTo.startsWith("//")
+          ? returnTo
+          : "/applications"
 
-      router.push("/applications")
+      router.push(safeReturnTo)
       router.refresh()
     } catch (caughtError) {
       applyApiFormErrors({

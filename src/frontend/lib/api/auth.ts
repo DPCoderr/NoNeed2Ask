@@ -15,6 +15,12 @@ export type AuthRegisterResponseDto = {
   email: string
 }
 
+export type AuthMeResponseDto = {
+  id: string
+  username: string
+  email: string
+}
+
 export type LoginRequestDto = {
   email: string
   password: string
@@ -59,6 +65,13 @@ export async function register(request: RegisterRequestDto) {
 export async function logout() {
   return apiFetch<void>(`${getAuthBaseUrl()}/logout`, {
     method: "POST",
+    credentials: "include",
+  })
+}
+
+export async function getCurrentUser() {
+  return apiFetch<AuthMeResponseDto>(`${getAuthBaseUrl()}/me`, {
+    method: "GET",
     credentials: "include",
   })
 }

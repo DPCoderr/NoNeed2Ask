@@ -18,7 +18,7 @@ public static class Me
 
         if (user is null)
         {
-            TypedResults.Problem(
+            return TypedResults.Problem(
                 title: "Unauthorized",
                 detail: "You are not authorized to view this page.",
                 statusCode: 401

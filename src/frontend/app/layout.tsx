@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { cookies } from "next/headers";
 import "./globals.css";
 import { AppProviders } from "@/app/providers";
 import { AppShell } from "@/components/layout/app-shell";
+import { authCookieName } from "@/lib/auth/cookies";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -22,11 +24,14 @@ export const metadata: Metadata = {
   description: "A calm job-search status tracker.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const hasAuthCookie = cookieStore.has(authCookieName);
+
   return (
     <html
       lang="en"
@@ -40,7 +45,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-background font-sans text-foreground">
         <AppProviders>
-          <AppShell>{children}</AppShell>
+          <AppShell hasAuthCookie={hasAuthCookie}>{children}</AppShell>
         </AppProviders>
       </body>
     </html>
