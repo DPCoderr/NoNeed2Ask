@@ -26,13 +26,6 @@ export default function LoginPage() {
       <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-6 py-12 md:px-8 md:py-16">
         <div className="flex w-full max-w-sm flex-col gap-5">
           <LoginForm />
-          <Button
-            asChild
-            variant="secondary"
-            className="self-center rounded-full bg-background/70 px-5 backdrop-blur hover:bg-background/90"
-          >
-            <Link href="/">Return to landing page</Link>
-          </Button>
         </div>
       </main>
     </div>

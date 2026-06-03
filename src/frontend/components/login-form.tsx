@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -20,6 +20,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { login } from "@/lib/api"
 import { applyApiFormErrors } from "@/lib/forms"
@@ -37,6 +38,7 @@ export function LoginForm({
   const {
     formState: { errors, isSubmitting },
     clearErrors,
+    control,
     handleSubmit,
     register,
     setError,
@@ -114,13 +116,20 @@ export function LoginForm({
                 />
                 <FieldError errors={[errors.password]} />
               </Field>
-              <Field className="flex-row items-center gap-2">
-                <input
-                  id="rememberMe"
-                  type="checkbox"
-                  className="size-4 rounded border-border"
-                  disabled={isSubmitting}
-                  {...register("rememberMe")}
+              <Field orientation="horizontal" className="w-fit gap-2">
+                <Controller
+                  control={control}
+                  name="rememberMe"
+                  render={({ field }) => (
+                    <Checkbox
+                      id="rememberMe"
+                      checked={field.value}
+                      disabled={isSubmitting}
+                      onBlur={field.onBlur}
+                      onCheckedChange={field.onChange}
+                      ref={field.ref}
+                    />
+                  )}
                 />
                 <FieldLabel htmlFor="rememberMe" className="font-normal">
                   Remember me
