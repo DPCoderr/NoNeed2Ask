@@ -1,8 +1,9 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { type Resolver, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -20,45 +21,13 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { ApiResponseError, login } from "@/lib/api"
+import { login } from "@/lib/api"
+import { applyApiFormErrors } from "@/lib/forms"
 import { cn } from "@/lib/utils"
 import {
   loginFormSchema,
   type LoginFormValues,
 } from "@/lib/validation/auth"
-
-const loginFormResolver: Resolver<LoginFormValues> = async (values) => {
-  const validationResult = loginFormSchema.safeParse(values)
-
-  if (validationResult.success) {
-    return {
-      values: validationResult.data,
-      errors: {},
-    }
-  }
-
-  return {
-    values: {},
-    errors: validationResult.error.issues.reduce(
-      (fieldErrors, issue) => {
-        const field = issue.path[0]
-
-        if (field === "email" || field === "password") {
-          fieldErrors[field] = {
-            type: "validation",
-            message: issue.message,
-          }
-        }
-
-        return fieldErrors
-      },
-      {} as Record<
-        keyof Pick<LoginFormValues, "email" | "password">,
-        { type: string; message: string }
-      >
-    ),
-  }
-}
 
 export function LoginForm({
   className,
@@ -77,7 +46,7 @@ export function LoginForm({
       password: "",
       rememberMe: false,
     },
-    resolver: loginFormResolver,
+    resolver: zodResolver(loginFormSchema),
   })
 
   async function onSubmit(values: LoginFormValues) {
@@ -89,11 +58,10 @@ export function LoginForm({
       router.push("/applications")
       router.refresh()
     } catch (caughtError) {
-      setError("root", {
-        message:
-          caughtError instanceof ApiResponseError
-            ? caughtError.message
-            : "Something went wrong. Please try again.",
+      applyApiFormErrors({
+        error: caughtError,
+        fallbackMessage: "Something went wrong. Please try again.",
+        setError,
       })
     }
   }

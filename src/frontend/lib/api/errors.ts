@@ -1,12 +1,18 @@
 export class ApiResponseError extends Error {
   readonly status: number
   readonly response: Response
+  readonly errors?: Record<string, string[]>
 
-  constructor(response: Response, message?: string) {
+  constructor(
+    response: Response,
+    message?: string,
+    errors?: Record<string, string[]>
+  ) {
     super(message || response.statusText || "Request failed")
     this.name = "ApiResponseError"
     this.status = response.status
     this.response = response
+    this.errors = errors
   }
 }
 
@@ -39,7 +45,7 @@ export async function throwIfApiError(response: Response) {
       | null
 
     if (body) {
-      throw new ApiResponseError(response, getErrorBodyMessage(body))
+      throw new ApiResponseError(response, getErrorBodyMessage(body), body.errors)
     }
   }
 
