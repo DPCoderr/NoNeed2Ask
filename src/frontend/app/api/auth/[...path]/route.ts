@@ -4,6 +4,7 @@ const backendAuthBaseUrl =
   process.env.AUTH_BASE_URL ?? "https://noneed2ask.onrender.com/auth"
 
 const excludedResponseHeaders = new Set([
+  "content-encoding",
   "content-length",
   "set-cookie",
   "access-control-allow-credentials",
