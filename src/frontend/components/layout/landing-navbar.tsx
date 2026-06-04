@@ -19,11 +19,11 @@ export function LandingNavbar() {
   return (
     <header
       className={cn(
-        "sticky top-4 z-20 mx-auto mt-4 w-[calc(100%-2rem)] max-w-6xl border border-border/60 bg-white/95 shadow-lg shadow-foreground/5 backdrop-blur",
+        "sticky top-4 z-20 mx-auto mt-4 w-[calc(100%-2rem)] max-w-6xl border border-white/70 bg-white/90 shadow-lg shadow-foreground/5 backdrop-blur-xl",
         isMenuOpen ? "rounded-3xl" : "rounded-full",
       )}
     >
-      <div className="flex w-full items-center justify-between px-4 py-3 md:px-5">
+      <div className="flex w-full items-center justify-between px-4 py-2.5 md:px-5">
         <Link
           className="flex items-center gap-3 font-semibold text-foreground"
           href="/"
@@ -54,7 +54,7 @@ export function LandingNavbar() {
           <Button asChild size="lg">
             <Link href="/login">Login</Link>
           </Button>
-          <Button asChild size="lg" variant="outline">
+          <Button asChild size="lg" variant="outline" className="bg-white/50">
             <Link href="/register">Sign Up</Link>
           </Button>
         </div>
