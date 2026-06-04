@@ -54,7 +54,7 @@ export function PageShell({
   return (
     <main
       className={cn(
-        "mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 py-10 md:px-8 md:py-14",
+        "mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-6 py-10 md:px-8 md:py-14",
         background === "landing" && "relative z-10 min-h-[calc(100svh-4rem)]",
         className
       )}

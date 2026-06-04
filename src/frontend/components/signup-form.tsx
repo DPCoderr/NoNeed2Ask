@@ -73,7 +73,8 @@ export function SignupForm({
         rememberMe: values.rememberMe,
       })
 
-      router.replace("/applications")
+      router.replace("/")
+      router.refresh()
     } catch (caughtError) {
       applyApiFormErrors({
         error: caughtError,

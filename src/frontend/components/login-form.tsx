@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Controller, useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
@@ -35,6 +35,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const {
     formState: { errors, isSubmitting },
     clearErrors,
@@ -56,13 +57,15 @@ export function LoginForm({
 
     try {
       await login(values)
-      const returnTo = new URLSearchParams(window.location.search).get("returnTo")
+      const returnTo = searchParams.get("returnTo")
+      // Only allow same-site relative redirects from the login URL.
       const safeReturnTo =
         returnTo?.startsWith("/") && !returnTo.startsWith("//")
           ? returnTo
-          : "/applications"
+          : "/"
 
       router.replace(safeReturnTo)
+      router.refresh()
     } catch (caughtError) {
       applyApiFormErrors({
         error: caughtError,

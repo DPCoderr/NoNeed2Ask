@@ -58,7 +58,6 @@ export default function ApplicationsPage() {
   return (
     <PageShell
       background="landing"
-      className="max-w-6xl"
       eyebrow="Private dashboard"
       title="Applications"
       description="A clean private table for scanning companies, stages, contact dates, and notes without digging into each record."
