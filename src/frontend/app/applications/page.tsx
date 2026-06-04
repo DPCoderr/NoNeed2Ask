@@ -57,12 +57,13 @@ export default function ApplicationsPage() {
 
   return (
     <PageShell
+      background="landing"
       className="max-w-6xl"
       eyebrow="Private dashboard"
       title="Applications"
       description="A clean private table for scanning companies, stages, contact dates, and notes without digging into each record."
     >
-      <section className="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <section className="rounded-xl border border-white/70 bg-white/72 text-card-foreground shadow-lg shadow-slate-950/10 backdrop-blur-xl">
         <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-base font-semibold">Tracked applications</h2>
@@ -71,12 +72,17 @@ export default function ApplicationsPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button asChild size="sm">
+            <Button asChild className="rounded-full px-4" size="sm">
               <Link href="/applications?create=application">
                 Create application
               </Link>
             </Button>
-            <Button asChild size="sm" variant="outline">
+            <Button
+              asChild
+              className="rounded-full border-white/70 bg-white/70 px-4 backdrop-blur-sm hover:bg-white/90"
+              size="sm"
+              variant="outline"
+            >
               <Link href="/status/daniel-job-search">Preview public page</Link>
             </Button>
           </div>
@@ -136,7 +142,11 @@ export default function ApplicationsPage() {
       </section>
 
       <div className="flex flex-wrap gap-3">
-        <Button asChild variant="outline">
+        <Button
+          asChild
+          className="rounded-full border-white/70 bg-white/70 backdrop-blur-sm hover:bg-white/90"
+          variant="outline"
+        >
           <Link href="/">Back to dashboard</Link>
         </Button>
       </div>

@@ -91,7 +91,7 @@ function Sidebar({
           data-slot="sidebar"
           data-state={openMobile ? "expanded" : "collapsed"}
           className={cn(
-            "fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col border-r bg-sidebar text-sidebar-foreground shadow-lg transition-transform duration-200 ease-linear md:hidden",
+            "fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col border-r border-white/70 bg-white/72 text-sidebar-foreground shadow-lg shadow-slate-950/10 backdrop-blur-xl transition-transform duration-200 ease-linear md:hidden",
             openMobile ? "translate-x-0" : "-translate-x-full",
             className
           )}
@@ -108,7 +108,7 @@ function Sidebar({
       data-slot="sidebar"
       data-state={open ? "expanded" : "collapsed"}
       className={cn(
-        "sticky top-0 hidden h-screen shrink-0 border-r bg-sidebar text-sidebar-foreground transition-[width] duration-200 ease-linear md:flex md:flex-col",
+        "sticky top-0 hidden h-screen shrink-0 rounded-tr-2xl border-r border-white/70 bg-white/72 text-sidebar-foreground shadow-sm shadow-slate-950/10 backdrop-blur-xl transition-[width] duration-200 ease-linear md:flex md:flex-col",
         "overflow-hidden",
         open ? "w-64" : "w-16",
         className
@@ -286,7 +286,7 @@ function SidebarMenuButton({
       data-slot="sidebar-menu-button"
       title={tooltip}
       className={cn(
-        "flex h-9 w-full items-center gap-2 rounded-lg px-2 text-sm font-medium text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[size=lg]:h-12 data-[size=lg]:px-3 data-[size=sm]:h-8 [&_svg]:size-4 [&_svg]:shrink-0",
+        "flex h-9 w-full items-center gap-2 rounded-lg px-2 text-sm font-medium text-sidebar-foreground transition-colors hover:bg-white/60 hover:text-sidebar-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:shadow-lg data-[active=true]:shadow-primary/15 data-[size=lg]:h-12 data-[size=lg]:px-3 data-[size=sm]:h-8 [&_svg]:size-4 [&_svg]:shrink-0",
         "group-data-[collapsible=icon]/sidebar-wrapper:justify-center group-data-[collapsible=icon]/sidebar-wrapper:px-0 group-data-[collapsible=icon]/sidebar-wrapper:[&_span]:sr-only",
         className
       )}

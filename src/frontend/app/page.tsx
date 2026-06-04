@@ -11,8 +11,6 @@ import { mockOwnerDashboardResponse } from "@/lib/api/fixtures";
 import { authCookieName } from "@/lib/auth/cookies";
 import type { ApplicationStatus, PrivateApplicationDto } from "@/lib/api/types";
 
-import landingDashboardImage from ".././public/landingpage-img-noneed2ask.png";
-
 const statusLabels: Record<ApplicationStatus, string> = {
   applied: "Applied",
   waiting_response: "Waiting response",
@@ -107,17 +105,17 @@ function LandingPage() {
           </LandingReveal>
 
           <LandingReveal
-            className="mt-10 w-full max-w-5xl translate-y-10 overflow-hidden rounded-lg border bg-card/80 p-2 shadow-2xl backdrop-blur md:mt-12 md:translate-y-14"
+            className="mt-10 w-full max-w-5xl translate-y-10 overflow-hidden rounded-xl border border-white/35 bg-white/10 shadow-2xl shadow-foreground/15 ring-1 ring-foreground/5 backdrop-blur-sm md:mt-12 md:translate-y-14"
             delay={500}
             motion="fade"
           >
             <Image
-              src={landingDashboardImage}
+              src={"/landingpage-hero-img.png"}
               alt="NoNeed2Ask applications dashboard with sidebar and tracked job applications"
               width={1920}
               height={930}
               priority
-              className="h-auto w-full rounded-md"
+              className="h-auto w-full"
             />
           </LandingReveal>
         </div>
@@ -187,29 +185,32 @@ export default async function DashboardPage() {
         new Date(first.updatedAt).getTime(),
     )
     .slice(0, 3);
+  const glassCard =
+    "rounded-xl border border-white/70 bg-white/72 text-card-foreground shadow-lg shadow-slate-950/10 backdrop-blur-xl";
 
   return (
     <PageShell
+      background="landing"
       eyebrow="Private dashboard"
       title={`Welcome back, ${user.displayName}`}
       description="A private command center for the job search: pipeline health, follow-ups, and public status visibility."
     >
       <section className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-lg border bg-card p-5 text-card-foreground shadow-sm">
+        <div className={`${glassCard} p-5`}>
           <p className="text-sm text-muted-foreground">Active applications</p>
           <p className="mt-3 text-3xl font-semibold">{activeApplications}</p>
           <p className="mt-2 text-sm text-muted-foreground">
             {applications.length} total tracked
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-5 text-card-foreground shadow-sm">
+        <div className={`${glassCard} p-5`}>
           <p className="text-sm text-muted-foreground">Interview pipeline</p>
           <p className="mt-3 text-3xl font-semibold">{interviewCount}</p>
           <p className="mt-2 text-sm text-muted-foreground">
             Planned or waiting on feedback
           </p>
         </div>
-        <div className="rounded-lg border bg-card p-5 text-card-foreground shadow-sm">
+        <div className={`${glassCard} p-5`}>
           <p className="text-sm text-muted-foreground">Waiting responses</p>
           <p className="mt-3 text-3xl font-semibold">{waitingCount}</p>
           <p className="mt-2 text-sm text-muted-foreground">
@@ -219,7 +220,7 @@ export default async function DashboardPage() {
       </section>
 
       <section className="grid gap-4 md:grid-cols-[1fr_1fr]">
-        <div className="rounded-lg border bg-card p-5 text-card-foreground shadow-sm">
+        <div className={`${glassCard} p-5`}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h2 className="text-base font-semibold">Next action</h2>
@@ -247,16 +248,20 @@ export default async function DashboardPage() {
             </p>
           )}
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild>
+            <Button asChild className="rounded-full px-5">
               <Link href="/applications">Manage applications</Link>
             </Button>
-            <Button asChild variant="outline">
+            <Button
+              asChild
+              className="rounded-full border-white/70 bg-white/70 px-5 backdrop-blur-sm hover:bg-white/90"
+              variant="outline"
+            >
               <Link href="/settings">Open settings</Link>
             </Button>
           </div>
         </div>
 
-        <div className="rounded-lg border bg-card p-5 text-card-foreground shadow-sm">
+        <div className={`${glassCard} p-5`}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h2 className="text-base font-semibold">Public status</h2>
@@ -281,14 +286,18 @@ export default async function DashboardPage() {
             </div>
           </dl>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild variant="outline">
+            <Button
+              asChild
+              className="rounded-full border-white/70 bg-white/70 px-5 backdrop-blur-sm hover:bg-white/90"
+              variant="outline"
+            >
               <Link href={`/status/${publicSlug}`}>Preview public page</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      <section className="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <section className={glassCard}>
         <div className="flex flex-col gap-2 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-base font-semibold">Recent applications</h2>
@@ -296,7 +305,12 @@ export default async function DashboardPage() {
               Latest updates from the private tracker.
             </p>
           </div>
-          <Button asChild size="sm" variant="outline">
+          <Button
+            asChild
+            className="rounded-full border-white/70 bg-white/70 px-4 backdrop-blur-sm hover:bg-white/90"
+            size="sm"
+            variant="outline"
+          >
             <Link href="/applications">View all</Link>
           </Button>
         </div>
