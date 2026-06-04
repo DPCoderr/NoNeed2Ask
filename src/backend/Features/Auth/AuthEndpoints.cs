@@ -10,10 +10,13 @@ public static class AuthEndpoints
             .WithTags("Auth");
 
         group.MapPost("/register", Register.Handle)
-            .AddEndpointFilter<ValidationFilter<Register.RegisterRequest>>();
+            .AddEndpointFilter<ValidationFilter<Register.RegisterRequest>>()
+            .RequireRateLimiting("auth");
+
 
         group.MapPost("/login", Login.Handle)
-            .AddEndpointFilter<ValidationFilter<Login.LoginRequestDto>>();
+            .AddEndpointFilter<ValidationFilter<Login.LoginRequestDto>>()
+            .RequireRateLimiting("auth");
 
         group.MapPost("/logout", Logout.Handle).RequireAuthorization();
         group.MapGet("/me", Me.Handle).RequireAuthorization();

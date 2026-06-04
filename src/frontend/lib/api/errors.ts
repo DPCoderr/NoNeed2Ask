@@ -24,6 +24,8 @@ type ErrorBody = {
   title?: string
 }
 
+const rateLimitMessage = "Too many attempts. Please wait a minute and try again."
+
 function getErrorBodyMessage(body: ErrorBody) {
   const validationMessages = body.errors
     ? Object.values(body.errors).flat().join(" ")
@@ -35,6 +37,10 @@ function getErrorBodyMessage(body: ErrorBody) {
 export async function throwIfApiError(response: Response) {
   if (response.ok) {
     return
+  }
+
+  if (response.status === 429) {
+    throw new ApiResponseError(response, rateLimitMessage)
   }
 
   const contentType = response.headers.get("content-type")
