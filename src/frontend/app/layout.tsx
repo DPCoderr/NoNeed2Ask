@@ -6,6 +6,7 @@ import { AppProviders } from "@/app/providers";
 import { AppShell } from "@/components/layout/app-shell";
 import { authCookieName } from "@/lib/auth/cookies";
 import { cn } from "@/lib/utils";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -47,6 +48,8 @@ export default async function RootLayout({
         <AppProviders>
           <AppShell hasAuthCookie={hasAuthCookie}>{children}</AppShell>
         </AppProviders>
+
+        <SpeedInsights />
       </body>
     </html>
   );
