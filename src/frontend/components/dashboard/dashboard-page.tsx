@@ -13,7 +13,7 @@ export function DashboardPage() {
   return (
     <PageShell
       background="landing"
-      className="max-w-none gap-7 px-4 py-6 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10"
+      className="max-w-none gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10"
     >
       <DashboardHeader
         publicSlug={publicSlug}
@@ -22,7 +22,7 @@ export function DashboardPage() {
 
       <OverviewStats />
 
-      <section className="grid gap-5 md:gap-4 xl:grid-cols-[1.08fr_0.94fr]">
+      <section className="grid gap-4 md:gap-4 xl:grid-cols-[1.08fr_0.94fr]">
         <JobSearchDistributionCard />
         <div className="grid">
           <NextActionCard />
