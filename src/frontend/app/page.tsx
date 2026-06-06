@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-import { DashboardHome } from "@/components/dashboard/dashboard-home";
+import { DashboardPage } from "@/components/dashboard/dashboard-page";
 import { LandingPage } from "@/components/landing/landing-page";
 import { authCookieName } from "@/lib/auth/cookies";
 
@@ -11,5 +11,5 @@ export default async function HomePage() {
     return <LandingPage />;
   }
 
-  return <DashboardHome />;
+  return <DashboardPage />;
 }
