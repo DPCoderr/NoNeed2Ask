@@ -13,7 +13,7 @@ export function DashboardPage() {
   return (
     <PageShell
       background="landing"
-      className="max-w-none gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10"
+      className="max-w-screen-2xl gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10"
     >
       <DashboardHeader
         publicSlug={publicSlug}
