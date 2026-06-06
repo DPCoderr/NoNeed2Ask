@@ -1,24 +1,33 @@
 import {
-  ArrowLeft01Icon,
   Calendar03Icon,
   DashboardSquare01Icon,
-  Globe02Icon,
   HeartCheckIcon,
   QuoteUpIcon,
   Shield01Icon,
-  SparklesIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { cookies } from "next/headers"
 import Image from "next/image"
 import Link from "next/link"
 
+import { LandingNavbar } from "@/components/layout/landing-navbar"
+import { PageShell } from "@/components/layout/page-shell"
 import { Button } from "@/components/ui/button"
 import { authCookieName } from "@/lib/auth/cookies"
 import { mockPublicStatusEnabledResponse } from "@/lib/api/fixtures"
-import type { ApplicationStatus, PublicStatusApplicationDto } from "@/lib/api/types"
+import type {
+  ApplicationStatus,
+  PublicStatusApplicationDto,
+  PublicStatusProfileDto,
+} from "@/lib/api/types"
 
 const iconPath = "/dashboard-icons"
+
+const publicStatusNavItems = [
+  { href: "#overview", label: "Overview" },
+  { href: "#journey", label: "Journey" },
+  { href: "#updates", label: "Updates" },
+]
 
 const statusLabels: Record<ApplicationStatus, string> = {
   applied: "Applied",
@@ -145,72 +154,84 @@ function JourneyCard({
     "Applied"
 
   return (
-    <section className="rounded-2xl border border-white/80 bg-white/88 p-5 shadow-xl shadow-blue-950/10 backdrop-blur-xl md:p-7">
-      <div className="flex items-start gap-4">
-        <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-blue-50">
-          <PublicIcon className="size-10" name="MountainMark.svg" />
+    <section className="rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6">
+      <div className="flex items-start justify-between gap-3 xl:items-center xl:gap-4">
+        <div className="flex min-w-0 items-center gap-2.5 xl:gap-3">
+          <PublicIcon
+            className="size-8 shrink-0 text-blue-800 xl:size-9"
+            name="MountainMark.svg"
+          />
+          <div className="min-w-0">
+            <h2 className="text-lg font-semibold tracking-normal text-slate-950 xl:text-xl">
+              Job Search Journey
+            </h2>
+            <p className="mt-0.5 text-xs font-medium text-blue-950/75 xl:mt-1 xl:text-sm">
+              Here&apos;s where things stand right now.
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-xl font-semibold tracking-normal text-slate-950">
-            Job Search Journey
-          </h2>
-          <p className="mt-1 text-sm font-semibold text-blue-950/80">
-            Here&apos;s where things stand right now.
-          </p>
-        </div>
+        <span className="rounded-lg border border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 xl:px-4 xl:py-2 xl:text-sm">
+          {applications.length} tracked
+        </span>
       </div>
 
-      <div className="mt-8 overflow-x-auto pb-1">
-        <div className="relative grid min-w-[620px] grid-cols-5 gap-4 px-3">
-          <div className="absolute left-[10%] right-[10%] top-[78px] h-0.5 bg-blue-950/28" />
-          {journeyStages.map((stage) => {
-            const count = applications.filter((application) =>
-              stage.statuses.includes(application.status)
-            ).length
-            const isActive = stage.label === activeStage
+      <div className="mt-5 space-y-4 xl:mt-7 xl:space-y-5">
+        {journeyStages.map((stage) => {
+          const count = applications.filter((application) =>
+            stage.statuses.includes(application.status)
+          ).length
+          const percent = applications.length
+            ? Math.round((count / applications.length) * 100)
+            : 0
+          const isActive = stage.label === activeStage
 
-            return (
-              <div
-                className="relative z-10 flex flex-col items-center text-center"
-                key={stage.label}
+          return (
+            <div
+              className="grid grid-cols-[2.25rem_minmax(0,1fr)] items-center gap-x-2 gap-y-2 xl:grid-cols-[3rem_9.5rem_minmax(10rem,1fr)_2rem_2.75rem] xl:gap-3"
+              key={stage.label}
+            >
+              <PublicIcon
+                className="size-8 text-blue-700 xl:size-9"
+                name={stage.icon}
+                priority={stage.label === "Applied"}
+              />
+              <p
+                className={`min-w-0 text-sm font-semibold ${
+                  isActive ? "text-blue-700" : "text-slate-950"
+                }`}
               >
-                <PublicIcon
-                  className="size-16 object-contain"
-                  name={stage.icon}
-                  priority={stage.label === "Applied"}
-                />
-                <span
-                  className={`mt-1 size-5 rounded-full border-2 bg-white ${
-                    isActive
-                      ? "border-blue-600 bg-blue-600 shadow-[0_0_0_7px_rgb(219_234_254/0.9)]"
-                      : "border-blue-900/35"
+                {stage.label}
+              </p>
+              <div className="col-span-2 h-2 overflow-hidden rounded-full bg-blue-950/10 xl:col-span-1 xl:h-2.5">
+                <div
+                  aria-label={`${stage.label}: ${percent}%`}
+                  className={`h-full rounded-full ${
+                    isActive ? "bg-blue-600" : "bg-blue-300"
                   }`}
+                  role="img"
+                  style={{ width: `${percent}%` }}
                 />
+              </div>
+              <div className="col-span-2 flex items-center justify-between px-1 xl:contents">
                 <p
-                  className={`mt-4 text-sm font-semibold ${
-                    isActive ? "text-blue-700" : "text-slate-950"
-                  }`}
-                >
-                  {stage.label}
-                </p>
-                <p
-                  className={`mt-2 text-3xl font-semibold tracking-normal ${
+                  className={`text-base font-semibold tracking-normal xl:text-right xl:text-lg ${
                     stage.accent ?? "text-slate-950"
                   }`}
                 >
                   {count}
                 </p>
+                <p className="text-xs font-semibold text-blue-950/70 xl:text-right xl:text-sm">
+                  {percent}%
+                </p>
               </div>
-            )
-          })}
-        </div>
-      </div>
+            </div>
+          )
+        })}
 
-      <div className="mt-6 flex items-center justify-center gap-3 rounded-lg bg-blue-50/85 px-4 py-3 text-center text-sm font-semibold text-blue-700">
-        <HugeiconsIcon className="size-5 shrink-0" icon={SparklesIcon} strokeWidth={2} />
-        <span>
-          Staying focused and having great conversations. Thank you for your support!
-        </span>
+        <div className="flex items-center justify-between border-t border-blue-950/10 pt-4 text-sm font-semibold text-slate-950">
+          <span>Current stage</span>
+          <span>{activeStage}</span>
+        </div>
       </div>
     </section>
   )
@@ -226,52 +247,151 @@ function CurrentFocusCard({
   }
 
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-white/80 bg-white/88 p-6 shadow-xl shadow-blue-950/10 backdrop-blur-xl md:p-8">
-      <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-center">
-        <div className="flex size-28 shrink-0 items-center justify-center rounded-full bg-blue-50 md:size-36">
-          <PublicIcon className="size-20 md:size-24" name={statusIconMap[focus.status]} />
-        </div>
-        <div className="min-w-0">
-          <p className="text-sm font-bold uppercase tracking-normal text-blue-700">
-            Current focus
-          </p>
-          <h2 className="mt-1 text-3xl font-semibold tracking-normal text-slate-950">
-            {focus.companyName}
-          </h2>
-          <p className="mt-1 text-xl font-medium text-blue-950/80">
-            {focus.jobTitle}
-          </p>
-          <div className="mt-4 flex w-fit max-w-full items-center gap-3 rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-950">
-            <HugeiconsIcon className="size-4 shrink-0 text-blue-700" icon={Calendar03Icon} />
-            <span className="text-blue-700">{statusLabels[focus.status]}</span>
-            <span aria-hidden="true" className="text-blue-950/40">
-              -
-            </span>
-            <time className="truncate" dateTime={focus.nextActionAt ?? focus.updatedAt}>
-              {formatDateTime(focus.nextActionAt ?? focus.updatedAt)}
-            </time>
+    <section className="flex flex-col rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 xl:min-h-[22rem] xl:p-6">
+      <div className="flex items-start justify-between gap-3 xl:gap-4">
+        <div className="flex min-w-0 gap-3 xl:gap-4">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100/80 xl:size-14">
+            <PublicIcon
+              className="size-8 text-blue-700 xl:size-10"
+              name={statusIconMap[focus.status]}
+            />
           </div>
-          {focus.publicNote ? (
-            <p className="mt-5 flex gap-3 text-base font-medium leading-7 text-blue-950/80">
-              <HugeiconsIcon className="mt-1 size-5 shrink-0 text-blue-700" icon={QuoteUpIcon} />
-              <span>{focus.publicNote}</span>
+          <div className="min-w-0">
+            <h2 className="text-lg font-semibold text-slate-950 xl:text-xl">
+              Current focus
+            </h2>
+            <p className="mt-2 max-w-sm text-sm font-semibold leading-6 text-slate-950 xl:mt-4 xl:text-base xl:leading-7">
+              {focus.companyName}
             </p>
-          ) : null}
+            <p className="mt-1 max-w-xs text-xs font-medium leading-5 text-blue-950/75 xl:mt-2 xl:text-sm xl:leading-6">
+              {focus.jobTitle}
+            </p>
+          </div>
+        </div>
+        <span className="rounded-lg border border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 xl:px-4 xl:py-2 xl:text-sm">
+          {statusLabels[focus.status]}
+        </span>
+      </div>
+
+      <div className="mt-4 grid gap-3 xl:mt-7 xl:grid-cols-2">
+        <div className="rounded-lg border border-blue-950/10 bg-white/55 p-3 xl:p-4">
+          <p className="text-xs font-semibold uppercase tracking-normal text-blue-950/55">
+            Timeline
+          </p>
+          <p className="mt-2 text-sm font-semibold text-slate-950">
+            {formatDateTime(focus.nextActionAt ?? focus.updatedAt)}
+          </p>
+          <p className="mt-1 text-sm font-medium text-blue-950/65">
+            {focus.nextActionAt ? "Next action" : "Last update"}
+          </p>
+        </div>
+        <div className="rounded-lg border border-blue-950/10 bg-white/55 p-3 xl:p-4">
+          <p className="text-xs font-semibold uppercase tracking-normal text-blue-950/55">
+            Status
+          </p>
+          <p className="mt-2 text-sm font-semibold text-slate-950">
+            {statusLabels[focus.status]}
+          </p>
+          <p className="mt-1 text-sm font-medium text-blue-950/65">
+            Latest public signal
+          </p>
         </div>
       </div>
 
-      <PublicIcon
-        className="absolute bottom-0 right-5 z-0 hidden h-auto w-72 opacity-75 md:block"
-        name="PineLandscape.svg"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute right-44 top-12 hidden text-blue-900/70 md:block"
-      >
-        <span className="absolute h-2 w-5 rounded-[50%] border-t-2 border-blue-800 rotate-12" />
-        <span className="absolute left-8 top-3 h-2 w-5 rounded-[50%] border-t-2 border-blue-800 -rotate-12" />
-        <span className="absolute left-16 top-9 h-2 w-5 rounded-[50%] border-t-2 border-blue-800 rotate-12" />
-      </div>
+      {focus.publicNote ? (
+        <div className="mt-3 rounded-lg border border-blue-950/10 bg-blue-50/45 p-3 xl:mt-4 xl:p-4">
+          <p className="text-sm font-semibold text-slate-950">
+            Shared note
+          </p>
+          <p className="mt-2 flex gap-3 text-sm font-medium leading-6 text-blue-950/70">
+            <HugeiconsIcon
+              className="mt-1 size-4 shrink-0 text-blue-700"
+              icon={QuoteUpIcon}
+            />
+            <span>{focus.publicNote}</span>
+          </p>
+        </div>
+      ) : null}
+    </section>
+  )
+}
+
+function PublicOverviewStats({
+  applications,
+}: {
+  applications: PublicStatusApplicationDto[]
+}) {
+  const plannedCount = applications.filter(
+    (application) => application.status === "interview_planned"
+  ).length
+  const activeCount = applications.filter(
+    (application) =>
+      !["rejected", "ghosted", "paused"].includes(application.status)
+  ).length
+  const offerCount = applications.filter(
+    (application) => application.status === "offer"
+  ).length
+
+  const stats = [
+    {
+      detail: ["Applications in view", "Updated publicly"],
+      icon: "AppliedStatusIcon.svg",
+      title: "Tracked",
+      value: applications.length,
+    },
+    {
+      detail: ["Still moving", "Across the pipeline"],
+      icon: "WaitingStatusIcon.svg",
+      title: "Active",
+      value: activeCount,
+    },
+    {
+      detail: ["Interviews booked", "Next conversations"],
+      icon: "PlannedStatusIcon.svg",
+      title: plannedCount === 1 ? "Interview" : "Interviews",
+      value: plannedCount,
+    },
+    {
+      detail: ["Offer stage", "Best outcome so far"],
+      icon: "OfferStatusIcon.svg",
+      title: offerCount === 1 ? "Offer" : "Offers",
+      value: offerCount,
+    },
+  ]
+
+  return (
+    <section
+      className="grid scroll-mt-28 gap-3 pt-1 sm:gap-4 sm:pt-2 md:grid-cols-2 xl:grid-cols-4"
+      id="overview"
+    >
+      {stats.map((stat) => (
+        <article
+          className="rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6"
+          key={stat.title}
+        >
+          <div className="flex items-center justify-between gap-3 sm:gap-5">
+            <div className="min-w-0">
+              <h2 className="text-sm font-semibold text-blue-950 sm:text-base">
+                {stat.title}
+              </h2>
+              <p className="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:mt-4 sm:text-4xl">
+                {stat.value}
+              </p>
+              <div className="mt-1.5 space-y-0.5 text-xs font-medium leading-5 text-blue-950/75 sm:mt-2 sm:space-y-1 sm:text-sm">
+                {stat.detail.map((item) => (
+                  <p key={item}>{item}</p>
+                ))}
+              </div>
+            </div>
+            <div className="flex size-16 shrink-0 items-center justify-center rounded-full bg-blue-100/70 sm:size-20 lg:size-24">
+              <PublicIcon
+                className="size-10 sm:size-12 lg:size-16"
+                name={stat.icon}
+              />
+            </div>
+          </div>
+        </article>
+      ))}
     </section>
   )
 }
@@ -363,6 +483,71 @@ function RecentUpdates({
   )
 }
 
+function PublicStatusHeader({
+  profile,
+}: {
+  profile: PublicStatusProfileDto
+}) {
+  return (
+    <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+      <header className="max-w-2xl pt-1 md:pt-2">
+        <p className="flex items-center gap-3 text-sm font-semibold text-blue-700">
+          <HugeiconsIcon className="size-5" icon={Shield01Icon} strokeWidth={2} />
+          This is a public update page
+        </p>
+        <h1 className="mt-2 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl md:mt-4 md:text-5xl">
+          {profile.displayName}&apos;s Job Search
+        </h1>
+        <p className="mt-3 max-w-xl text-sm leading-6 text-blue-950/75 sm:text-base sm:leading-8 md:mt-5">
+          I&apos;m on a mission to find the right role where I can build, grow,
+          and make an impact.
+        </p>
+      </header>
+
+      <div className="flex shrink-0 flex-wrap items-center justify-start gap-3 pr-1 text-sm font-semibold text-slate-950 md:justify-end md:gap-4">
+        <HugeiconsIcon className="size-5" icon={Calendar03Icon} />
+        <span>Last updated {formatDate(profile.updatedAt)}</span>
+      </div>
+    </div>
+  )
+}
+
+function PublicStatusContent({
+  applications,
+  currentFocus,
+  profile,
+}: {
+  applications: PublicStatusApplicationDto[]
+  currentFocus: PublicStatusApplicationDto | undefined
+  profile: PublicStatusProfileDto
+}) {
+  return (
+    <>
+      <PublicStatusHeader profile={profile} />
+
+      <PublicOverviewStats applications={applications} />
+
+      <section
+        className="grid scroll-mt-28 gap-4 md:gap-4 xl:grid-cols-[1.08fr_0.94fr]"
+        id="journey"
+      >
+        <JourneyCard applications={applications} />
+        <div className="grid">
+          <CurrentFocusCard focus={currentFocus} />
+        </div>
+      </section>
+      <div className="scroll-mt-28" id="updates">
+        <RecentUpdates applications={applications} />
+      </div>
+
+      <footer className="mb-6 mt-3 flex items-center justify-center gap-4 rounded-xl border border-white/80 bg-white/78 px-5 py-5 text-center text-base font-semibold text-slate-950 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+        <HugeiconsIcon className="size-9 shrink-0 text-blue-700" icon={HeartCheckIcon} strokeWidth={1.8} />
+        <span>Thanks for following along and cheering me on!</span>
+      </footer>
+    </>
+  )
+}
+
 type PublicStatusPageProps = {
   params: Promise<{
     slug: string
@@ -378,22 +563,47 @@ export default async function PublicStatusPage({
   const publicStatus = mockPublicStatusEnabledResponse
 
   if (publicStatus.kind === "disabled") {
-    return (
-      <main className="min-h-svh bg-slate-50 px-6 py-10 text-slate-950">
-        <div className="mx-auto max-w-3xl rounded-2xl border border-white bg-white p-8 shadow-xl shadow-blue-950/10">
-          <p className="text-sm font-semibold text-blue-700">Public status / {slug}</p>
-          <h1 className="mt-4 text-3xl font-semibold tracking-normal">
-            This status page is private
-          </h1>
-          <p className="mt-3 leading-7 text-blue-950/70">{publicStatus.message}</p>
-          {hasAuthCookie ? (
+    if (hasAuthCookie) {
+      return (
+        <PageShell
+          background="landing"
+          className="max-w-screen-2xl gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10"
+        >
+          <div className="mx-auto w-full max-w-3xl rounded-xl border border-white/80 bg-white/78 p-8 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+            <p className="text-sm font-semibold text-blue-700">Public status / {slug}</p>
+            <h1 className="mt-4 text-3xl font-semibold tracking-normal">
+              This status page is private
+            </h1>
+            <p className="mt-3 leading-7 text-blue-950/70">{publicStatus.message}</p>
             <Button asChild className="mt-7 rounded-lg">
               <Link href="/">
                 <HugeiconsIcon icon={DashboardSquare01Icon} />
                 Return to dashboard
               </Link>
             </Button>
-          ) : null}
+          </div>
+        </PageShell>
+      )
+    }
+
+    return (
+      <main className="relative isolate min-h-svh overflow-hidden bg-[#f6faff] text-slate-950">
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 z-0 bg-cover bg-no-repeat"
+          style={{ backgroundImage: "url('/bg-userpage-light.jpg')" }}
+        />
+        <div className="fixed inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(246_250_255/0.96)_100%)]" />
+        <div className="fixed inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]" />
+        <LandingNavbar navItems={publicStatusNavItems} />
+        <div className="relative z-10 px-6 py-10">
+          <div className="mx-auto max-w-3xl rounded-xl border border-white/80 bg-white/78 p-8 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+            <p className="text-sm font-semibold text-blue-700">Public status / {slug}</p>
+            <h1 className="mt-4 text-3xl font-semibold tracking-normal">
+              This status page is private
+            </h1>
+            <p className="mt-3 leading-7 text-blue-950/70">{publicStatus.message}</p>
+          </div>
         </div>
       </main>
     )
@@ -402,69 +612,39 @@ export default async function PublicStatusPage({
   const { profile, applications } = publicStatus
   const currentFocus = getCurrentFocus(applications)
 
+  if (hasAuthCookie) {
+    return (
+      <PageShell
+        background="landing"
+        className="max-w-screen-2xl gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10"
+      >
+        <PublicStatusContent
+          applications={applications}
+          currentFocus={currentFocus}
+          profile={profile}
+        />
+      </PageShell>
+    )
+  }
+
   return (
     <main className="relative isolate min-h-svh overflow-hidden bg-[#f6faff] text-slate-950">
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 z-0 h-[460px] bg-cover bg-center bg-no-repeat"
+        className="fixed inset-0 z-0 bg-cover bg-no-repeat"
         style={{ backgroundImage: "url('/bg-userpage-light.jpg')" }}
       />
-      <div className="absolute inset-x-0 top-0 z-[1] h-[520px] bg-[linear-gradient(180deg,rgb(255_255_255/0)_0%,rgb(246_250_255/0.72)_70%,rgb(246_250_255)_100%)]" />
-      <div className="absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_left_top,rgb(255_255_255/0.9),rgb(255_255_255/0.55)_40%,rgb(255_255_255/0)_72%)]" />
+      <div className="fixed inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(246_250_255/0.96)_100%)]" />
+      <div className="fixed inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]" />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-5 px-5 py-8 md:px-8 md:py-9">
-        <nav className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <Link className="flex w-fit items-center gap-3 text-lg font-semibold text-slate-950" href="/">
-            <PublicIcon className="size-11" name="MountainMark.svg" priority />
-            <span>NoNeed2Ask</span>
-          </Link>
+      <LandingNavbar navItems={publicStatusNavItems} />
 
-          <div className="flex flex-wrap items-center gap-3">
-            {hasAuthCookie ? (
-              <Button
-                asChild
-                className="h-10 rounded-lg border-blue-100 bg-white/78 px-4 font-semibold text-slate-950 shadow-sm shadow-blue-950/10 hover:bg-white"
-                variant="outline"
-              >
-                <Link href="/">
-                  <HugeiconsIcon className="size-4" icon={ArrowLeft01Icon} />
-                  Dashboard
-                </Link>
-              </Button>
-            ) : null}
-            <div className="flex items-center gap-2 text-sm font-semibold text-slate-950">
-              <HugeiconsIcon className="size-5" icon={Globe02Icon} strokeWidth={2} />
-              <span>Public page</span>
-            </div>
-          </div>
-        </nav>
-
-        <header className="max-w-2xl pt-8 md:pt-14">
-          <p className="flex items-center gap-3 text-sm font-semibold text-blue-700">
-            <HugeiconsIcon className="size-5" icon={Shield01Icon} strokeWidth={2} />
-            This is a public update page
-          </p>
-          <h1 className="mt-5 text-5xl font-semibold tracking-normal text-slate-950 md:text-6xl">
-            {profile.displayName}&apos;s Job Search
-          </h1>
-          <p className="mt-5 max-w-lg text-lg font-medium leading-8 text-blue-950/80">
-            I&apos;m on a mission to find the right role where I can build, grow,
-            and make an impact.
-          </p>
-          <p className="mt-7 flex items-center gap-3 text-base font-semibold text-blue-950/85">
-            <HugeiconsIcon className="size-5" icon={Calendar03Icon} />
-            <span>Last updated {formatDate(profile.updatedAt)}</span>
-          </p>
-        </header>
-
-        <JourneyCard applications={applications} />
-        <CurrentFocusCard focus={currentFocus} />
-        <RecentUpdates applications={applications} />
-
-        <footer className="mb-6 mt-3 flex items-center justify-center gap-4 rounded-2xl bg-blue-50/90 px-5 py-6 text-center text-lg font-semibold text-slate-950 shadow-sm shadow-blue-950/5">
-          <HugeiconsIcon className="size-9 shrink-0 text-blue-700" icon={HeartCheckIcon} strokeWidth={1.8} />
-          <span>Thanks for following along and cheering me on!</span>
-        </footer>
+      <div className="relative z-10 mx-auto flex w-full max-w-screen-2xl flex-col gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10">
+        <PublicStatusContent
+          applications={applications}
+          currentFocus={currentFocus}
+          profile={profile}
+        />
       </div>
     </main>
   )

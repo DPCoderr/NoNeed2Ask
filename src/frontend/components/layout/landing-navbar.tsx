@@ -7,13 +7,24 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const navItems = [
+type LandingNavItem = {
+  href: string;
+  label: string;
+};
+
+type LandingNavbarProps = {
+  navItems?: LandingNavItem[];
+};
+
+const defaultNavItems = [
   { href: "#features", label: "Features" },
   { href: "#public-page", label: "Public page" },
   { href: "#control", label: "Control" },
 ];
 
-export function LandingNavbar() {
+export function LandingNavbar({
+  navItems = defaultNavItems,
+}: LandingNavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (

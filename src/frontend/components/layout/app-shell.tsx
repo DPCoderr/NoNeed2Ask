@@ -65,9 +65,16 @@ export function AppShell({
   const isAuthRoute = pathname === "/login" || pathname === "/register"
   const isPublicStatusRoute = pathname.startsWith("/status/")
   const hasLandingBackground =
-    isHomeRoute || pathname === "/applications" || pathname.startsWith("/applications/")
+    isHomeRoute ||
+    isPublicStatusRoute ||
+    pathname === "/applications" ||
+    pathname.startsWith("/applications/")
 
-  if (isPublicStatusRoute || isAuthRoute || (isHomeRoute && !hasAuthCookie)) {
+  if (
+    (isPublicStatusRoute && !hasAuthCookie) ||
+    isAuthRoute ||
+    (isHomeRoute && !hasAuthCookie)
+  ) {
     return children
   }
 
