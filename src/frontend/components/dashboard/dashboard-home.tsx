@@ -1,221 +1,465 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { PageShell } from "@/components/layout/page-shell";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { mockOwnerDashboardResponse } from "@/lib/api/fixtures";
-import type { ApplicationStatus, PrivateApplicationDto } from "@/lib/api/types";
 
-const statusLabels: Record<ApplicationStatus, string> = {
-  applied: "Applied",
-  waiting_response: "Waiting response",
-  interview_planned: "Interview planned",
-  interview_done: "Interview done",
-  offer: "Offer",
-  rejected: "Rejected",
-  ghosted: "Ghosted",
-  paused: "Paused",
-};
+const iconPath = "/dashboard-icons";
 
-const activeStatuses: ApplicationStatus[] = [
-  "applied",
-  "waiting_response",
-  "interview_planned",
-  "interview_done",
-  "offer",
+const pipelineStages = [
+  {
+    label: "Applied",
+    count: 12,
+    icon: "AppliedStatusIcon.svg",
+    active: false,
+  },
+  {
+    label: "Waiting",
+    count: 7,
+    icon: "WaitingStatusIcon.svg",
+    active: false,
+  },
+  {
+    label: "Planned",
+    count: 3,
+    icon: "PlannedStatusIcon.svg",
+    active: true,
+  },
+  {
+    label: "Done",
+    count: 1,
+    icon: "DoneStatusIcon.svg",
+    active: false,
+  },
+  {
+    label: "Offer",
+    count: 0,
+    icon: "OfferStatusIcon.svg",
+    active: false,
+    accent: "text-violet-700",
+  },
 ];
 
-function formatDate(value: string | null) {
-  if (!value) {
-    return "Not scheduled";
-  }
+const recentApplications = [
+  {
+    companyName: "Northstar Labs",
+    jobTitle: "Senior Frontend Engineer",
+    status: "Interview planned",
+    detail: "May 24 at 2:30 PM",
+    updated: "Updated May 22",
+    icon: "AppliedStatusIcon.svg",
+    statusIcon: "InterviewPipelineIcon.svg",
+  },
+  {
+    companyName: "Atlas Works",
+    jobTitle: "Full Stack Developer",
+    status: "Interview done",
+    detail: "May 21",
+    updated: "Updated May 21",
+    icon: "MountainMark.svg",
+    statusIcon: "DoneStatusIcon.svg",
+  },
+  {
+    companyName: "Summit Agency",
+    jobTitle: "UI/UX Designer",
+    status: "Waiting response",
+    detail: "Applied May 19",
+    updated: "Updated May 19",
+    icon: "PlannedStatusIcon.svg",
+    statusIcon: "WaitingStatusIcon.svg",
+  },
+  {
+    companyName: "Pine Technologies",
+    jobTitle: "Frontend Developer",
+    status: "Paused",
+    detail: "On hold",
+    updated: "Updated May 18",
+    icon: "OfferStatusIcon.svg",
+    statusIcon: "NextActionIcon.svg",
+  },
+];
 
-  return new Intl.DateTimeFormat("en", {
-    month: "short",
-    day: "numeric",
-  }).format(new Date(value));
+function DotMenu() {
+  return (
+    <button
+      aria-label="Application actions"
+      className="flex size-8 shrink-0 flex-col items-center justify-center gap-0.5 rounded-md text-blue-900/70 hover:bg-blue-50"
+      type="button"
+    >
+      <span className="size-1 rounded-full bg-current" />
+      <span className="size-1 rounded-full bg-current" />
+      <span className="size-1 rounded-full bg-current" />
+    </button>
+  );
 }
 
-function getNextAction(applications: PrivateApplicationDto[]) {
-  return applications
-    .filter((application) => application.nextActionAt)
-    .sort(
-      (first, second) =>
-        new Date(first.nextActionAt ?? "").getTime() -
-        new Date(second.nextActionAt ?? "").getTime(),
-    )[0];
+function DashboardIcon({
+  alt,
+  className,
+  name,
+  priority,
+}: {
+  alt: string;
+  className?: string;
+  name: string;
+  priority?: boolean;
+}) {
+  return (
+    <Image
+      alt={alt}
+      className={className}
+      height={96}
+      priority={priority}
+      src={`${iconPath}/${name}`}
+      width={96}
+    />
+  );
+}
+
+function StatCard({
+  detail,
+  icon,
+  tone = "text-blue-700",
+  title,
+  value,
+}: {
+  detail: string[];
+  icon: string;
+  tone?: string;
+  title: string;
+  value: number;
+}) {
+  return (
+    <article className="rounded-xl border border-white/80 bg-white/78 p-6 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+      <div className="flex items-center justify-between gap-5">
+        <div className="min-w-0">
+          <h2 className="text-base font-semibold text-blue-950">{title}</h2>
+          <p className="mt-4 text-4xl font-semibold tracking-normal text-slate-950">
+            {value}
+          </p>
+          <div className="mt-2 space-y-1 text-sm font-medium leading-5 text-blue-950/75">
+            {detail.map((item) => (
+              <p key={item}>{item}</p>
+            ))}
+          </div>
+        </div>
+        <div className="flex size-24 shrink-0 items-center justify-center rounded-full bg-blue-100/70">
+          <DashboardIcon
+            alt=""
+            className={`size-16 ${tone}`}
+            name={icon}
+            priority
+          />
+        </div>
+      </div>
+    </article>
+  );
 }
 
 export function DashboardHome() {
-  const { applications, publicProfile, user } = mockOwnerDashboardResponse;
+  const { publicProfile, user } = mockOwnerDashboardResponse;
   const publicSlug = publicProfile.publicSlug;
-  const activeApplications = applications.filter((application) =>
-    activeStatuses.includes(application.status),
-  ).length;
-  const interviewCount = applications.filter((application) =>
-    ["interview_planned", "interview_done"].includes(application.status),
-  ).length;
-  const waitingCount = applications.filter(
-    (application) => application.status === "waiting_response",
-  ).length;
-  const nextAction = getNextAction(applications);
-  const recentlyUpdated = [...applications]
-    .sort(
-      (first, second) =>
-        new Date(second.updatedAt).getTime() - new Date(first.updatedAt).getTime(),
-    )
-    .slice(0, 3);
-  const glassCard =
-    "rounded-xl border border-white/70 bg-white/72 text-card-foreground shadow-lg shadow-slate-950/10 backdrop-blur-xl";
 
   return (
     <PageShell
       background="landing"
-      eyebrow="Private dashboard"
-      title={`Welcome back, ${user.displayName}`}
-      description="A private command center for the job search: pipeline health, follow-ups, and public status visibility."
+      className="max-w-none gap-5 px-5 py-6 md:px-8 md:py-8 xl:px-10"
     >
-      <section className="grid gap-4 md:grid-cols-3">
-        <div className={`${glassCard} p-5`}>
-          <p className="text-sm text-muted-foreground">Active applications</p>
-          <p className="mt-3 text-3xl font-semibold">{activeApplications}</p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {applications.length} total tracked
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <header className="max-w-2xl pt-2">
+          <p className="text-sm font-semibold text-blue-700">
+            Private dashboard
           </p>
-        </div>
-        <div className={`${glassCard} p-5`}>
-          <p className="text-sm text-muted-foreground">Interview pipeline</p>
-          <p className="mt-3 text-3xl font-semibold">{interviewCount}</p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Planned or waiting on feedback
+          <h1 className="mt-4 text-4xl font-semibold tracking-normal text-slate-950 md:text-5xl">
+            Welcome back, {user.displayName}
+          </h1>
+          <p className="mt-5 max-w-xl text-base leading-8 text-blue-950/75">
+            A private command center for the job search: pipeline health,
+            follow-ups, and public status visibility.
           </p>
-        </div>
-        <div className={`${glassCard} p-5`}>
-          <p className="text-sm text-muted-foreground">Waiting responses</p>
-          <p className="mt-3 text-3xl font-semibold">{waitingCount}</p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Needs a follow-up cadence
-          </p>
-        </div>
-      </section>
+        </header>
 
-      <section className="grid gap-4 md:grid-cols-[1fr_1fr]">
-        <div className={`${glassCard} p-5`}>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h2 className="text-base font-semibold">Next action</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                The nearest scheduled follow-up across the pipeline.
-              </p>
-            </div>
-            <p className="w-fit rounded-md border bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
-              {nextAction ? formatDate(nextAction.nextActionAt) : "Clear"}
-            </p>
-          </div>
-          {nextAction ? (
-            <div className="mt-5">
-              <p className="font-medium">{nextAction.companyName}</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {nextAction.jobTitle} · {statusLabels[nextAction.status]}
-              </p>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                {nextAction.privateNote ?? nextAction.publicNote}
-              </p>
-            </div>
-          ) : (
-            <p className="mt-5 text-sm leading-6 text-muted-foreground">
-              No follow-up is scheduled yet.
-            </p>
-          )}
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild className="rounded-full px-5">
-              <Link href="/applications">Manage applications</Link>
-            </Button>
-            <Button
-              asChild
-              className="rounded-full border-white/70 bg-white/70 px-5 backdrop-blur-sm hover:bg-white/90"
-              variant="outline"
-            >
-              <Link href="/settings">Open settings</Link>
-            </Button>
-          </div>
-        </div>
-
-        <div className={`${glassCard} p-5`}>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h2 className="text-base font-semibold">Public status</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                What recruiters and friends can see from the shared page.
-              </p>
-            </div>
-            <p className="w-fit rounded-md border bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
-              {publicProfile.isPublicSharingEnabled ? "Visible" : "Private"}
-            </p>
-          </div>
-          <dl className="mt-5 grid gap-3 text-sm">
-            <div className="flex items-center justify-between gap-4">
-              <dt className="text-muted-foreground">Route</dt>
-              <dd className="truncate font-medium">/{publicSlug}</dd>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <dt className="text-muted-foreground">Last profile update</dt>
-              <dd className="font-medium">
-                {formatDate(publicProfile.updatedAt)}
-              </dd>
-            </div>
-          </dl>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button
-              asChild
-              className="rounded-full border-white/70 bg-white/70 px-5 backdrop-blur-sm hover:bg-white/90"
-              variant="outline"
-            >
-              <Link href={`/status/${publicSlug}`}>Preview public page</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <section className={glassCard}>
-        <div className="flex flex-col gap-2 p-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-base font-semibold">Recent applications</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Latest updates from the private tracker.
-            </p>
-          </div>
-          <Button
-            asChild
-            className="rounded-full border-white/70 bg-white/70 px-4 backdrop-blur-sm hover:bg-white/90"
-            size="sm"
-            variant="outline"
+        <div className="flex shrink-0 items-center gap-7 pr-1 text-sm font-semibold text-slate-950">
+          <span
+            aria-hidden="true"
+            className="relative flex size-5 items-center justify-center rounded-full border border-blue-900/70"
           >
-            <Link href="/applications">View all</Link>
-          </Button>
+            <span className="size-1.5 rounded-full bg-blue-900" />
+            <span className="absolute -top-2 left-1/2 h-1 w-px -translate-x-1/2 bg-blue-900/70" />
+            <span className="absolute -bottom-2 left-1/2 h-1 w-px -translate-x-1/2 bg-blue-900/70" />
+            <span className="absolute -left-2 top-1/2 h-px w-1 -translate-y-1/2 bg-blue-900/70" />
+            <span className="absolute -right-2 top-1/2 h-px w-1 -translate-y-1/2 bg-blue-900/70" />
+          </span>
+          <time dateTime="2025-05-24">May 24, 2025</time>
         </div>
-        <Separator />
-        <div className="divide-y">
-          {recentlyUpdated.map((application) => (
-            <div
-              className="grid gap-3 p-5 sm:grid-cols-[1.4fr_1fr_auto] sm:items-center"
-              key={application.id}
+      </div>
+
+      <section className="grid gap-4 pt-2 lg:grid-cols-3">
+        <StatCard
+          detail={["4 new this week"]}
+          icon="ActiveApplicationsIcon.svg"
+          title="Active applications"
+          value={12}
+        />
+        <StatCard
+          detail={["2 upcoming", "1 completed"]}
+          icon="InterviewPipelineIcon.svg"
+          title="Interview pipeline"
+          value={3}
+        />
+        <StatCard
+          detail={["Avg. response time", "5.4 days"]}
+          icon="WaitingResponsesIcon.svg"
+          title="Waiting responses"
+          tone="text-orange-600"
+          value={7}
+        />
+      </section>
+
+      <section className="grid gap-4 xl:grid-cols-[1.08fr_1fr]">
+        <article className="rounded-xl border border-white/80 bg-white/78 p-6 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex min-w-0 items-center gap-3">
+              <DashboardIcon
+                alt=""
+                className="size-9 shrink-0 text-blue-800"
+                name="MountainMark.svg"
+              />
+              <h2 className="text-xl font-semibold tracking-normal text-slate-950">
+                Job Search Pipeline
+              </h2>
+            </div>
+            <Button
+              className="h-9 rounded-lg border-blue-100 bg-white/70 px-4 text-sm font-semibold text-slate-950 hover:bg-white"
+              size="sm"
+              variant="outline"
             >
+              All time
+              <span aria-hidden="true" className="ml-2 text-blue-900">
+                v
+              </span>
+            </Button>
+          </div>
+
+          <div className="mt-7 overflow-x-auto pb-1">
+            <div className="relative grid min-w-[560px] grid-cols-5 gap-4 px-2">
+              <div className="absolute left-8 right-8 top-[72px] h-0.5 bg-blue-950/30" />
+              {pipelineStages.map((stage) => (
+                <div
+                  className="relative z-10 flex flex-col items-center text-center"
+                  key={stage.label}
+                >
+                  <DashboardIcon
+                    alt=""
+                    className="size-14 text-blue-700"
+                    name={stage.icon}
+                  />
+                  <span
+                    className={`mt-1 size-4 rounded-full border-2 border-blue-900/45 bg-white ${
+                      stage.active
+                        ? "border-blue-700 bg-blue-700 shadow-[0_0_0_7px_rgb(219_234_254/0.85)]"
+                        : ""
+                    }`}
+                  />
+                  <p className="mt-4 text-sm font-semibold text-slate-950">
+                    {stage.label}
+                  </p>
+                  <p
+                    className={`mt-2 text-2xl font-semibold tracking-normal text-slate-950 ${
+                      stage.accent ?? ""
+                    }`}
+                  >
+                    {stage.count}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+
+        <article className="relative overflow-hidden rounded-xl border border-white/80 bg-white/78 p-6 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+          <div className="relative z-10 flex items-start justify-between gap-4">
+            <div className="flex min-w-0 gap-4">
+              <div className="flex size-16 shrink-0 items-center justify-center rounded-full bg-blue-100/80">
+                <DashboardIcon
+                  alt=""
+                  className="size-11 text-blue-700"
+                  name="PublicStatusIcon.svg"
+                />
+              </div>
               <div>
-                <p className="font-medium">{application.companyName}</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {application.jobTitle}
+                <h2 className="text-xl font-semibold text-slate-950">
+                  Public status
+                </h2>
+                <p className="mt-2 text-sm font-medium text-blue-950/75">
+                  Your public page is live and up to date.
                 </p>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {statusLabels[application.status]}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Updated {formatDate(application.updatedAt)}
+            </div>
+            <span className="rounded-lg border border-blue-100 bg-white/70 px-4 py-2 text-sm font-semibold text-slate-950">
+              {publicProfile.isPublicSharingEnabled ? "Visible" : "Private"}
+            </span>
+          </div>
+
+          <div className="relative z-10 mt-8 grid max-w-xs grid-cols-2 gap-6 text-blue-950">
+            <div>
+              <div className="flex items-center gap-2">
+                <DashboardIcon
+                  alt=""
+                  className="size-6 text-blue-700"
+                  name="ProfileViewsIcon.svg"
+                />
+                <p className="text-lg font-semibold text-slate-950">24</p>
+              </div>
+              <p className="mt-2 text-sm font-medium text-blue-950/75">
+                Profile views
               </p>
             </div>
-          ))}
-        </div>
+            <div className="border-l border-blue-950/10 pl-6">
+              <div className="flex items-center gap-2">
+                <DashboardIcon
+                  alt=""
+                  className="size-6 text-emerald-700"
+                  name="MessagesIcon.svg"
+                />
+                <p className="text-lg font-semibold text-slate-950">6</p>
+              </div>
+              <p className="mt-2 text-sm font-medium text-blue-950/75">
+                Messages
+              </p>
+            </div>
+          </div>
+
+          <Button
+            asChild
+            className="relative z-10 mt-7 rounded-lg border-blue-100 bg-white/75 px-4 font-semibold text-slate-950 hover:bg-white"
+            variant="outline"
+          >
+            <Link href={`/status/${publicSlug}`}>
+              Preview public page
+              <span aria-hidden="true" className="ml-2">
+                -&gt;
+              </span>
+            </Link>
+          </Button>
+
+          <DashboardIcon
+            alt=""
+            className="absolute bottom-5 right-7 z-0 hidden h-auto w-56 text-blue-700 sm:block"
+            name="PineLandscape.svg"
+          />
+        </article>
+      </section>
+
+      <section className="grid gap-4 xl:grid-cols-[0.68fr_1.32fr]">
+        <article className="rounded-xl border border-white/80 bg-white/78 p-6 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex min-w-0 gap-4">
+              <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-blue-100/80">
+                <DashboardIcon
+                  alt=""
+                  className="size-10 text-blue-700"
+                  name="NextActionIcon.svg"
+                />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-slate-950">
+                  Next action
+                </h2>
+                <p className="mt-4 font-semibold text-slate-950">
+                  Follow up with Sarah at Northstar Labs
+                </p>
+                <p className="mt-2 text-sm font-medium leading-6 text-blue-950/75">
+                  Interview scheduled for Frontend Engineer role.
+                </p>
+              </div>
+            </div>
+            <span className="rounded-lg border border-blue-100 bg-white/70 px-4 py-2 text-sm font-semibold text-blue-950/75">
+              May 24
+            </span>
+          </div>
+
+          <div className="mt-12 flex flex-wrap gap-4">
+            <Button asChild className="rounded-lg px-7">
+              <Link href="/applications">View details</Link>
+            </Button>
+            <Button
+              className="rounded-lg border-blue-100 bg-white/75 px-7 font-semibold text-slate-950 hover:bg-white"
+              variant="outline"
+            >
+              Mark as done
+            </Button>
+          </div>
+        </article>
+
+        <article className="overflow-hidden rounded-xl border border-white/80 bg-white/78 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+          <div className="flex items-start justify-between gap-4 p-5">
+            <div>
+              <h2 className="text-xl font-semibold text-slate-950">
+                Recent applications
+              </h2>
+              <p className="mt-1 text-sm font-medium text-blue-950/75">
+                Latest updates from your private tracker.
+              </p>
+            </div>
+            <Button
+              asChild
+              className="rounded-lg border-blue-100 bg-white/75 px-5 font-semibold text-slate-950 hover:bg-white"
+              size="sm"
+              variant="outline"
+            >
+              <Link href="/applications">View all</Link>
+            </Button>
+          </div>
+          <Separator className="bg-blue-950/10" />
+          <div className="divide-y divide-blue-950/10">
+            {recentApplications.map((application) => (
+              <div
+                className="grid gap-4 px-5 py-3 sm:grid-cols-[1.35fr_1fr_auto_auto] sm:items-center"
+                key={application.companyName}
+              >
+                <div className="flex min-w-0 items-center gap-4">
+                  <DashboardIcon
+                    alt=""
+                    className="size-11 shrink-0 text-blue-700"
+                    name={application.icon}
+                  />
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold text-slate-950">
+                      {application.companyName}
+                    </p>
+                    <p className="mt-1 truncate text-sm font-medium text-blue-950/75">
+                      {application.jobTitle}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex min-w-0 items-center gap-4">
+                  <DashboardIcon
+                    alt=""
+                    className="size-9 shrink-0 text-blue-700"
+                    name={application.statusIcon}
+                  />
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-blue-950/80">
+                      {application.status}
+                    </p>
+                    <p className="mt-1 truncate text-sm font-medium text-blue-950/65">
+                      {application.detail}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-sm font-medium text-blue-950/70">
+                  {application.updated}
+                </p>
+                <DotMenu />
+              </div>
+            ))}
+          </div>
+        </article>
       </section>
     </PageShell>
   );

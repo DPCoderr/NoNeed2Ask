@@ -81,11 +81,13 @@ export function AppShell({
         <>
           <div
             aria-hidden="true"
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/bg-userpage-light.jpg')" }}
+            className="absolute inset-0 z-0 bg-cover bg-no-repeat"
+            style={{
+              backgroundImage: "url('/bg-userpage-light.jpg')",
+            }}
           />
-          <div className="absolute inset-0 z-[1] bg-gradient-to-b from-white/40 via-white/12 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 z-[2] h-56 bg-gradient-to-b from-transparent via-slate-900/5 to-slate-900/10" />
+          <div className="absolute inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(255_255_255/0.96)_100%)]" />
+          <div className="absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(255_255_255/0.86)_78%)]" />
         </>
       ) : null}
       <div className="relative z-10 flex min-h-screen w-full">
