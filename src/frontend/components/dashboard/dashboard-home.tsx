@@ -245,7 +245,7 @@ export function DashboardHome() {
 
           <div className="mt-7 overflow-x-auto pb-1">
             <div className="relative grid min-w-[560px] grid-cols-5 gap-4 px-2">
-              <div className="absolute left-8 right-8 top-[72px] h-0.5 bg-blue-950/30" />
+              <div className="absolute left-[10%] right-[10%] top-[68px] h-0.5 bg-blue-950/30" />
               {pipelineStages.map((stage) => (
                 <div
                   className="relative z-10 flex flex-col items-center text-center"
