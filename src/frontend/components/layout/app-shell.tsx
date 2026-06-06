@@ -74,25 +74,26 @@ export function AppShell({
   return (
     <SidebarProvider
       className={cn(
-        hasLandingBackground && "relative isolate overflow-hidden bg-transparent"
+        "h-svh min-h-svh overflow-hidden",
+        hasLandingBackground && "relative isolate overflow-hidden bg-[#f6faff]"
       )}
     >
       {hasLandingBackground ? (
         <>
           <div
             aria-hidden="true"
-            className="absolute inset-0 z-0 bg-cover bg-no-repeat"
+            className="fixed inset-0 z-0 bg-cover bg-no-repeat"
             style={{
               backgroundImage: "url('/bg-userpage-light.jpg')",
             }}
           />
-          <div className="absolute inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(255_255_255/0.96)_100%)]" />
-          <div className="absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(255_255_255/0.86)_78%)]" />
+          <div className="fixed inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(246_250_255/0.96)_100%)]" />
+          <div className="fixed inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]" />
         </>
       ) : null}
-      <div className="relative z-10 flex min-h-screen w-full">
+      <div className="relative z-10 flex h-full min-h-0 w-full">
         <AppSidebar />
-        <SidebarInset className="relative overflow-hidden">
+        <SidebarInset className="relative min-h-0 overflow-hidden">
           <header
             className={cn(
               "relative z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12",
@@ -167,7 +168,9 @@ export function AppShell({
               </Breadcrumb>
             </div>
           </header>
-          {children}
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            {children}
+          </div>
         </SidebarInset>
       </div>
     </SidebarProvider>
