@@ -44,19 +44,19 @@ export const pipelineTotal = pipelineStages.reduce(
 export const overviewStats = [
   {
     detail: ["4 new this week"],
-    icon: "ActiveApplicationsIcon.svg",
+    icon: "icon_map.png",
     title: "Active applications",
     value: 12,
   },
   {
     detail: ["2 upcoming", "1 completed"],
-    icon: "InterviewPipelineIcon.svg",
+    icon: "icon_mountain.png",
     title: "Interview pipeline",
     value: 3,
   },
   {
     detail: ["Avg. response time", "5.4 days"],
-    icon: "WaitingResponsesIcon.svg",
+    icon: "icon_camp.png",
     title: "Waiting responses",
     tone: "text-orange-600",
     value: 7,

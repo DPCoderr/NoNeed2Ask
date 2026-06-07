@@ -15,9 +15,16 @@ function StatCard({
   value: number;
 }) {
   return (
-    <article className="rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6">
-      <div className="flex items-center justify-between gap-3 sm:gap-5">
-        <div className="min-w-0">
+    <article className="relative overflow-hidden rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6">
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-3/5 bg-gradient-to-l from-blue-200/90 via-blue-100/55 to-transparent" />
+      <DashboardIcon
+        alt=""
+        className={`pointer-events-none absolute right-3 top-1/2 size-24 -translate-y-1/2 object-contain opacity-95 sm:right-4 sm:size-32 lg:right-2 lg:size-28 xl:right-4 xl:size-32 ${tone}`}
+        name={icon}
+        priority
+      />
+      <div className="relative z-10 flex items-center justify-between gap-3 sm:gap-5">
+        <div className="min-w-0 pr-24 sm:pr-36 lg:pr-24 xl:pr-32">
           <h2 className="text-sm font-semibold text-blue-950 sm:text-base">
             {title}
           </h2>
@@ -30,14 +37,6 @@ function StatCard({
             ))}
           </div>
         </div>
-        <div className="flex size-16 shrink-0 items-center justify-center rounded-full bg-blue-100/70 sm:size-20 lg:size-24">
-          <DashboardIcon
-            alt=""
-            className={`size-10 sm:size-12 lg:size-16 ${tone}`}
-            name={icon}
-            priority
-          />
-        </div>
       </div>
     </article>
   );
@@ -45,7 +44,7 @@ function StatCard({
 
 export function OverviewStats() {
   return (
-    <section className="grid gap-3 pt-1 sm:gap-4 sm:pt-2 lg:grid-cols-3">
+    <section className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-3 pt-1 sm:gap-4 sm:pt-2">
       {overviewStats.map((stat) => (
         <StatCard
           detail={stat.detail}

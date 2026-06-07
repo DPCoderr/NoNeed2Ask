@@ -9,17 +9,17 @@ import type {
 } from "./types"
 
 export const mockAuthUser: AuthUserDto = {
-  id: "user_daniel_01",
-  email: "daniel@example.com",
-  displayName: "Daniel",
+  id: "user_john_01",
+  email: "john@example.com",
+  displayName: "John",
   createdAt: "2026-05-01T09:00:00.000Z",
   updatedAt: "2026-05-22T13:45:00.000Z",
 }
 
 export const mockPublicProfileSettings: PublicProfileSettingsDto = {
-  id: "profile_daniel_01",
+  id: "profile_john_01",
   userId: mockAuthUser.id,
-  publicSlug: "daniel-job-search",
+  publicSlug: "john-job-search",
   isPublicSharingEnabled: true,
   createdAt: "2026-05-01T09:05:00.000Z",
   updatedAt: "2026-05-22T13:45:00.000Z",
