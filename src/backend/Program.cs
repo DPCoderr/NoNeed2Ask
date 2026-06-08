@@ -75,7 +75,10 @@ if (!app.Environment.IsDevelopment())
 app.UseCors("Frontend");
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseRateLimiter();
+if (!app.Environment.IsEnvironment("Testing"))
+{
+    app.UseRateLimiter();
+}
 
 // Endpoints
 app.MapDefaultEndpoints();
@@ -83,3 +86,5 @@ app.MapFeatureEndpoints();
 
 
 app.Run();
+
+public partial class Program;

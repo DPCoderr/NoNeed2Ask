@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoNeed2Ask.AppHost", "appho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoNeed2Ask.ServiceDefaults", "service-defaults\NoNeed2Ask.ServiceDefaults.csproj", "{F0DF52E6-05E7-4C7A-A6A8-45405EE6E73D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoNeed2Ask.Api.Tests", "backend.tests\NoNeed2Ask.Api.Tests.csproj", "{4F9C6C5D-D395-4DF8-97B0-66849D6864AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,5 +28,9 @@ Global
 		{F0DF52E6-05E7-4C7A-A6A8-45405EE6E73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0DF52E6-05E7-4C7A-A6A8-45405EE6E73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0DF52E6-05E7-4C7A-A6A8-45405EE6E73D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F9C6C5D-D395-4DF8-97B0-66849D6864AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F9C6C5D-D395-4DF8-97B0-66849D6864AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F9C6C5D-D395-4DF8-97B0-66849D6864AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F9C6C5D-D395-4DF8-97B0-66849D6864AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
