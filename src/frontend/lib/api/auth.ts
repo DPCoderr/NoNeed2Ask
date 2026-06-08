@@ -1,6 +1,5 @@
 import { apiFetch } from "./client"
 
-const devAuthBaseUrl = "https://localhost:7156/auth"
 const proxiedAuthBaseUrl = "/api/auth"
 
 export type AuthLoginResponseDto = {
@@ -35,9 +34,7 @@ export type RegisterRequestDto = {
 }
 
 function getAuthBaseUrl() {
-  return process.env.NODE_ENV === "production"
-    ? proxiedAuthBaseUrl
-    : devAuthBaseUrl
+  return proxiedAuthBaseUrl
 }
 
 export async function login(request: LoginRequestDto) {

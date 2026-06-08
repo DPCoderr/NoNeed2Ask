@@ -1,7 +1,9 @@
 import type { NextRequest } from "next/server"
 
 const backendAuthBaseUrl =
-  process.env.AUTH_BASE_URL ?? "https://noneed2ask.onrender.com/auth"
+  process.env.NODE_ENV === "production"
+    ? process.env.AUTH_BASE_URL ?? "https://noneed2ask.onrender.com/auth"
+    : process.env.AUTH_BASE_URL_DEV ?? "http://localhost:5273/auth"
 
 const excludedResponseHeaders = new Set([
   "content-encoding",
@@ -25,6 +27,7 @@ function createBackendHeaders(request: NextRequest) {
   headers.delete("host")
   headers.delete("origin")
   headers.delete("referer")
+  headers.delete("content-length")
 
   return headers
 }
@@ -58,13 +61,25 @@ async function proxyAuthRequest(request: NextRequest, context: RouteContext) {
   const upstreamUrl = new URL(path.join("/"), `${backendAuthBaseUrl}/`)
   upstreamUrl.search = request.nextUrl.search
   const hasBody = request.method !== "GET" && request.method !== "HEAD"
+  const body = hasBody ? await request.text() : undefined
 
-  const upstreamResponse = await fetch(upstreamUrl, {
-    method: request.method,
-    headers: createBackendHeaders(request),
-    body: hasBody ? await request.arrayBuffer() : undefined,
-    cache: "no-store",
-  })
+  let upstreamResponse: Response
+
+  try {
+    upstreamResponse = await fetch(upstreamUrl, {
+      method: request.method,
+      headers: createBackendHeaders(request),
+      body,
+      cache: "no-store",
+    })
+  } catch (error) {
+    console.error("Auth proxy request failed.", error)
+
+    return Response.json(
+      { message: "Authentication service is unavailable." },
+      { status: 502 }
+    )
+  }
 
   return new Response(upstreamResponse.body, {
     status: upstreamResponse.status,

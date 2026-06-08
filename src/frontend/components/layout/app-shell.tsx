@@ -54,29 +54,15 @@ function getBreadcrumbs(pathname: string) {
 
 export function AppShell({
   children,
-  hasAuthCookie,
 }: {
   children: ReactNode
-  hasAuthCookie: boolean
 }) {
   const pathname = usePathname()
   const breadcrumbs = getBreadcrumbs(pathname)
-  const isHomeRoute = pathname === "/"
-  const isAuthRoute = pathname === "/login" || pathname === "/register"
-  const isPublicStatusRoute = pathname.startsWith("/status/")
   const hasLandingBackground =
-    isHomeRoute ||
-    isPublicStatusRoute ||
+    pathname === "/" ||
     pathname === "/applications" ||
     pathname.startsWith("/applications/")
-
-  if (
-    (isPublicStatusRoute && !hasAuthCookie) ||
-    isAuthRoute ||
-    (isHomeRoute && !hasAuthCookie)
-  ) {
-    return children
-  }
 
   return (
     <SidebarProvider

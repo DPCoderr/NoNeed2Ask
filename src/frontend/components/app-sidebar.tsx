@@ -75,6 +75,7 @@ export function AppSidebar() {
   const { data: currentUser } = useQuery({
     queryKey: ["auth", "me"],
     queryFn: getCurrentUser,
+    staleTime: Infinity,
   });
 
   const accountEmail = currentUser?.email;

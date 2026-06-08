@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
-import { cookies } from "next/headers";
 import "./globals.css";
 import { AppProviders } from "@/app/providers";
-import { AppShell } from "@/components/layout/app-shell";
-import { authCookieName } from "@/lib/auth/cookies";
 import { cn } from "@/lib/utils";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -30,9 +27,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const hasAuthCookie = cookieStore.has(authCookieName);
-
   return (
     <html
       lang="en"
@@ -45,9 +39,7 @@ export default async function RootLayout({
       )}
     >
       <body className="min-h-full bg-background font-sans text-foreground">
-        <AppProviders>
-          <AppShell hasAuthCookie={hasAuthCookie}>{children}</AppShell>
-        </AppProviders>
+        <AppProviders>{children}</AppProviders>
 
         <SpeedInsights />
       </body>

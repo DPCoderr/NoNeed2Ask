@@ -1,14 +1,27 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { JobSearchDistributionCard } from "@/components/dashboard/job-search-distribution-card";
 import { NextActionCard } from "@/components/dashboard/next-action-card";
 import { OverviewStats } from "@/components/dashboard/overview-stats";
 import { RecentApplicationsCard } from "@/components/dashboard/recent-applications-card";
 import { PageShell } from "@/components/layout/page-shell";
-import { mockOwnerDashboardResponse } from "@/lib/api/fixtures";
+import { getCurrentUser } from "@/lib/api";
 
 export function DashboardPage() {
-  const { publicProfile, user } = mockOwnerDashboardResponse;
-  const publicSlug = publicProfile.publicSlug;
+  const { data: user } = useQuery({
+    queryKey: ["auth", "me"],
+    queryFn: getCurrentUser,
+    staleTime: Infinity,
+  });
+
+  if (!user) {
+    return null;
+  }
+
+  const publicSlug = `${user.username}-job-search`;
 
   return (
     <PageShell
@@ -17,7 +30,7 @@ export function DashboardPage() {
     >
       <DashboardHeader
         publicSlug={publicSlug}
-        userDisplayName={user.displayName}
+        userDisplayName={user.username}
       />
 
       <OverviewStats />
