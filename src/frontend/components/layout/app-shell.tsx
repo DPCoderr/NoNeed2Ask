@@ -18,6 +18,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import type { AuthMeResponseDto } from "@/lib/api/auth"
 import { mockPrivateApplications } from "@/lib/api/fixtures"
 import { cn } from "@/lib/utils"
 
@@ -54,8 +55,10 @@ function getBreadcrumbs(pathname: string) {
 
 export function AppShell({
   children,
+  currentUser,
 }: {
   children: ReactNode
+  currentUser: AuthMeResponseDto
 }) {
   const pathname = usePathname()
   const breadcrumbs = getBreadcrumbs(pathname)
@@ -85,7 +88,7 @@ export function AppShell({
         </>
       ) : null}
       <div className="relative z-10 flex h-full min-h-0 w-full">
-        <AppSidebar />
+        <AppSidebar currentUser={currentUser} />
         <SidebarInset className="relative min-h-0 overflow-hidden">
           <header
             className={cn(

@@ -1,8 +1,3 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
 import type { ReactNode } from "react";
 
 import { AppShell } from "@/components/layout/app-shell";
@@ -20,12 +15,5 @@ export default async function DashboardLayout({
     return <LandingPage />;
   }
 
-  const queryClient = new QueryClient();
-  queryClient.setQueryData(["auth", "me"], user);
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <AppShell>{children}</AppShell>
-    </HydrationBoundary>
-  );
+  return <AppShell currentUser={user}>{children}</AppShell>;
 }

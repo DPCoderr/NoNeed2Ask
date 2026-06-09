@@ -9,7 +9,7 @@ import {
   UserIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -35,10 +35,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { getCurrentUser, logout } from "@/lib/api";
-import Image from "next/image";
+import { logout } from "@/lib/api";
+import type { AuthMeResponseDto } from "@/lib/api/auth";
 
-const mainRoutes = [
+const workspaceRoutes = [
   { href: "/", label: "Home", icon: DashboardSquare01Icon },
   {
     href: "/applications",
@@ -46,11 +46,6 @@ const mainRoutes = [
     icon: Briefcase02Icon,
   },
   // { href: "/settings", label: "Settings", icon: Setting07Icon },
-  {
-    href: "/status/daniel-job-search",
-    label: "Public status",
-    icon: Globe02Icon,
-  },
 ];
 
 const accountRoutes = [
@@ -66,19 +61,26 @@ function isActiveRoute(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function AppSidebar() {
+export function AppSidebar({
+  currentUser,
+}: {
+  currentUser: AuthMeResponseDto;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const { isMobile, setOpenMobile } = useSidebar();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState<string | null>(null);
-  const { data: currentUser } = useQuery({
-    queryKey: ["auth", "me"],
-    queryFn: getCurrentUser,
-    staleTime: Infinity,
-  });
 
-  const accountEmail = currentUser?.email;
+  const accountEmail = currentUser.email;
+  const mainRoutes = [
+    ...workspaceRoutes,
+    {
+      href: `/status/${currentUser.username}-job-search`,
+      label: "Public status",
+      icon: Globe02Icon,
+    },
+  ];
 
   function handleSidebarNavigation() {
     if (isMobile) {

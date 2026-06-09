@@ -1,21 +1,13 @@
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
-
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { JobSearchDistributionCard } from "@/components/dashboard/job-search-distribution-card";
 import { NextActionCard } from "@/components/dashboard/next-action-card";
 import { OverviewStats } from "@/components/dashboard/overview-stats";
 import { RecentApplicationsCard } from "@/components/dashboard/recent-applications-card";
 import { PageShell } from "@/components/layout/page-shell";
-import { getCurrentUser } from "@/lib/api";
+import { getCurrentUserServer } from "@/lib/auth/get-current-user-server";
 
-export function DashboardPage() {
-  const { data: user } = useQuery({
-    queryKey: ["auth", "me"],
-    queryFn: getCurrentUser,
-    staleTime: Infinity,
-  });
+export async function DashboardPage() {
+  const user = await getCurrentUserServer();
 
   if (!user) {
     return null;
