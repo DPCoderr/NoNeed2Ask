@@ -7,14 +7,27 @@ import { ArrowDown01Icon } from "@hugeicons/core-free-icons"
 import { format } from "date-fns"
 import { useRouter } from "next/navigation"
 import * as React from "react"
-import { Controller, useForm } from "react-hook-form"
+import { Controller, type FieldPath, useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
   Field,
@@ -61,6 +74,33 @@ const fieldNames = {
   LastContactAt: "lastContactAt",
   NextActionAt: "nextActionAt",
 } satisfies Record<string, keyof CreateApplicationFormValues>
+
+const formSteps = [
+  {
+    description: "Add the company and role you want to track.",
+    fields: ["companyName", "jobTitle"],
+    title: "Application details",
+  },
+  {
+    description: "Choose the current application status.",
+    fields: ["status"],
+    title: "Progress",
+  },
+  {
+    description: "Add optional dates for contact and follow-up.",
+    fields: ["lastContactAt", "nextActionAt"],
+    title: "Dates",
+  },
+  {
+    description: "Add any public or private notes.",
+    fields: ["publicNote", "privateNote"],
+    title: "Notes",
+  },
+] satisfies {
+  description: string
+  fields: FieldPath<CreateApplicationFormValues>[]
+  title: string
+}[]
 
 function optionalTrimmedValue(value: string) {
   const trimmedValue = value.trim()
@@ -255,6 +295,8 @@ function ApplicationFormSection({
 }
 
 export function ApplicationCreateForm() {
+  const [currentStep, setCurrentStep] = React.useState(0)
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false)
   const queryClient = useQueryClient()
   const router = useRouter()
   const createApplicationMutation = useMutation({
@@ -273,6 +315,7 @@ export function ApplicationCreateForm() {
     handleSubmit,
     register,
     setError,
+    trigger,
   } = useForm<CreateApplicationFormValues>({
     defaultValues: {
       companyName: "",
@@ -286,6 +329,50 @@ export function ApplicationCreateForm() {
     resolver: zodResolver(createApplicationFormSchema),
   })
   const isSaving = isSubmitting || createApplicationMutation.isPending
+  const currentStepDetails = formSteps[currentStep] ?? formSteps[0]
+  const isFirstStep = currentStep === 0
+  const isLastStep = currentStep === formSteps.length - 1
+
+  async function handleNextStep() {
+    clearErrors("root")
+    const isCurrentStepValid = await trigger(currentStepDetails.fields, {
+      shouldFocus: true,
+    })
+
+    if (isCurrentStepValid) {
+      setCurrentStep((step) => Math.min(step + 1, formSteps.length - 1))
+    }
+  }
+
+  function handlePreviousStep() {
+    setCurrentStep((step) => Math.max(step - 1, 0))
+  }
+
+  async function handleOpenConfirmDialog() {
+    clearErrors("root")
+    const isCurrentStepValid = await trigger(currentStepDetails.fields, {
+      shouldFocus: true,
+    })
+
+    if (isCurrentStepValid) {
+      setIsConfirmOpen(true)
+    }
+  }
+
+  async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    if (isSaving) {
+      return
+    }
+
+    if (isLastStep) {
+      await handleOpenConfirmDialog()
+      return
+    }
+
+    await handleNextStep()
+  }
 
   async function onSubmit(values: CreateApplicationFormValues) {
     clearErrors("root")
@@ -307,152 +394,194 @@ export function ApplicationCreateForm() {
   return (
     <form
       noValidate
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleFormSubmit}
     >
       <Card className="rounded-2xl border-white/80 bg-white/90 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+        <CardHeader className="border-b">
+          <CardTitle>{currentStepDetails.title}</CardTitle>
+          <CardDescription>{currentStepDetails.description}</CardDescription>
+          <div className="mt-3 grid grid-cols-4 gap-2">
+            {formSteps.map((step, index) => (
+              <button
+                aria-current={index === currentStep ? "step" : undefined}
+                className={`h-1.5 rounded-full transition ${
+                  index <= currentStep ? "bg-primary" : "bg-muted"
+                }`}
+                disabled={isSaving}
+                key={step.title}
+                onClick={async () => {
+                  if (index <= currentStep) {
+                    setCurrentStep(index)
+                    return
+                  }
+
+                  const isCurrentStepValid = await trigger(
+                    currentStepDetails.fields,
+                    { shouldFocus: true }
+                  )
+
+                  if (isCurrentStepValid) {
+                    setCurrentStep(index)
+                  }
+                }}
+                type="button"
+              >
+                <span className="sr-only">
+                  Step {index + 1}: {step.title}
+                </span>
+              </button>
+            ))}
+          </div>
+        </CardHeader>
+
         <CardContent>
           <FieldGroup className="gap-8">
-            <ApplicationFormSection
-              description="The company and role shown in your application list."
-              title="Application details"
-            >
-              <div className="grid gap-5 md:grid-cols-2">
-                <Field data-invalid={!!errors.companyName}>
-                  <FieldLabel htmlFor="companyName">Company name</FieldLabel>
-                  <Input
-                    aria-invalid={!!errors.companyName}
-                    autoComplete="organization"
-                    className="h-10 rounded-md border-input bg-background"
-                    disabled={isSaving}
-                    id="companyName"
-                    placeholder="Acme"
-                    {...register("companyName")}
-                  />
-                  <FieldError errors={[errors.companyName]} />
-                </Field>
+            {currentStep === 0 ? (
+              <ApplicationFormSection title="Application details">
+                <div className="grid gap-5 md:grid-cols-2">
+                  <Field data-invalid={!!errors.companyName}>
+                    <FieldLabel htmlFor="companyName">Company name</FieldLabel>
+                    <Input
+                      aria-invalid={!!errors.companyName}
+                      autoComplete="organization"
+                      className="h-10 rounded-md border-input bg-background"
+                      disabled={isSaving}
+                      id="companyName"
+                      placeholder="Acme"
+                      {...register("companyName")}
+                    />
+                    <FieldError errors={[errors.companyName]} />
+                  </Field>
 
-                <Field data-invalid={!!errors.jobTitle}>
-                  <FieldLabel htmlFor="jobTitle">Role</FieldLabel>
-                  <Input
-                    aria-invalid={!!errors.jobTitle}
-                    autoComplete="organization-title"
-                    className="h-10 rounded-md border-input bg-background"
-                    disabled={isSaving}
-                    id="jobTitle"
-                    placeholder="Frontend engineer"
-                    {...register("jobTitle")}
-                  />
-                  <FieldError errors={[errors.jobTitle]} />
-                </Field>
-              </div>
-            </ApplicationFormSection>
+                  <Field data-invalid={!!errors.jobTitle}>
+                    <FieldLabel htmlFor="jobTitle">Role</FieldLabel>
+                    <Input
+                      aria-invalid={!!errors.jobTitle}
+                      autoComplete="organization-title"
+                      className="h-10 rounded-md border-input bg-background"
+                      disabled={isSaving}
+                      id="jobTitle"
+                      placeholder="Frontend engineer"
+                      {...register("jobTitle")}
+                    />
+                    <FieldError errors={[errors.jobTitle]} />
+                  </Field>
+                </div>
+              </ApplicationFormSection>
+            ) : null}
 
-            <ApplicationFormSection title="Progress">
-              <div className="grid gap-5 md:grid-cols-2">
-                <Field data-invalid={!!errors.status}>
-                  <FieldLabel>Status</FieldLabel>
+            {currentStep === 1 ? (
+              <ApplicationFormSection title="Progress">
+                <div className="grid gap-5 md:grid-cols-2">
+                  <Field data-invalid={!!errors.status}>
+                    <FieldLabel>Status</FieldLabel>
+                    <Controller
+                      control={control}
+                      name="status"
+                      render={({ field }) => (
+                        <Select
+                          disabled={isSaving}
+                          onValueChange={(value) =>
+                            field.onChange(value as ApplicationStatus)
+                          }
+                          value={field.value}
+                        >
+                          <SelectTrigger
+                            aria-invalid={!!errors.status}
+                            className="h-10 w-full rounded-md border-input bg-background"
+                            onBlur={field.onBlur}
+                            ref={field.ref}
+                          >
+                            <SelectValue placeholder="Choose status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {statuses.map((status) => (
+                              <SelectItem key={status} value={status}>
+                                {statusDetails[status].label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    <FieldError errors={[errors.status]} />
+                  </Field>
+                </div>
+              </ApplicationFormSection>
+            ) : null}
+
+            {currentStep === 2 ? (
+              <ApplicationFormSection title="Dates">
+                <div className="grid gap-5 lg:grid-cols-2">
                   <Controller
                     control={control}
-                    name="status"
+                    name="lastContactAt"
                     render={({ field }) => (
-                      <Select
+                      <ApplicationDateField
                         disabled={isSaving}
-                        onValueChange={(value) =>
-                          field.onChange(value as ApplicationStatus)
-                        }
+                        error={errors.lastContactAt}
+                        label="Last contact"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        onChange={field.onChange}
                         value={field.value}
-                      >
-                        <SelectTrigger
-                          aria-invalid={!!errors.status}
-                          className="h-10 w-full rounded-md border-input bg-background"
-                          onBlur={field.onBlur}
-                          ref={field.ref}
-                        >
-                          <SelectValue placeholder="Choose status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {statuses.map((status) => (
-                            <SelectItem key={status} value={status}>
-                              {statusDetails[status].label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      />
                     )}
                   />
-                  <FieldError errors={[errors.status]} />
-                </Field>
-              </div>
-            </ApplicationFormSection>
 
-            <ApplicationFormSection
-              description="Optional dates for recent contact and your next follow-up."
-              title="Dates"
-            >
-              <div className="grid gap-5 lg:grid-cols-2">
-                <Controller
-                  control={control}
-                  name="lastContactAt"
-                  render={({ field }) => (
-                    <ApplicationDateField
-                      disabled={isSaving}
-                      error={errors.lastContactAt}
-                      label="Last contact"
-                      name={field.name}
-                      onBlur={field.onBlur}
-                      onChange={field.onChange}
-                      value={field.value}
-                    />
-                  )}
-                />
-
-                <Controller
-                  control={control}
-                  name="nextActionAt"
-                  render={({ field }) => (
-                    <ApplicationDateField
-                      disabled={isSaving}
-                      error={errors.nextActionAt}
-                      label="Next action"
-                      name={field.name}
-                      onBlur={field.onBlur}
-                      onChange={field.onChange}
-                      value={field.value}
-                    />
-                  )}
-                />
-              </div>
-            </ApplicationFormSection>
-
-            <ApplicationFormSection title="Notes">
-              <div className="grid gap-5 lg:grid-cols-2">
-                <Field data-invalid={!!errors.publicNote}>
-                  <FieldLabel htmlFor="publicNote">Public note</FieldLabel>
-                  <Textarea
-                    aria-invalid={!!errors.publicNote}
-                    className="min-h-32 resize-y rounded-md border-input bg-background"
-                    disabled={isSaving}
-                    id="publicNote"
-                    placeholder="Visible on your public status page"
-                    {...register("publicNote")}
+                  <Controller
+                    control={control}
+                    name="nextActionAt"
+                    render={({ field }) => (
+                      <ApplicationDateField
+                        disabled={isSaving}
+                        error={errors.nextActionAt}
+                        label="Next action"
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        onChange={field.onChange}
+                        value={field.value}
+                      />
+                    )}
                   />
-                  <FieldError errors={[errors.publicNote]} />
-                </Field>
+                </div>
+              </ApplicationFormSection>
+            ) : null}
 
-                <Field data-invalid={!!errors.privateNote}>
-                  <FieldLabel htmlFor="privateNote">Private note</FieldLabel>
-                  <Textarea
-                    aria-invalid={!!errors.privateNote}
-                    className="min-h-32 resize-y rounded-md border-input bg-background"
-                    disabled={isSaving}
-                    id="privateNote"
-                    placeholder="Only visible to you"
-                    {...register("privateNote")}
-                  />
-                  <FieldError errors={[errors.privateNote]} />
-                </Field>
-              </div>
-            </ApplicationFormSection>
+            {currentStep === 3 ? (
+              <ApplicationFormSection
+                description="Notes are optional. Public notes can be shown on your status page."
+                title="Notes"
+              >
+                <div className="grid gap-5 lg:grid-cols-2">
+                  <Field data-invalid={!!errors.publicNote}>
+                    <FieldLabel htmlFor="publicNote">Public note</FieldLabel>
+                    <Textarea
+                      aria-invalid={!!errors.publicNote}
+                      className="min-h-32 resize-y rounded-md border-input bg-background"
+                      disabled={isSaving}
+                      id="publicNote"
+                      placeholder="Visible on your public status page"
+                      {...register("publicNote")}
+                    />
+                    <FieldError errors={[errors.publicNote]} />
+                  </Field>
+
+                  <Field data-invalid={!!errors.privateNote}>
+                    <FieldLabel htmlFor="privateNote">Private note</FieldLabel>
+                    <Textarea
+                      aria-invalid={!!errors.privateNote}
+                      className="min-h-32 resize-y rounded-md border-input bg-background"
+                      disabled={isSaving}
+                      id="privateNote"
+                      placeholder="Only visible to you"
+                      {...register("privateNote")}
+                    />
+                    <FieldError errors={[errors.privateNote]} />
+                  </Field>
+                </div>
+              </ApplicationFormSection>
+            ) : null}
 
             {errors.root?.message ? (
               <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
@@ -464,17 +593,56 @@ export function ApplicationCreateForm() {
 
         <CardFooter className="border-t bg-muted/20">
           <div className="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <Button
-            disabled={isSaving}
-            type="button"
-            variant="outline"
-            onClick={() => router.back()}
-          >
-            Cancel
-          </Button>
-          <Button disabled={isSaving} type="submit">
-            {isSaving ? "Creating..." : "Create application"}
-          </Button>
+            <Button
+              className="h-10 rounded-lg px-4"
+              disabled={isSaving}
+              type="button"
+              variant="outline"
+              onClick={isFirstStep ? () => router.back() : handlePreviousStep}
+            >
+              {isFirstStep ? "Cancel" : "Back"}
+            </Button>
+            {isLastStep ? (
+              <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
+                <Button
+                  className="h-10 rounded-lg px-4"
+                  disabled={isSaving}
+                  onClick={handleOpenConfirmDialog}
+                  type="button"
+                >
+                  Create application
+                </Button>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Create this application?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will save the application and add it to your list.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel disabled={isSaving} type="button">
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      disabled={isSaving}
+                      onClick={() => void handleSubmit(onSubmit)()}
+                      type="button"
+                    >
+                      {isSaving ? "Creating..." : "Create application"}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            ) : (
+              <Button
+                className="h-10 rounded-lg px-4"
+                disabled={isSaving}
+                onClick={handleNextStep}
+                type="button"
+              >
+                Next
+              </Button>
+            )}
           </div>
         </CardFooter>
       </Card>
