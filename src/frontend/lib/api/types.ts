@@ -18,7 +18,7 @@ export type AuthUserDto = {
 
 export type PrivateApplicationDto = {
   id: string
-  userId: string
+  userId?: string
   companyName: string
   jobTitle: string
   status: ApplicationStatus
@@ -28,6 +28,36 @@ export type PrivateApplicationDto = {
   nextActionAt: string | null
   createdAt: string
   updatedAt: string
+}
+
+export type CreateApplicationRequestDto = {
+  companyName: string
+  jobTitle: string
+  status: ApplicationStatus
+  publicNote: string | null
+  privateNote: string | null
+  lastContactAt: string | null
+  nextActionAt: string | null
+}
+
+export type ApplicationListSortBy = "company" | "role" | "status" | "lastUpdated"
+
+export type ApplicationListSortDirection = "asc" | "desc"
+
+export type ApplicationListRequestDto = {
+  page?: number
+  status?: ApplicationStatus[]
+  search?: string
+  sortBy?: ApplicationListSortBy
+  sortDirection?: ApplicationListSortDirection
+}
+
+export type ApplicationListResponseDto = {
+  items: PrivateApplicationDto[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
 }
 
 export type PublicStatusApplicationDto = Pick<

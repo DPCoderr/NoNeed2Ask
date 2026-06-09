@@ -12,6 +12,7 @@ public static class ApplicationEndpoints
             .WithTags("Applications");
 
         group.MapGet("/", ApplicationList.Handle)
+            .AddEndpointFilter<ValidationFilter<ApplicationListRequestDto>>()
             .RequireAuthorization();
         
         group.MapGet("/{id}", ApplicationGetById.Handle)

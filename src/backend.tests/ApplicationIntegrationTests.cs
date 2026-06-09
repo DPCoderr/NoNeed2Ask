@@ -121,9 +121,13 @@ public sealed class ApplicationIntegrationTests(ApiFactory factory) : IClassFixt
         var response = await user.Client.GetAsync("/applications/");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var applications = await response.Content.ReadFromJsonAsync<List<TestApplicationResponse>>();
+        var applications = await response.Content.ReadFromJsonAsync<TestApplicationListResponse>();
         applications.Should().NotBeNull();
-        applications.Should().BeEmpty();
+        applications!.Items.Should().BeEmpty();
+        applications.Page.Should().Be(1);
+        applications.PageSize.Should().Be(10);
+        applications.TotalItems.Should().Be(0);
+        applications.TotalPages.Should().Be(0);
     }
 
     [Fact]
@@ -141,12 +145,13 @@ public sealed class ApplicationIntegrationTests(ApiFactory factory) : IClassFixt
         var response = await owner.Client.GetAsync("/applications/");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var applications = await response.Content.ReadFromJsonAsync<List<TestApplicationResponse>>();
+        var applications = await response.Content.ReadFromJsonAsync<TestApplicationListResponse>();
         applications.Should().NotBeNull();
-        applications!.Select(application => application.Id)
+        applications!.Items.Select(application => application.Id)
             .Should()
             .BeEquivalentTo([ownerFirst.Id, ownerSecond.Id]);
-        applications.Select(application => application.Id).Should().NotContain(otherApplication.Id);
+        applications.Items.Select(application => application.Id).Should().NotContain(otherApplication.Id);
+        applications.TotalItems.Should().Be(2);
     }
 
     [Fact]
@@ -159,9 +164,186 @@ public sealed class ApplicationIntegrationTests(ApiFactory factory) : IClassFixt
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         using var json = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
-        var first = json.RootElement.EnumerateArray().Single();
+        var first = json.RootElement.GetProperty("items").EnumerateArray().Single();
         first.TryGetProperty("privateNote", out _).Should().BeTrue();
         first.TryGetProperty("userId", out _).Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task List_DefaultsToFirstPageWithTenApplicationsAndTotals()
+    {
+        var user = await factory.RegisterUserAsync();
+
+        for (var index = 1; index <= 12; index++)
+        {
+            await user.Client.CreateApplicationAsync(
+                ApiTestHelpers.ValidApplicationRequest(companyName: $"Company {index:00}"));
+        }
+
+        var response = await user.Client.GetAsync("/applications/");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var applications = await response.Content.ReadFromJsonAsync<TestApplicationListResponse>();
+        applications.Should().NotBeNull();
+        applications!.Items.Should().HaveCount(10);
+        applications.Page.Should().Be(1);
+        applications.PageSize.Should().Be(10);
+        applications.TotalItems.Should().Be(12);
+        applications.TotalPages.Should().Be(2);
+    }
+
+    [Fact]
+    public async Task List_FiltersByMultipleStatuses()
+    {
+        var user = await factory.RegisterUserAsync();
+        var applied = await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(companyName: "Applied", status: ApplicationStatuses.Applied));
+        var offer = await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(companyName: "Offer", status: ApplicationStatuses.Offer));
+        await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(companyName: "Rejected", status: ApplicationStatuses.Rejected));
+
+        var response = await user.Client.GetAsync(
+            $"/applications/?status={ApplicationStatuses.Applied}&status={ApplicationStatuses.Offer}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var applications = await response.Content.ReadFromJsonAsync<TestApplicationListResponse>();
+        applications.Should().NotBeNull();
+        applications!.Items.Select(application => application.Id)
+            .Should()
+            .BeEquivalentTo([applied.Id, offer.Id]);
+        applications.TotalItems.Should().Be(2);
+    }
+
+    [Theory]
+    [InlineData("northstar", "Northstar Labs")]
+    [InlineData("FULL stack", "Atlas Works")]
+    public async Task List_SearchesCompanyNameAndJobTitleCaseInsensitively(
+        string search,
+        string expectedCompany)
+    {
+        var user = await factory.RegisterUserAsync();
+        await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(companyName: "Northstar Labs", jobTitle: "Frontend Engineer"));
+        await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(companyName: "Atlas Works", jobTitle: "Full Stack Developer"));
+        await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(companyName: "Orbit Systems", jobTitle: "Backend Engineer"));
+
+        var response = await user.Client.GetAsync($"/applications/?search={Uri.EscapeDataString(search)}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var applications = await response.Content.ReadFromJsonAsync<TestApplicationListResponse>();
+        applications.Should().NotBeNull();
+        applications!.Items.Should().ContainSingle();
+        applications.Items[0].CompanyName.Should().Be(expectedCompany);
+        applications.TotalItems.Should().Be(1);
+    }
+
+    [Theory]
+    [InlineData("company", "asc", "Alpha Co", "Zulu Co")]
+    [InlineData("company", "desc", "Zulu Co", "Alpha Co")]
+    [InlineData("role", "asc", "Backend Engineer", "Product Designer")]
+    [InlineData("role", "desc", "Product Designer", "Backend Engineer")]
+    [InlineData("status", "asc", ApplicationStatuses.Applied, ApplicationStatuses.Offer)]
+    [InlineData("status", "desc", ApplicationStatuses.Offer, ApplicationStatuses.Applied)]
+    public async Task List_SortsByRequestedFieldAndDirection(
+        string sortBy,
+        string sortDirection,
+        string expectedFirst,
+        string expectedLast)
+    {
+        var user = await factory.RegisterUserAsync();
+        await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(
+                companyName: "Zulu Co",
+                jobTitle: "Product Designer",
+                status: ApplicationStatuses.Offer));
+        await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(
+                companyName: "Alpha Co",
+                jobTitle: "Backend Engineer",
+                status: ApplicationStatuses.Applied));
+
+        var response = await user.Client.GetAsync(
+            $"/applications/?sortBy={sortBy}&sortDirection={sortDirection}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var applications = await response.Content.ReadFromJsonAsync<TestApplicationListResponse>();
+        applications.Should().NotBeNull();
+        applications!.Items.Should().HaveCount(2);
+
+        var values = applications.Items.Select(application => sortBy switch
+        {
+            "company" => application.CompanyName,
+            "role" => application.JobTitle,
+            "status" => application.Status,
+            _ => throw new InvalidOperationException($"Unsupported sort {sortBy}.")
+        }).ToList();
+
+        values.First().Should().Be(expectedFirst);
+        values.Last().Should().Be(expectedLast);
+    }
+
+    [Fact]
+    public async Task List_SortsByLastUpdated()
+    {
+        var user = await factory.RegisterUserAsync();
+        var first = await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(companyName: "First"));
+        await Task.Delay(20);
+        var second = await user.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(companyName: "Second"));
+
+        var response = await user.Client.GetAsync("/applications/?sortBy=lastUpdated&sortDirection=asc");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var applications = await response.Content.ReadFromJsonAsync<TestApplicationListResponse>();
+        applications.Should().NotBeNull();
+        applications!.Items.Select(application => application.Id).Should().Equal([first.Id, second.Id]);
+    }
+
+    [Fact]
+    public async Task List_PaginatesRequestedPageAfterFilteringAndSorting()
+    {
+        var owner = await factory.RegisterUserAsync();
+        var other = await factory.RegisterUserAsync();
+
+        for (var index = 1; index <= 12; index++)
+        {
+            await owner.Client.CreateApplicationAsync(
+                ApiTestHelpers.ValidApplicationRequest(companyName: $"Company {index:00}"));
+        }
+
+        await other.Client.CreateApplicationAsync(
+            ApiTestHelpers.ValidApplicationRequest(companyName: "Company 13"));
+
+        var response = await owner.Client.GetAsync("/applications/?page=2&sortBy=company&sortDirection=asc");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var applications = await response.Content.ReadFromJsonAsync<TestApplicationListResponse>();
+        applications.Should().NotBeNull();
+        applications!.Items.Select(application => application.CompanyName)
+            .Should()
+            .Equal(["Company 11", "Company 12"]);
+        applications.Page.Should().Be(2);
+        applications.PageSize.Should().Be(10);
+        applications.TotalItems.Should().Be(12);
+        applications.TotalPages.Should().Be(2);
+    }
+
+    [Theory]
+    [InlineData("/applications/?page=0")]
+    [InlineData("/applications/?status=not_a_status")]
+    [InlineData("/applications/?sortBy=createdAt")]
+    [InlineData("/applications/?sortDirection=sideways")]
+    public async Task List_ReturnsValidationProblem_WhenQueryIsInvalid(string url)
+    {
+        var user = await factory.RegisterUserAsync();
+
+        var response = await user.Client.GetAsync(url);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]

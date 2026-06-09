@@ -15,7 +15,11 @@ public sealed class ApplicationMalformedIdentityTests
     public async Task List_ReturnsUnauthorized_WhenUserIdClaimIsMalformed()
     {
         await AssertUnauthorizedAsync(async dbContext =>
-            (IResult)await ApplicationList.Handle(dbContext, MalformedPrincipal(), CancellationToken.None));
+            (IResult)await ApplicationList.Handle(
+                new ApplicationListRequestDto(),
+                dbContext,
+                MalformedPrincipal(),
+                CancellationToken.None));
     }
 
     [Fact]

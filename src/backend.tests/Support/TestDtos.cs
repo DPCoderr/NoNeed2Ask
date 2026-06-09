@@ -23,6 +23,13 @@ public sealed record TestApplicationResponse(
     DateTimeOffset CreatedAt,
     DateTimeOffset UpdatedAt);
 
+public sealed record TestApplicationListResponse(
+    List<TestApplicationResponse> Items,
+    int Page,
+    int PageSize,
+    int TotalItems,
+    int TotalPages);
+
 public sealed record TestUser(
     HttpClient Client,
     Guid Id,

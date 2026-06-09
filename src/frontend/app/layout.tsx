@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { QueryProvider } from "@/components/providers/query-provider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -38,7 +40,9 @@ export default async function RootLayout({
       )}
     >
       <body className="min-h-full bg-background font-sans text-foreground">
-        {children}
+        <NuqsAdapter>
+          <QueryProvider>{children}</QueryProvider>
+        </NuqsAdapter>
 
         <SpeedInsights />
       </body>
