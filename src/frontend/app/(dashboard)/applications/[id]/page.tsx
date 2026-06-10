@@ -1,13 +1,11 @@
 import Link from "next/link"
-import { headers } from "next/headers"
-import { notFound } from "next/navigation"
 
 import { PageShell } from "@/components/layout/page-shell"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { getApplication } from "@/lib/api/applications"
-import { ApiResponseError } from "@/lib/api/errors"
 import type { ApplicationStatus } from "@/lib/api/types"
+
+import { loadApplication } from "../_lib/load-application"
 
 const statusLabels: Record<ApplicationStatus, string> = {
   applied: "Applied",
@@ -47,34 +45,6 @@ type ApplicationDetailPageProps = {
   params: Promise<{
     id: string
   }>
-}
-
-async function getApplicationsApiBaseUrl() {
-  const headerStore = await headers()
-  const host = headerStore.get("host") ?? "localhost:3000"
-  const protocol = headerStore.get("x-forwarded-proto") ?? "http"
-
-  return {
-    baseUrl: `${protocol}://${host}/api/applications`,
-    cookie: headerStore.get("cookie") ?? undefined,
-  }
-}
-
-async function loadApplication(id: string) {
-  const { baseUrl, cookie } = await getApplicationsApiBaseUrl()
-
-  try {
-    return await getApplication(id, {
-      baseUrl,
-      headers: cookie ? { cookie } : undefined,
-    })
-  } catch (error) {
-    if (error instanceof ApiResponseError && error.status === 404) {
-      notFound()
-    }
-
-    throw error
-  }
 }
 
 export default async function ApplicationDetailPage({
@@ -146,7 +116,7 @@ export default async function ApplicationDetailPage({
           <Link href="/applications">Back to applications</Link>
         </Button>
         <Button asChild>
-          <Link href={`/applications/${application.id}?edit=true`}>
+          <Link href={`/applications/${application.id}/update`}>
             Edit application
           </Link>
         </Button>

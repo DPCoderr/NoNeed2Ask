@@ -52,10 +52,15 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { createApplication } from "@/lib/api/applications"
+import {
+  createApplication,
+  updateApplication,
+} from "@/lib/api/applications"
 import type {
   ApplicationStatus,
   CreateApplicationRequestDto,
+  PrivateApplicationDto,
+  UpdateApplicationRequestDto,
 } from "@/lib/api/types"
 import { applyApiFormErrors } from "@/lib/forms"
 import {
@@ -64,6 +69,16 @@ import {
 } from "@/lib/validation/applications"
 
 import { statusDetails, statuses } from "../application-list-config"
+
+type ApplicationFormProps =
+  | {
+      mode: "create"
+      application?: never
+    }
+  | {
+      mode: "update"
+      application: PrivateApplicationDto
+    }
 
 const fieldNames = {
   CompanyName: "companyName",
@@ -120,6 +135,52 @@ function formatDateInputValue(date: Date) {
   return `${year}-${month}-${day}`
 }
 
+function formatTimeInputValue(date: Date) {
+  const hours = String(date.getHours()).padStart(2, "0")
+  const minutes = String(date.getMinutes()).padStart(2, "0")
+  const seconds = String(date.getSeconds()).padStart(2, "0")
+
+  return `${hours}:${minutes}:${seconds}`
+}
+
+function toDateTimeInputValue(value: string | null) {
+  if (!value) {
+    return ""
+  }
+
+  const date = new Date(value)
+
+  return Number.isNaN(date.getTime())
+    ? ""
+    : `${formatDateInputValue(date)}T${formatTimeInputValue(date)}`
+}
+
+function getDefaultValues(
+  application?: PrivateApplicationDto
+): CreateApplicationFormValues {
+  if (!application) {
+    return {
+      companyName: "",
+      jobTitle: "",
+      status: "applied",
+      publicNote: "",
+      privateNote: "",
+      lastContactAt: "",
+      nextActionAt: "",
+    }
+  }
+
+  return {
+    companyName: application.companyName,
+    jobTitle: application.jobTitle,
+    status: application.status,
+    publicNote: application.publicNote ?? "",
+    privateNote: application.privateNote ?? "",
+    lastContactAt: toDateTimeInputValue(application.lastContactAt),
+    nextActionAt: toDateTimeInputValue(application.nextActionAt),
+  }
+}
+
 function getDateValue(value: string) {
   return value.split("T")[0] ?? ""
 }
@@ -150,7 +211,7 @@ function getDateTimeValue(dateValue: string, timeValue: string) {
 
 function toCreateApplicationRequest(
   values: CreateApplicationFormValues
-): CreateApplicationRequestDto {
+): CreateApplicationRequestDto | UpdateApplicationRequestDto {
   return {
     companyName: values.companyName.trim(),
     jobTitle: values.jobTitle.trim(),
@@ -294,17 +355,25 @@ function ApplicationFormSection({
   )
 }
 
-export function ApplicationCreateForm() {
+function ApplicationForm({ mode, application }: ApplicationFormProps) {
   const [currentStep, setCurrentStep] = React.useState(0)
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false)
   const queryClient = useQueryClient()
   const router = useRouter()
-  const createApplicationMutation = useMutation({
-    mutationFn: (request: CreateApplicationRequestDto) =>
-      createApplication(request),
-    onSuccess: async (application) => {
+  const saveApplicationMutation = useMutation({
+    mutationFn: async (
+      request: CreateApplicationRequestDto | UpdateApplicationRequestDto
+    ) => {
+      if (mode === "update") {
+        await updateApplication(application.id, request)
+        return application
+      }
+
+      return createApplication(request)
+    },
+    onSuccess: async (savedApplication) => {
       await queryClient.invalidateQueries({ queryKey: ["applications"] })
-      router.push(`/applications/${application.id}`)
+      router.push(`/applications/${savedApplication.id}`)
       router.refresh()
     },
   })
@@ -317,18 +386,19 @@ export function ApplicationCreateForm() {
     setError,
     trigger,
   } = useForm<CreateApplicationFormValues>({
-    defaultValues: {
-      companyName: "",
-      jobTitle: "",
-      status: "applied",
-      publicNote: "",
-      privateNote: "",
-      lastContactAt: "",
-      nextActionAt: "",
-    },
+    defaultValues: getDefaultValues(application),
     resolver: zodResolver(createApplicationFormSchema),
   })
-  const isSaving = isSubmitting || createApplicationMutation.isPending
+  const isSaving = isSubmitting || saveApplicationMutation.isPending
+  const isUpdate = mode === "update"
+  const actionLabel = isUpdate ? "Save changes" : "Create application"
+  const confirmTitle = isUpdate
+    ? "Save these changes?"
+    : "Create this application?"
+  const confirmDescription = isUpdate
+    ? "This will update the application with the details shown in the form."
+    : "This will save the application and add it to your list."
+  const pendingLabel = isUpdate ? "Saving..." : "Creating..."
   const currentStepDetails = formSteps[currentStep] ?? formSteps[0]
   const isFirstStep = currentStep === 0
   const isLastStep = currentStep === formSteps.length - 1
@@ -378,13 +448,15 @@ export function ApplicationCreateForm() {
     clearErrors("root")
 
     try {
-      await createApplicationMutation.mutateAsync(
+      await saveApplicationMutation.mutateAsync(
         toCreateApplicationRequest(values)
       )
     } catch (caughtError) {
       applyApiFormErrors({
         error: caughtError,
-        fallbackMessage: "We could not create this application. Please try again.",
+        fallbackMessage: isUpdate
+          ? "We could not update this application. Please try again."
+          : "We could not create this application. Please try again.",
         fieldNames,
         setError,
       })
@@ -610,13 +682,13 @@ export function ApplicationCreateForm() {
                   onClick={handleOpenConfirmDialog}
                   type="button"
                 >
-                  Create application
+                  {actionLabel}
                 </Button>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Create this application?</AlertDialogTitle>
+                    <AlertDialogTitle>{confirmTitle}</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This will save the application and add it to your list.
+                      {confirmDescription}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
@@ -628,7 +700,7 @@ export function ApplicationCreateForm() {
                       onClick={() => void handleSubmit(onSubmit)()}
                       type="button"
                     >
-                      {isSaving ? "Creating..." : "Create application"}
+                      {isSaving ? pendingLabel : actionLabel}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
@@ -648,4 +720,16 @@ export function ApplicationCreateForm() {
       </Card>
     </form>
   )
+}
+
+export function ApplicationCreateForm() {
+  return <ApplicationForm mode="create" />
+}
+
+export function ApplicationUpdateForm({
+  application,
+}: {
+  application: PrivateApplicationDto
+}) {
+  return <ApplicationForm application={application} mode="update" />
 }

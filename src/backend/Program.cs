@@ -1,7 +1,9 @@
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NoNeed2Ask.Api.Database;
+using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Features;
 using Scalar.AspNetCore;
 
@@ -61,6 +63,12 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
+
+    if (app.Environment.IsDevelopment())
+    {
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+        await DevelopmentDataSeeder.SeedAsync(dbContext, userManager);
+    }
 }
 
 app.UseForwardedHeaders();

@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
-import {
-  pipelineStages,
-  pipelineTotal,
-} from "@/components/dashboard/dashboard-data";
+import type { PipelineStage } from "@/components/dashboard/dashboard-data";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
 
-export function JobSearchDistributionCard() {
+export function JobSearchDistributionCard({
+  stages,
+  total,
+}: {
+  stages: PipelineStage[];
+  total: number;
+}) {
   return (
     <article className="rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6">
       <div className="flex items-start justify-between gap-3 xl:items-center xl:gap-4">
@@ -37,7 +40,7 @@ export function JobSearchDistributionCard() {
       </div>
 
       <div className="mt-5 space-y-4 xl:mt-7 xl:space-y-5">
-        {pipelineStages.map((stage) => (
+        {stages.map((stage) => (
           <div
             className="grid grid-cols-[2.25rem_minmax(0,1fr)] items-center gap-x-2 gap-y-2 xl:grid-cols-[3rem_9.5rem_minmax(10rem,1fr)_2rem_2.75rem] xl:gap-3"
             key={stage.label}
@@ -71,7 +74,7 @@ export function JobSearchDistributionCard() {
 
         <div className="flex items-center justify-between border-t border-blue-950/10 pt-4 text-sm font-semibold text-slate-950">
           <span>Total</span>
-          <span>{pipelineTotal} applications</span>
+          <span>{total} applications</span>
         </div>
       </div>
     </article>

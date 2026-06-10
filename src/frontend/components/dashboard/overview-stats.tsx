@@ -1,4 +1,4 @@
-import { overviewStats } from "@/components/dashboard/dashboard-data";
+import type { OverviewStat } from "@/components/dashboard/dashboard-data";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
 
 function StatCard({
@@ -42,10 +42,10 @@ function StatCard({
   );
 }
 
-export function OverviewStats() {
+export function OverviewStats({ stats }: { stats: OverviewStat[] }) {
   return (
     <section className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-3 pt-1 sm:gap-4 sm:pt-2">
-      {overviewStats.map((stat) => (
+      {stats.map((stat) => (
         <StatCard
           detail={stat.detail}
           icon={stat.icon}

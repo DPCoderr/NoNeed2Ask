@@ -40,6 +40,8 @@ export type CreateApplicationRequestDto = {
   nextActionAt: string | null
 }
 
+export type UpdateApplicationRequestDto = CreateApplicationRequestDto
+
 export type ApplicationListSortBy = "company" | "role" | "status" | "lastUpdated"
 
 export type ApplicationListSortDirection = "asc" | "desc"

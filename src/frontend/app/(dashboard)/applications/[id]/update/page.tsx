@@ -3,9 +3,21 @@ import Link from "next/link"
 import { PageShell } from "@/components/layout/page-shell"
 import { Button } from "@/components/ui/button"
 
-import { ApplicationCreateForm } from "../_components/application-form"
+import { ApplicationUpdateForm } from "../../_components/application-form"
+import { loadApplication } from "../../_lib/load-application"
 
-export default function CreateApplicationPage() {
+type UpdateApplicationPageProps = {
+  params: Promise<{
+    id: string
+  }>
+}
+
+export default async function UpdateApplicationPage({
+  params,
+}: UpdateApplicationPageProps) {
+  const { id } = await params
+  const application = await loadApplication(id)
+
   return (
     <PageShell
       background="landing"
@@ -15,19 +27,19 @@ export default function CreateApplicationPage() {
         <div className="min-w-0">
           <p className="text-sm font-semibold text-blue-700">Applications</p>
           <h1 className="mt-1 text-2xl font-semibold tracking-normal text-slate-950 sm:text-3xl">
-            Create application
+            Update application
           </h1>
           <p className="mt-2 max-w-2xl text-sm font-medium text-blue-950/70 sm:text-base">
-            Add the role, status, and notes you want to track.
+            Update the role, status, dates, and notes for {application.companyName}.
           </p>
         </div>
 
         <Button asChild className="h-10 rounded-lg px-4" variant="outline">
-          <Link href="/applications">Back to list</Link>
+          <Link href={`/applications/${application.id}`}>Back to details</Link>
         </Button>
       </header>
 
-      <ApplicationCreateForm />
+      <ApplicationUpdateForm application={application} />
     </PageShell>
   )
 }

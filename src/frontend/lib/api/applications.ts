@@ -4,6 +4,7 @@ import type {
   ApplicationListResponseDto,
   CreateApplicationRequestDto,
   PrivateApplicationDto,
+  UpdateApplicationRequestDto,
 } from "./types"
 
 const proxiedApplicationsBaseUrl = "/api/applications"
@@ -96,6 +97,50 @@ export async function getApplication(
 
   return apiFetch<PrivateApplicationDto>(input, {
     method: "GET",
+    credentials: "include",
+    cache: "no-store",
+    ...fetchOptions,
+  })
+}
+
+export async function updateApplication(
+  id: string,
+  request: UpdateApplicationRequestDto,
+  options?: ApiRequestOptions & { baseUrl?: string }
+) {
+  const { baseUrl = proxiedApplicationsBaseUrl, ...fetchOptions } =
+    options ?? {}
+  const headers = new Headers(fetchOptions.headers)
+  const url = new URL(baseUrl, "http://localhost")
+
+  url.pathname = `${url.pathname.replace(/\/$/, "")}/${encodeURIComponent(id)}`
+  headers.set("Content-Type", "application/json")
+
+  const input = baseUrl.startsWith("/") ? `${url.pathname}${url.search}` : url.toString()
+
+  return apiFetch<void>(input, {
+    method: "PUT",
+    credentials: "include",
+    cache: "no-store",
+    ...fetchOptions,
+    headers,
+    body: JSON.stringify(request),
+  })
+}
+
+export async function deleteApplication(
+  id: string,
+  options?: ApiRequestOptions & { baseUrl?: string }
+) {
+  const { baseUrl = proxiedApplicationsBaseUrl, ...fetchOptions } =
+    options ?? {}
+  const url = new URL(baseUrl, "http://localhost")
+
+  url.pathname = `${url.pathname.replace(/\/$/, "")}/${encodeURIComponent(id)}`
+  const input = baseUrl.startsWith("/") ? `${url.pathname}${url.search}` : url.toString()
+
+  return apiFetch<void>(input, {
+    method: "DELETE",
     credentials: "include",
     cache: "no-store",
     ...fetchOptions,

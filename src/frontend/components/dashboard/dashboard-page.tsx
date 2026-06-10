@@ -4,6 +4,8 @@ import { NextActionCard } from "@/components/dashboard/next-action-card";
 import { OverviewStats } from "@/components/dashboard/overview-stats";
 import { RecentApplicationsCard } from "@/components/dashboard/recent-applications-card";
 import { PageShell } from "@/components/layout/page-shell";
+import { getDashboardApplications } from "@/components/dashboard/dashboard-applications";
+import { buildDashboardData } from "@/components/dashboard/dashboard-data";
 import { getCurrentUserServer } from "@/lib/auth/get-current-user-server";
 
 export async function DashboardPage() {
@@ -14,6 +16,8 @@ export async function DashboardPage() {
   }
 
   const publicSlug = `${user.username}-job-search`;
+  const applications = await getDashboardApplications();
+  const dashboardData = buildDashboardData(applications);
 
   return (
     <PageShell
@@ -25,17 +29,20 @@ export async function DashboardPage() {
         userDisplayName={user.username}
       />
 
-      <OverviewStats />
+      <OverviewStats stats={dashboardData.overviewStats} />
 
       <section className="grid gap-4 md:gap-4 xl:grid-cols-[1.08fr_0.94fr]">
-        <JobSearchDistributionCard />
+        <JobSearchDistributionCard
+          stages={dashboardData.pipelineStages}
+          total={dashboardData.pipelineTotal}
+        />
         <div className="grid">
-          <NextActionCard />
+          <NextActionCard {...dashboardData.nextAction} />
         </div>
       </section>
 
       <section>
-        <RecentApplicationsCard />
+        <RecentApplicationsCard applications={dashboardData.recentApplications} />
       </section>
     </PageShell>
   );

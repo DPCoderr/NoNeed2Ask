@@ -3,44 +3,26 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import {
-  recentApplications,
-  type RecentApplication,
-} from "@/components/dashboard/dashboard-data";
+import type { RecentApplication } from "@/components/dashboard/dashboard-data";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
 
 function getUpdateTitle(application: RecentApplication) {
-  if (application.status === "Interview planned") {
+  if (application.status === "interview_planned") {
     return `Interview planned with ${application.companyName}`;
   }
 
-  if (application.status === "Interview done") {
+  if (application.status === "interview_done") {
     return `Interview completed with ${application.companyName}`;
   }
 
   if (
-    application.status === "Waiting response" ||
-    application.status === "Applied"
+    application.status === "waiting_response" ||
+    application.status === "applied"
   ) {
     return `Application submitted to ${application.companyName}`;
   }
 
-  return `${application.status} at ${application.companyName}`;
-}
-
-function getUpdateDate(value: string) {
-  const date = value.replace(/^Updated\s+/i, "");
-
-  return /\d{4}/.test(date) ? date : `${date}, 2026`;
-}
-
-function getDateTimeAttribute(value: string) {
-  const date = value.replace(/^Updated\s+/i, "");
-  const parsedDate = new Date(`${date}, 2026`);
-
-  return Number.isNaN(parsedDate.getTime())
-    ? undefined
-    : parsedDate.toISOString();
+  return `${application.statusLabel} at ${application.companyName}`;
 }
 
 function RecentApplicationRow({
@@ -83,13 +65,13 @@ function RecentApplicationRow({
         className={`col-start-3 pb-4 text-sm font-semibold text-blue-950/75 md:col-start-auto md:py-5 ${
           isLast ? "" : "md:border-b md:border-blue-950/10"
         }`}
-        dateTime={getDateTimeAttribute(application.updated)}
+        dateTime={application.dateTime}
       >
         <HugeiconsIcon
           className="mr-2 inline size-4 align-[-2px] text-blue-900/80"
           icon={Calendar03Icon}
         />
-        {getUpdateDate(application.updated)}
+        {application.updatedLabel}
       </time>
     </div>
   );
@@ -113,7 +95,7 @@ function RecentApplicationsTimeline({
         <RecentApplicationRow
           application={application}
           isLast={index === applications.length - 1}
-          key={`${application.companyName}-${application.jobTitle}`}
+          key={application.id}
         />
       ))}
     </div>
@@ -153,13 +135,21 @@ function RecentApplicationsHeader() {
   );
 }
 
-export function RecentApplicationsCard() {
-  const visibleApplications = recentApplications;
-
+export function RecentApplicationsCard({
+  applications,
+}: {
+  applications: RecentApplication[];
+}) {
   return (
     <article className="rounded-2xl border border-white/80 bg-white/88 p-5 shadow-xl shadow-blue-950/10 backdrop-blur-xl md:p-7">
       <RecentApplicationsHeader />
-      <RecentApplicationsTimeline applications={visibleApplications} />
+      {applications.length > 0 ? (
+        <RecentApplicationsTimeline applications={applications} />
+      ) : (
+        <p className="mt-6 rounded-lg border border-blue-950/10 bg-white/55 p-4 text-sm font-semibold text-blue-950/75">
+          No applications yet.
+        </p>
+      )}
     </article>
   );
 }

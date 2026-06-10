@@ -2,7 +2,6 @@
 
 import { useApplicationsList } from "../_lib/use-applications-list"
 import { ApplicationsResults } from "./applications-results/applications-results"
-import { ApplicationsStatusSummary } from "./applications-status-summary"
 import { ApplicationsToolbar } from "./applications-toolbar/applications-toolbar"
 
 // Composes the applications list page from data state and focused view sections.
@@ -11,7 +10,7 @@ export function ApplicationsList() {
 
   return (
     <>
-      <ApplicationsStatusSummary applications={applications.items} />
+      {/* <ApplicationsStatusSummary applications={applications.items} /> */}
 
       {isError ? (
         <div className="rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">

@@ -38,19 +38,6 @@ export function CompanyMark({ companyName }: { companyName: string }) {
   )
 }
 
-// Placeholder for row actions until the actions menu is implemented.
-export function MoreButton() {
-  return (
-    <button
-      aria-label="Application actions"
-      className="flex size-8 items-center justify-center rounded-md text-blue-950 hover:bg-blue-50"
-      type="button"
-    >
-      ...
-    </button>
-  )
-}
-
 // Keeps date display consistent between desktop and mobile rows.
 export function formatDate(value: string) {
   return new Intl.DateTimeFormat("en", {

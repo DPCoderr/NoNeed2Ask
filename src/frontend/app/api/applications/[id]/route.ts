@@ -62,13 +62,15 @@ async function proxyApplicationRequest(request: NextRequest, context: RouteConte
     encodeURIComponent(id),
     `${backendApplicationsBaseUrl}/`
   )
+  const hasBody = request.method !== "GET" && request.method !== "HEAD"
 
   let upstreamResponse: Response
 
   try {
     upstreamResponse = await fetch(upstreamUrl, {
-      method: "GET",
+      method: request.method,
       headers: createBackendHeaders(request),
+      body: hasBody ? await request.text() : undefined,
       cache: "no-store",
     })
   } catch (error) {
@@ -90,5 +92,13 @@ async function proxyApplicationRequest(request: NextRequest, context: RouteConte
 export const dynamic = "force-dynamic"
 
 export async function GET(request: NextRequest, context: RouteContext) {
+  return proxyApplicationRequest(request, context)
+}
+
+export async function PUT(request: NextRequest, context: RouteContext) {
+  return proxyApplicationRequest(request, context)
+}
+
+export async function DELETE(request: NextRequest, context: RouteContext) {
   return proxyApplicationRequest(request, context)
 }

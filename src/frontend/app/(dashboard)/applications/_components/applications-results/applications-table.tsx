@@ -2,10 +2,10 @@ import Link from "next/link"
 
 import type { ApplicationListResponseDto } from "@/lib/api/types"
 
+import { ApplicationActionsMenu } from "./application-actions-menu"
 import {
   CompanyMark,
   formatDate,
-  MoreButton,
   StatusBadge,
 } from "./application-list-ui"
 import { ApplicationsPagination } from "./applications-pagination"
@@ -60,7 +60,7 @@ export function ApplicationsTable({
                 </td>
                 <td className="px-4 py-4 xl:px-5">
                   <div className="flex justify-end">
-                    <MoreButton />
+                    <ApplicationActionsMenu application={application} />
                   </div>
                 </td>
               </tr>
