@@ -7,12 +7,18 @@ import {
 
 import type { ApplicationListRequestDto } from "@/lib/api/types"
 
-import { pageSize, sortDirections, sortValues, statuses } from "./application-list-config"
+import {
+  pageSize,
+  sortDirections,
+  sortValues,
+  statuses,
+} from "../application-list-config"
 
 export type ResolvedApplicationListRequest = Required<ApplicationListRequestDto> & {
   pageSize: number
 }
 
+// Keeps URL search params typed and defaulted before we build an API request.
 export const applicationListParsers = {
   page: parseAsInteger.withDefault(1),
   status: parseAsNativeArrayOf(parseAsStringLiteral(statuses)).withDefault([]),
@@ -21,6 +27,7 @@ export const applicationListParsers = {
   sortDirection: parseAsStringLiteral(sortDirections).withDefault("desc"),
 }
 
+// Normalizes URL state into the exact request shape expected by the API.
 export function toApplicationListRequest(
   query: Omit<ResolvedApplicationListRequest, "pageSize">
 ): ResolvedApplicationListRequest {
@@ -32,6 +39,7 @@ export function toApplicationListRequest(
   }
 }
 
+// Gives React Query a stable cache key for each filter/sort/page combination.
 export function applicationListQueryKey(request: ApplicationListRequestDto) {
   return [
     "applications",

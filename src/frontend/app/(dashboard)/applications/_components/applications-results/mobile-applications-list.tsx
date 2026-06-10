@@ -2,8 +2,14 @@ import Link from "next/link"
 
 import type { PrivateApplicationDto } from "@/lib/api/types"
 
-import { CompanyMark, formatDate, MoreButton, StatusBadge } from "./application-list-ui"
+import {
+  CompanyMark,
+  formatDate,
+  MoreButton,
+  StatusBadge,
+} from "./application-list-ui"
 
+// Compact card view used below the desktop table breakpoint.
 export function MobileApplicationsList({
   applications,
 }: {

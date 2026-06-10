@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 
+// Top row for the applications route, including the create shortcut.
 export function ApplicationsHeader() {
   return (
     <header className="flex h-10 items-center justify-between xl:h-auto xl:flex-row xl:items-end">

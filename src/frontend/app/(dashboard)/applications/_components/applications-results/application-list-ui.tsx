@@ -2,10 +2,11 @@ import Image from "next/image"
 
 import type { ApplicationStatus } from "@/lib/api/types"
 
-import { statusDetails } from "./application-list-config"
+import { statusDetails } from "../../application-list-config"
 
 const iconPath = "/dashboard-icons"
 
+// Small wrapper for dashboard icons used inside table badges.
 function AppIcon({
   alt = "",
   className,
@@ -26,6 +27,7 @@ function AppIcon({
   )
 }
 
+// Uses the company initial when there is no uploaded company logo.
 export function CompanyMark({ companyName }: { companyName: string }) {
   const initial = companyName.trim().charAt(0).toUpperCase() || "?"
 
@@ -36,6 +38,7 @@ export function CompanyMark({ companyName }: { companyName: string }) {
   )
 }
 
+// Placeholder for row actions until the actions menu is implemented.
 export function MoreButton() {
   return (
     <button
@@ -48,6 +51,7 @@ export function MoreButton() {
   )
 }
 
+// Keeps date display consistent between desktop and mobile rows.
 export function formatDate(value: string) {
   return new Intl.DateTimeFormat("en", {
     day: "numeric",
@@ -56,6 +60,7 @@ export function formatDate(value: string) {
   }).format(new Date(value))
 }
 
+// Displays the configured color, label, and optional icon for a status.
 export function StatusBadge({ status }: { status: ApplicationStatus }) {
   const details = statusDetails[status]
 

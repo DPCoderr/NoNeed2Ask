@@ -1,18 +1,16 @@
-"use client"
-
 import { FormEvent } from "react"
 
-import type { ResolvedApplicationListRequest } from "./application-list-query"
+import type { ResolvedApplicationListRequest } from "../../_lib/application-list-query"
 
+// Search submits into URL state instead of filtering local data directly.
 export function ApplicationsSearchField({
   onSearchChange,
   request,
-  placeholder,
 }: {
   onSearchChange: (search: string) => void
   request: ResolvedApplicationListRequest
-  placeholder: string
 }) {
+  // Reads the uncontrolled input only when the user submits the form.
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
@@ -36,7 +34,7 @@ export function ApplicationsSearchField({
         className="min-w-0 flex-1 bg-transparent text-xs font-medium text-blue-950 outline-none placeholder:text-blue-950/50 sm:text-sm"
         defaultValue={request.search}
         name="search"
-        placeholder={placeholder}
+        placeholder="Search applications, companies, roles..."
         type="search"
       />
       <button className="text-xs font-semibold text-blue-700" type="submit">

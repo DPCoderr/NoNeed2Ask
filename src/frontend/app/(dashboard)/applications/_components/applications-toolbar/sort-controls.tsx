@@ -1,5 +1,3 @@
-"use client"
-
 import {
   Select,
   SelectContent,
@@ -12,27 +10,24 @@ import type {
   ApplicationListSortDirection,
 } from "@/lib/api/types"
 
-import { sortOptions } from "./application-list-config"
+import { sortOptions } from "../../application-list-config"
+import type { SortChange } from "./types"
 
 const sortDirectionOptions = [
   { label: "Descending", value: "desc" },
   { label: "Ascending", value: "asc" },
 ] satisfies { label: string; value: ApplicationListSortDirection }[]
 
-type ApplicationsSortControlsProps = {
-  onSortChange: (next: {
-    sortBy?: ApplicationListSortBy
-    sortDirection?: ApplicationListSortDirection
-  }) => void
-  sortBy: ApplicationListSortBy
-  sortDirection: ApplicationListSortDirection
-}
-
+// Dropdown controls for choosing the server-side sort column and direction.
 export function ApplicationsSortControls({
   onSortChange,
   sortBy,
   sortDirection,
-}: ApplicationsSortControlsProps) {
+}: {
+  onSortChange: (next: SortChange) => void
+  sortBy: ApplicationListSortBy
+  sortDirection: ApplicationListSortDirection
+}) {
   return (
     <div className="grid min-w-0 gap-2 sm:grid-cols-2 xl:w-[360px]">
       <Select

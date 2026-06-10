@@ -2,9 +2,15 @@ import Link from "next/link"
 
 import type { ApplicationListResponseDto } from "@/lib/api/types"
 
-import { CompanyMark, formatDate, MoreButton, StatusBadge } from "./application-list-ui"
+import {
+  CompanyMark,
+  formatDate,
+  MoreButton,
+  StatusBadge,
+} from "./application-list-ui"
 import { ApplicationsPagination } from "./applications-pagination"
 
+// Desktop table view for the current page of applications.
 export function ApplicationsTable({
   applications,
   onPageChange,

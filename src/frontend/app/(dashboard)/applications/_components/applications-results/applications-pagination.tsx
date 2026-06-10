@@ -1,7 +1,6 @@
-"use client"
-
 import type { ApplicationListResponseDto } from "@/lib/api/types"
 
+// Builds the "Showing x-y of z" label from the current page metadata.
 function getShowingText(applications: ApplicationListResponseDto) {
   if (applications.totalItems === 0) {
     return "Showing 0 applications"
@@ -13,6 +12,7 @@ function getShowingText(applications: ApplicationListResponseDto) {
   return `Showing ${start}-${end} of ${applications.totalItems} applications`
 }
 
+// Shared pagination footer for desktop and mobile result views.
 export function ApplicationsPagination({
   applications,
   onPageChange,
@@ -23,6 +23,7 @@ export function ApplicationsPagination({
   onPagePrefetch: (page: number) => void
 }) {
   const totalPages = applications.totalPages
+  // Shows up to five page buttons, centered around the current page when possible.
   const pages = Array.from({ length: Math.min(totalPages, 5) }, (_, index) => {
     if (totalPages <= 5) {
       return index + 1

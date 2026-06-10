@@ -3,6 +3,10 @@
 import Image from "next/image"
 import { useRef, useState } from "react"
 
+import type { PrivateApplicationDto } from "@/lib/api/types"
+
+import { statusDetails, statuses } from "../application-list-config"
+
 type StatusCard = {
   icon: string | null
   label: string
@@ -12,6 +16,7 @@ type StatusCard = {
 
 const iconPath = "/dashboard-icons"
 
+// Renders a configured status icon from the dashboard asset folder.
 function StatusIcon({ name }: { name: string }) {
   return (
     <Image
@@ -24,10 +29,27 @@ function StatusIcon({ name }: { name: string }) {
   )
 }
 
-export function StatusCardCarousel({ cards }: { cards: StatusCard[] }) {
+// Converts the current page of applications into the six summary cards.
+function getStatusCards(applications: PrivateApplicationDto[]): StatusCard[] {
+  return statuses.slice(0, 6).map((status) => ({
+    icon: statusDetails[status].icon,
+    label: statusDetails[status].label,
+    shortLabel: statusDetails[status].shortLabel,
+    value: applications.filter((application) => application.status === status).length,
+  }))
+}
+
+// Shows quick status counts, with horizontal scrolling on smaller screens.
+export function ApplicationsStatusSummary({
+  applications,
+}: {
+  applications: PrivateApplicationDto[]
+}) {
+  const cards = getStatusCards(applications)
   const scrollRef = useRef<HTMLDivElement>(null)
   const [isAtEnd, setIsAtEnd] = useState(false)
 
+  // Tracks which side the jump button should point toward.
   function updateScrollState() {
     const scroller = scrollRef.current
 
@@ -42,6 +64,7 @@ export function StatusCardCarousel({ cards }: { cards: StatusCard[] }) {
     )
   }
 
+  // Moves the status cards to the far end or back to the start.
   function handleJump() {
     const scroller = scrollRef.current
 
