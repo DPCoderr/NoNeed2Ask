@@ -3,7 +3,6 @@
 import {
   Briefcase02Icon,
   DashboardSquare01Icon,
-  Globe02Icon,
   Logout02Icon,
   Setting07Icon,
   UserIcon,
@@ -73,15 +72,6 @@ export function AppSidebar({
   const [logoutError, setLogoutError] = useState<string | null>(null);
 
   const accountEmail = currentUser.email;
-  const mainRoutes = [
-    ...workspaceRoutes,
-    {
-      href: `/status/${currentUser.username}-job-search`,
-      label: "Public status",
-      icon: Globe02Icon,
-    },
-  ];
-
   function handleSidebarNavigation() {
     if (isMobile) {
       setOpenMobile(false);
@@ -128,7 +118,7 @@ export function AppSidebar({
           <SidebarGroupLabel>Workspace</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {mainRoutes.map((route) => (
+              {workspaceRoutes.map((route) => (
                 <SidebarMenuItem key={route.href}>
                   <SidebarMenuButton
                     asChild

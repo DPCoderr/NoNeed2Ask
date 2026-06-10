@@ -13,16 +13,18 @@ type LandingNavItem = {
 };
 
 type LandingNavbarProps = {
+  isAuthenticated?: boolean;
   navItems?: LandingNavItem[];
 };
 
 const defaultNavItems = [
   { href: "#features", label: "Features" },
-  { href: "#public-page", label: "Public page" },
-  { href: "#control", label: "Control" },
+  { href: "#applications", label: "Applications" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export function LandingNavbar({
+  isAuthenticated = false,
   navItems = defaultNavItems,
 }: LandingNavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,14 +63,25 @@ export function LandingNavbar({
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2 md:flex">
-          <Button asChild size="lg">
-            <Link href="/login">Login</Link>
-          </Button>
-          <Button asChild size="lg" variant="outline" className="bg-white/50">
-            <Link href="/register">Sign Up</Link>
-          </Button>
-        </div>
+        {isAuthenticated ? (
+          <div className="hidden items-center gap-2 md:flex">
+            <Button asChild size="lg">
+              <Link href="/">Dashboard</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="bg-white/50">
+              <Link href="/applications">Applications</Link>
+            </Button>
+          </div>
+        ) : (
+          <div className="hidden items-center gap-2 md:flex">
+            <Button asChild size="lg">
+              <Link href="/login">Login</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="bg-white/50">
+              <Link href="/register">Sign Up</Link>
+            </Button>
+          </div>
+        )}
 
         <button
           aria-expanded={isMenuOpen}
@@ -109,18 +122,36 @@ export function LandingNavbar({
               </a>
             ))}
           </nav>
-          <div className="mt-3 grid gap-2">
-            <Button asChild size="lg">
-              <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                Login
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-                Sign Up
-              </Link>
-            </Button>
-          </div>
+          {isAuthenticated ? (
+            <div className="mt-3 grid gap-2">
+              <Button asChild size="lg">
+                <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                  Dashboard
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link
+                  href="/applications"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Applications
+                </Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="mt-3 grid gap-2">
+              <Button asChild size="lg">
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                  Login
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link href="/register" onClick={() => setIsMenuOpen(false)}>
+                  Sign Up
+                </Link>
+              </Button>
+            </div>
+          )}
         </div>
       ) : null}
     </header>

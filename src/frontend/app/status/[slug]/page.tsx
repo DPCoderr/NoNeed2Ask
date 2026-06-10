@@ -1,20 +1,18 @@
 import {
   Calendar03Icon,
   DashboardSquare01Icon,
-  HeartCheckIcon,
-  QuoteUpIcon,
   Shield01Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { cookies } from "next/headers"
 import Image from "next/image"
 import Link from "next/link"
+import type { ReactNode } from "react"
 
+import { NextActionCard } from "@/components/dashboard/next-action-card"
 import { LandingNavbar } from "@/components/layout/landing-navbar"
-import { PageShell } from "@/components/layout/page-shell"
 import { Button } from "@/components/ui/button"
-import { authCookieName } from "@/lib/auth/cookies"
 import { mockPublicStatusEnabledResponse } from "@/lib/api/fixtures"
+import { getCurrentUserServer } from "@/lib/auth/get-current-user-server"
 import type {
   ApplicationStatus,
   PublicStatusApplicationDto,
@@ -28,6 +26,73 @@ const publicStatusNavItems = [
   { href: "#journey", label: "Journey" },
   { href: "#updates", label: "Updates" },
 ]
+
+function StatusPageFrame({
+  children,
+  isAuthenticated,
+}: {
+  children: ReactNode
+  isAuthenticated: boolean
+}) {
+  return (
+    <main className="relative isolate min-h-svh overflow-hidden bg-[#f6faff] text-slate-950">
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 z-0 bg-cover bg-no-repeat"
+        style={{ backgroundImage: "url('/bg-userpage-light.jpg')" }}
+      />
+      <div className="fixed inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(246_250_255/0.96)_100%)]" />
+      <div className="fixed inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]" />
+
+      <LandingNavbar
+        isAuthenticated={isAuthenticated}
+        navItems={publicStatusNavItems}
+      />
+
+      {children}
+    </main>
+  )
+}
+
+function StatusPageContentFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="relative z-10 mx-auto flex w-full max-w-screen-2xl flex-col gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10">
+      {children}
+    </div>
+  )
+}
+
+function PrivateStatusMessage({
+  isAuthenticated,
+  slug,
+}: {
+  isAuthenticated: boolean
+  slug: string
+}) {
+  return (
+    <div className="relative z-10 px-6 py-10">
+      <div className="mx-auto max-w-3xl rounded-xl border border-white/80 bg-white/78 p-8 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+        <p className="text-sm font-semibold text-blue-700">
+          Public status / {slug}
+        </p>
+        <h1 className="mt-4 text-3xl font-semibold tracking-normal">
+          This status page is private
+        </h1>
+        <p className="mt-3 leading-7 text-blue-950/70">
+          This status page is currently private.
+        </p>
+        {isAuthenticated ? (
+          <Button asChild className="mt-7 rounded-lg">
+            <Link href="/">
+              <HugeiconsIcon icon={DashboardSquare01Icon} />
+              Return to dashboard
+            </Link>
+          </Button>
+        ) : null}
+      </div>
+    </div>
+  )
+}
 
 const statusLabels: Record<ApplicationStatus, string> = {
   applied: "Applied",
@@ -163,15 +228,15 @@ function JourneyCard({
           />
           <div className="min-w-0">
             <h2 className="text-lg font-semibold tracking-normal text-slate-950 xl:text-xl">
-              Job Search Journey
+              Job Search Distribution
             </h2>
             <p className="mt-0.5 text-xs font-medium text-blue-950/75 xl:mt-1 xl:text-sm">
-              Here&apos;s where things stand right now.
+              Where all visible applications stand right now.
             </p>
           </div>
         </div>
-        <span className="rounded-lg border border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 xl:px-4 xl:py-2 xl:text-sm">
-          {applications.length} tracked
+        <span className="h-8 rounded-lg border border-blue-100 bg-white/70 px-3 py-2 text-xs font-semibold leading-none text-slate-950 xl:h-9 xl:px-4 xl:text-sm">
+          All time
         </span>
       </div>
 
@@ -229,15 +294,15 @@ function JourneyCard({
         })}
 
         <div className="flex items-center justify-between border-t border-blue-950/10 pt-4 text-sm font-semibold text-slate-950">
-          <span>Current stage</span>
-          <span>{activeStage}</span>
+          <span>Total</span>
+          <span>3 Applications</span>
         </div>
       </div>
     </section>
   )
 }
 
-function CurrentFocusCard({
+function PublicNextActionCard({
   focus,
 }: {
   focus: PublicStatusApplicationDto | undefined
@@ -246,73 +311,28 @@ function CurrentFocusCard({
     return null
   }
 
+  const timelineValue = formatDateTime(focus.nextActionAt ?? focus.updatedAt)
+  const badge = formatDate(focus.nextActionAt ?? focus.updatedAt, {
+    month: "short",
+    day: "numeric",
+  })
+  const statusLabel = statusLabels[focus.status]
+
   return (
-    <section className="flex flex-col rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 xl:min-h-[22rem] xl:p-6">
-      <div className="flex items-start justify-between gap-3 xl:gap-4">
-        <div className="flex min-w-0 gap-3 xl:gap-4">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100/80 xl:size-14">
-            <PublicIcon
-              className="size-8 text-blue-700 xl:size-10"
-              name={statusIconMap[focus.status]}
-            />
-          </div>
-          <div className="min-w-0">
-            <h2 className="text-lg font-semibold text-slate-950 xl:text-xl">
-              Current focus
-            </h2>
-            <p className="mt-2 max-w-sm text-sm font-semibold leading-6 text-slate-950 xl:mt-4 xl:text-base xl:leading-7">
-              {focus.companyName}
-            </p>
-            <p className="mt-1 max-w-xs text-xs font-medium leading-5 text-blue-950/75 xl:mt-2 xl:text-sm xl:leading-6">
-              {focus.jobTitle}
-            </p>
-          </div>
-        </div>
-        <span className="rounded-lg border border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 xl:px-4 xl:py-2 xl:text-sm">
-          {statusLabels[focus.status]}
-        </span>
-      </div>
-
-      <div className="mt-4 grid gap-3 xl:mt-7 xl:grid-cols-2">
-        <div className="rounded-lg border border-blue-950/10 bg-white/55 p-3 xl:p-4">
-          <p className="text-xs font-semibold uppercase tracking-normal text-blue-950/55">
-            Timeline
-          </p>
-          <p className="mt-2 text-sm font-semibold text-slate-950">
-            {formatDateTime(focus.nextActionAt ?? focus.updatedAt)}
-          </p>
-          <p className="mt-1 text-sm font-medium text-blue-950/65">
-            {focus.nextActionAt ? "Next action" : "Last update"}
-          </p>
-        </div>
-        <div className="rounded-lg border border-blue-950/10 bg-white/55 p-3 xl:p-4">
-          <p className="text-xs font-semibold uppercase tracking-normal text-blue-950/55">
-            Status
-          </p>
-          <p className="mt-2 text-sm font-semibold text-slate-950">
-            {statusLabels[focus.status]}
-          </p>
-          <p className="mt-1 text-sm font-medium text-blue-950/65">
-            Latest public signal
-          </p>
-        </div>
-      </div>
-
-      {focus.publicNote ? (
-        <div className="mt-3 rounded-lg border border-blue-950/10 bg-blue-50/45 p-3 xl:mt-4 xl:p-4">
-          <p className="text-sm font-semibold text-slate-950">
-            Shared note
-          </p>
-          <p className="mt-2 flex gap-3 text-sm font-medium leading-6 text-blue-950/70">
-            <HugeiconsIcon
-              className="mt-1 size-4 shrink-0 text-blue-700"
-              icon={QuoteUpIcon}
-            />
-            <span>{focus.publicNote}</span>
-          </p>
-        </div>
-      ) : null}
-    </section>
+    <NextActionCard
+      badge={badge}
+      contactDetail={focus.companyName}
+      contactLabel="Company"
+      contactName={focus.companyName}
+      note={focus.publicNote ?? "No public note shared yet."}
+      noteTitle="Shared note"
+      primaryText={`${statusLabel} at ${focus.companyName}`}
+      secondaryText={`${focus.jobTitle} is visible on the public tracker.`}
+      showActions={false}
+      timelineDetail={focus.nextActionAt ? "Next public action" : "Last public update"}
+      timelineLabel={focus.nextActionAt ? "Next action" : "Timeline"}
+      timelineValue={timelineValue}
+    />
   )
 }
 
@@ -321,12 +341,15 @@ function PublicOverviewStats({
 }: {
   applications: PublicStatusApplicationDto[]
 }) {
-  const plannedCount = applications.filter(
-    (application) => application.status === "interview_planned"
-  ).length
   const activeCount = applications.filter(
     (application) =>
       !["rejected", "ghosted", "paused"].includes(application.status)
+  ).length
+  const waitingCount = applications.filter(
+    (application) => application.status === "waiting_response"
+  ).length
+  const interviewCount = applications.filter((application) =>
+    ["interview_planned", "interview_done"].includes(application.status)
   ).length
   const offerCount = applications.filter(
     (application) => application.status === "offer"
@@ -334,43 +357,53 @@ function PublicOverviewStats({
 
   const stats = [
     {
-      detail: ["Applications in view", "Updated publicly"],
-      icon: "AppliedStatusIcon.svg",
-      title: "Tracked",
-      value: applications.length,
-    },
-    {
-      detail: ["Still moving", "Across the pipeline"],
-      icon: "WaitingStatusIcon.svg",
-      title: "Active",
+      detail: [`${applications.length} visible publicly`],
+      icon: "icon_map.png",
+      title: "Active applications",
       value: activeCount,
     },
     {
-      detail: ["Interviews booked", "Next conversations"],
-      icon: "PlannedStatusIcon.svg",
-      title: plannedCount === 1 ? "Interview" : "Interviews",
-      value: plannedCount,
+      detail: ["Waiting for replies"],
+      icon: "icon_camp.png",
+      title: "Waiting responses",
+      tone: "text-orange-600",
+      value: waitingCount,
+    },
+    {
+      detail: ["Planned and completed"],
+      icon: "icon_mountain.png",
+      title: "Interview pipeline",
+      value: interviewCount,
     },
     {
       detail: ["Offer stage", "Best outcome so far"],
-      icon: "OfferStatusIcon.svg",
-      title: offerCount === 1 ? "Offer" : "Offers",
+      icon: "icon_camp.png",
+      title: "Offers",
+      tone: "text-orange-600",
       value: offerCount,
     },
   ]
 
   return (
     <section
-      className="grid scroll-mt-28 gap-3 pt-1 sm:gap-4 sm:pt-2 md:grid-cols-2 xl:grid-cols-4"
+      className="grid scroll-mt-28 grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-3 pt-1 sm:gap-4 sm:pt-2"
       id="overview"
     >
       {stats.map((stat) => (
         <article
-          className="rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6"
+          className="relative overflow-hidden rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6"
           key={stat.title}
         >
-          <div className="flex items-center justify-between gap-3 sm:gap-5">
-            <div className="min-w-0">
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-3/5 bg-gradient-to-l from-blue-200/90 via-blue-100/55 to-transparent" />
+          <PublicIcon
+            className={`pointer-events-none absolute right-3 top-1/2 size-24 -translate-y-1/2 object-contain opacity-95 sm:right-4 sm:size-32 lg:right-2 lg:size-28 xl:right-4 xl:size-32 ${
+              stat.tone ?? "text-blue-700"
+            }`}
+            name={stat.icon}
+            priority
+          />
+          <div className="relative z-10 flex items-center justify-between gap-3 sm:gap-5">
+            <div className="min-w-0 pr-24 sm:pr-36 lg:pr-24 xl:pr-32">
               <h2 className="text-sm font-semibold text-blue-950 sm:text-base">
                 {stat.title}
               </h2>
@@ -382,12 +415,6 @@ function PublicOverviewStats({
                   <p key={item}>{item}</p>
                 ))}
               </div>
-            </div>
-            <div className="flex size-16 shrink-0 items-center justify-center rounded-full bg-blue-100/70 sm:size-20 lg:size-24">
-              <PublicIcon
-                className="size-10 sm:size-12 lg:size-16"
-                name={stat.icon}
-              />
             </div>
           </div>
         </article>
@@ -430,10 +457,10 @@ function RecentUpdates({
         </div>
         <div>
           <h2 className="text-xl font-semibold tracking-normal text-slate-950">
-            Recent Updates
+            Recent applications
           </h2>
           <p className="mt-1 text-sm font-semibold text-blue-950/80">
-            A timeline of the latest progress.
+            A read-only timeline of the latest public updates.
           </p>
         </div>
       </div>
@@ -484,29 +511,51 @@ function RecentUpdates({
 }
 
 function PublicStatusHeader({
+  isAuthenticated,
   profile,
 }: {
+  isAuthenticated: boolean
   profile: PublicStatusProfileDto
 }) {
   return (
-    <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-      <header className="max-w-2xl pt-1 md:pt-2">
+    <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+      <header className="max-w-2xl pt-1 lg:pt-2">
         <p className="flex items-center gap-3 text-sm font-semibold text-blue-700">
           <HugeiconsIcon className="size-5" icon={Shield01Icon} strokeWidth={2} />
-          This is a public update page
+          Public read-only dashboard
         </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl md:mt-4 md:text-5xl">
+        <h1 className="mt-2 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:mt-4 lg:text-5xl">
           {profile.displayName}&apos;s Job Search
         </h1>
-        <p className="mt-3 max-w-xl text-sm leading-6 text-blue-950/75 sm:text-base sm:leading-8 md:mt-5">
-          I&apos;m on a mission to find the right role where I can build, grow,
-          and make an impact.
+        <p className="mt-3 max-w-xl text-sm leading-6 text-blue-950/75 sm:text-base sm:leading-8 lg:mt-5">
+          A public view of the job search: visible pipeline health, next steps,
+          and recent updates without private notes or edit controls.
         </p>
       </header>
 
-      <div className="flex shrink-0 flex-wrap items-center justify-start gap-3 pr-1 text-sm font-semibold text-slate-950 md:justify-end md:gap-4">
-        <HugeiconsIcon className="size-5" icon={Calendar03Icon} />
-        <span>Last updated {formatDate(profile.updatedAt)}</span>
+      <div className="flex shrink-0 flex-wrap items-center justify-start gap-3 pr-1 text-sm font-semibold text-slate-950 lg:justify-end lg:gap-4">
+        <span className="flex items-center gap-2">
+          <HugeiconsIcon className="size-5" icon={Calendar03Icon} />
+          Last updated {formatDate(profile.updatedAt)}
+        </span>
+        {isAuthenticated ? (
+          <Button
+            asChild
+            className="h-9 rounded-lg border-blue-100 bg-white/75 px-4 text-sm font-semibold text-slate-950 shadow-sm shadow-blue-950/5 hover:bg-white"
+            size="sm"
+            variant="outline"
+          >
+            <Link href="/">
+              Return to dashboard
+              <HugeiconsIcon
+                aria-hidden="true"
+                className="ml-2 size-4"
+                icon={DashboardSquare01Icon}
+                strokeWidth={2}
+              />
+            </Link>
+          </Button>
+        ) : null}
       </div>
     </div>
   )
@@ -515,15 +564,20 @@ function PublicStatusHeader({
 function PublicStatusContent({
   applications,
   currentFocus,
+  isAuthenticated,
   profile,
 }: {
   applications: PublicStatusApplicationDto[]
   currentFocus: PublicStatusApplicationDto | undefined
+  isAuthenticated: boolean
   profile: PublicStatusProfileDto
 }) {
   return (
     <>
-      <PublicStatusHeader profile={profile} />
+      <PublicStatusHeader
+        isAuthenticated={isAuthenticated}
+        profile={profile}
+      />
 
       <PublicOverviewStats applications={applications} />
 
@@ -533,17 +587,12 @@ function PublicStatusContent({
       >
         <JourneyCard applications={applications} />
         <div className="grid">
-          <CurrentFocusCard focus={currentFocus} />
+          <PublicNextActionCard focus={currentFocus} />
         </div>
       </section>
       <div className="scroll-mt-28" id="updates">
         <RecentUpdates applications={applications} />
       </div>
-
-      <footer className="mb-6 mt-3 flex items-center justify-center gap-4 rounded-xl border border-white/80 bg-white/78 px-5 py-5 text-center text-base font-semibold text-slate-950 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
-        <HugeiconsIcon className="size-9 shrink-0 text-blue-700" icon={HeartCheckIcon} strokeWidth={1.8} />
-        <span>Thanks for following along and cheering me on!</span>
-      </footer>
     </>
   )
 }
@@ -558,94 +607,42 @@ export default async function PublicStatusPage({
   params,
 }: PublicStatusPageProps) {
   const { slug } = await params
-  const cookieStore = await cookies()
-  const hasAuthCookie = cookieStore.has(authCookieName)
+  const currentUser = await getCurrentUserServer()
+  const isAuthenticated = Boolean(currentUser)
   const publicStatus = mockPublicStatusEnabledResponse
 
   if (publicStatus.kind === "disabled") {
-    if (hasAuthCookie) {
-      return (
-        <PageShell
-          background="landing"
-          className="max-w-screen-2xl gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10"
-        >
-          <div className="mx-auto w-full max-w-3xl rounded-xl border border-white/80 bg-white/78 p-8 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
-            <p className="text-sm font-semibold text-blue-700">Public status / {slug}</p>
-            <h1 className="mt-4 text-3xl font-semibold tracking-normal">
-              This status page is private
-            </h1>
-            <p className="mt-3 leading-7 text-blue-950/70">{publicStatus.message}</p>
-            <Button asChild className="mt-7 rounded-lg">
-              <Link href="/">
-                <HugeiconsIcon icon={DashboardSquare01Icon} />
-                Return to dashboard
-              </Link>
-            </Button>
-          </div>
-        </PageShell>
-      )
-    }
+    const privateMessage = (
+      <PrivateStatusMessage
+        isAuthenticated={isAuthenticated}
+        slug={slug}
+      />
+    )
 
     return (
-      <main className="relative isolate min-h-svh overflow-hidden bg-[#f6faff] text-slate-950">
-        <div
-          aria-hidden="true"
-          className="fixed inset-0 z-0 bg-cover bg-no-repeat"
-          style={{ backgroundImage: "url('/bg-userpage-light.jpg')" }}
-        />
-        <div className="fixed inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(246_250_255/0.96)_100%)]" />
-        <div className="fixed inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]" />
-        <LandingNavbar navItems={publicStatusNavItems} />
-        <div className="relative z-10 px-6 py-10">
-          <div className="mx-auto max-w-3xl rounded-xl border border-white/80 bg-white/78 p-8 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
-            <p className="text-sm font-semibold text-blue-700">Public status / {slug}</p>
-            <h1 className="mt-4 text-3xl font-semibold tracking-normal">
-              This status page is private
-            </h1>
-            <p className="mt-3 leading-7 text-blue-950/70">{publicStatus.message}</p>
-          </div>
-        </div>
-      </main>
+      <StatusPageFrame isAuthenticated={isAuthenticated}>
+        {privateMessage}
+      </StatusPageFrame>
     )
   }
 
   const { profile, applications } = publicStatus
   const currentFocus = getCurrentFocus(applications)
 
-  if (hasAuthCookie) {
-    return (
-      <PageShell
-        background="landing"
-        className="max-w-screen-2xl gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10"
-      >
-        <PublicStatusContent
-          applications={applications}
-          currentFocus={currentFocus}
-          profile={profile}
-        />
-      </PageShell>
-    )
-  }
+  const statusContent = (
+    <StatusPageContentFrame>
+      <PublicStatusContent
+        applications={applications}
+        currentFocus={currentFocus}
+        isAuthenticated={isAuthenticated}
+        profile={profile}
+      />
+    </StatusPageContentFrame>
+  )
 
   return (
-    <main className="relative isolate min-h-svh overflow-hidden bg-[#f6faff] text-slate-950">
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 z-0 bg-cover bg-no-repeat"
-        style={{ backgroundImage: "url('/bg-userpage-light.jpg')" }}
-      />
-      <div className="fixed inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(246_250_255/0.96)_100%)]" />
-      <div className="fixed inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]" />
-
-      <LandingNavbar navItems={publicStatusNavItems} />
-
-      <div className="relative z-10 mx-auto flex w-full max-w-screen-2xl flex-col gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10">
-        <PublicStatusContent
-          applications={applications}
-          currentFocus={currentFocus}
-          profile={profile}
-        />
-      </div>
-    </main>
+    <StatusPageFrame isAuthenticated={isAuthenticated}>
+      {statusContent}
+    </StatusPageFrame>
   )
 }

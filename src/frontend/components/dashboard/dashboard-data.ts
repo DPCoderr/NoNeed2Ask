@@ -49,15 +49,23 @@ export const overviewStats = [
     value: 12,
   },
   {
+    detail: ["Avg. response time", "5.4 days"],
+    icon: "icon_camp.png",
+    title: "Waiting responses",
+    tone: "text-orange-600",
+    value: 7,
+  },
+  {
     detail: ["2 upcoming", "1 completed"],
     icon: "icon_mountain.png",
     title: "Interview pipeline",
     value: 3,
   },
+  
   {
-    detail: ["Avg. response time", "5.4 days"],
+    detail: ["Offer stage", "Best outcome so far"],
     icon: "icon_camp.png",
-    title: "Waiting responses",
+    title: "Offers",
     tone: "text-orange-600",
     value: 7,
   },
@@ -90,15 +98,6 @@ export const recentApplications = [
     updated: "Updated May 19",
     icon: "PlannedStatusIcon.svg",
     statusIcon: "WaitingStatusIcon.svg",
-  },
-  {
-    companyName: "Pine Technologies",
-    jobTitle: "Frontend Developer",
-    status: "Paused",
-    detail: "On hold",
-    updated: "Updated May 18",
-    icon: "OfferStatusIcon.svg",
-    statusIcon: "NextActionIcon.svg",
   },
 ];
 

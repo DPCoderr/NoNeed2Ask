@@ -1,113 +1,165 @@
+import { Calendar03Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
   recentApplications,
   type RecentApplication,
 } from "@/components/dashboard/dashboard-data";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
 
-function DotMenu() {
-  return (
-    <button
-      aria-label="Application actions"
-      className="flex size-8 shrink-0 flex-col items-center justify-center gap-0.5 rounded-md text-blue-900/70 hover:bg-blue-50"
-      type="button"
-    >
-      <span className="size-1 rounded-full bg-current" />
-      <span className="size-1 rounded-full bg-current" />
-      <span className="size-1 rounded-full bg-current" />
-    </button>
-  );
+function getUpdateTitle(application: RecentApplication) {
+  if (application.status === "Interview planned") {
+    return `Interview planned with ${application.companyName}`;
+  }
+
+  if (application.status === "Interview done") {
+    return `Interview completed with ${application.companyName}`;
+  }
+
+  if (
+    application.status === "Waiting response" ||
+    application.status === "Applied"
+  ) {
+    return `Application submitted to ${application.companyName}`;
+  }
+
+  return `${application.status} at ${application.companyName}`;
+}
+
+function getUpdateDate(value: string) {
+  const date = value.replace(/^Updated\s+/i, "");
+
+  return /\d{4}/.test(date) ? date : `${date}, 2026`;
+}
+
+function getDateTimeAttribute(value: string) {
+  const date = value.replace(/^Updated\s+/i, "");
+  const parsedDate = new Date(`${date}, 2026`);
+
+  return Number.isNaN(parsedDate.getTime())
+    ? undefined
+    : parsedDate.toISOString();
 }
 
 function RecentApplicationRow({
   application,
+  isLast,
 }: {
   application: RecentApplication;
+  isLast: boolean;
 }) {
   return (
-    <div className="grid gap-3 rounded-lg border border-blue-950/10 bg-white/65 p-3.5 shadow-sm shadow-blue-950/5 sm:p-4 xl:rounded-none xl:border-0 xl:bg-transparent xl:px-5 xl:py-3 xl:shadow-none xl:grid-cols-[1.35fr_1fr_auto_auto] xl:items-center xl:gap-4">
-      <div className="grid min-w-0 grid-cols-[2.25rem_1fr_auto] items-center gap-3 xl:flex xl:gap-4">
-        <DashboardIcon
-          alt=""
-          className="size-9 shrink-0 text-blue-700 xl:size-11"
-          name={application.icon}
-        />
-        <div className="min-w-0">
-          <p className="truncate font-semibold text-slate-950">
-            {application.companyName}
-          </p>
-          <p className="mt-1 truncate text-sm font-medium text-blue-950/75">
-            {application.jobTitle}
-          </p>
-        </div>
-        <div className="xl:hidden">
-          <DotMenu />
-        </div>
+    <div className="grid grid-cols-[2rem_3.5rem_minmax(0,1fr)] gap-3 md:grid-cols-[2rem_4rem_minmax(0,1fr)_auto]">
+      <div className="relative z-10 flex justify-center">
+        <span className="mt-7 size-3 rounded-full border-2 border-blue-500 bg-white" />
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 rounded-md bg-blue-50/55 p-3 xl:contents xl:bg-transparent xl:p-0">
-        <div className="flex min-w-0 items-center gap-2.5 xl:gap-4">
+      <div className="flex justify-center py-3">
+        <div className="flex size-12 items-center justify-center rounded-full bg-blue-50">
           <DashboardIcon
             alt=""
-            className="size-7 shrink-0 text-blue-700 xl:size-9"
+            className="size-9 text-blue-700"
             name={application.statusIcon}
           />
-          <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-blue-950/80">
-              {application.status}
-            </p>
-            <p className="mt-0.5 truncate text-xs font-medium text-blue-950/65 xl:mt-1 xl:text-sm">
-              {application.detail}
-            </p>
-          </div>
         </div>
+      </div>
 
-        <p className="self-center whitespace-nowrap text-right text-xs font-semibold text-blue-950/65 xl:text-left xl:text-sm xl:font-medium xl:text-blue-950/70">
-          {application.updated}
+      <div
+        className={`min-w-0 py-4 ${
+          isLast ? "" : "border-b border-blue-950/10"
+        }`}
+      >
+        <h3 className="font-semibold text-slate-950">
+          {getUpdateTitle(application)}
+        </h3>
+        <p className="mt-1 text-sm font-medium text-blue-950/75">
+          {application.jobTitle}
         </p>
       </div>
-      <div className="hidden xl:block">
-        <DotMenu />
+
+      <time
+        className={`col-start-3 pb-4 text-sm font-semibold text-blue-950/75 md:col-start-auto md:py-5 ${
+          isLast ? "" : "md:border-b md:border-blue-950/10"
+        }`}
+        dateTime={getDateTimeAttribute(application.updated)}
+      >
+        <HugeiconsIcon
+          className="mr-2 inline size-4 align-[-2px] text-blue-900/80"
+          icon={Calendar03Icon}
+        />
+        {getUpdateDate(application.updated)}
+      </time>
+    </div>
+  );
+}
+
+function RecentApplicationsTimeline({
+  applications,
+}: {
+  applications: RecentApplication[];
+}) {
+  return (
+    <div className="relative mt-6 space-y-0 pl-3 md:pl-10">
+      {applications.length > 1 ? (
+        <span
+          aria-hidden="true"
+          className="absolute bottom-10 left-[calc(0.75rem+1rem-0.5px)] top-7 w-px bg-blue-200 md:left-[calc(2.5rem+1rem-0.5px)]"
+        />
+      ) : null}
+
+      {applications.map((application, index) => (
+        <RecentApplicationRow
+          application={application}
+          isLast={index === applications.length - 1}
+          key={`${application.companyName}-${application.jobTitle}`}
+        />
+      ))}
+    </div>
+  );
+}
+
+function RecentApplicationsHeader() {
+  return (
+    <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+      <div className="flex items-start gap-4">
+        <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700">
+          <HugeiconsIcon
+            className="size-8"
+            icon={Calendar03Icon}
+            strokeWidth={1.8}
+          />
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold tracking-normal text-slate-950">
+            Recent Updates
+          </h2>
+          <p className="mt-1 text-sm font-semibold text-blue-950/80">
+            A timeline of your latest tracker updates.
+          </p>
+        </div>
       </div>
+
+      <Button
+        asChild
+        className="h-9 w-fit rounded-lg border-blue-100 bg-white/75 px-4 text-sm font-semibold text-slate-950 hover:bg-white"
+        size="sm"
+        variant="outline"
+      >
+        <Link href="/applications">View all</Link>
+      </Button>
     </div>
   );
 }
 
 export function RecentApplicationsCard() {
-  const visibleApplications = recentApplications.slice(0, 3);
+  const visibleApplications = recentApplications;
 
   return (
-    <article className="overflow-hidden rounded-xl border border-white/80 bg-white/78 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
-      <div className="flex items-start justify-between gap-3 p-4 sm:gap-4 sm:p-5">
-        <div>
-          <h2 className="text-lg font-semibold text-slate-950 sm:text-xl">
-            Recent applications
-          </h2>
-          <p className="mt-0.5 text-xs font-medium text-blue-950/75 sm:mt-1 sm:text-sm">
-            Latest updates from your private tracker.
-          </p>
-        </div>
-        <Button
-          asChild
-          className="h-8 rounded-lg border-blue-100 bg-white/75 px-3 text-xs font-semibold text-slate-950 hover:bg-white sm:px-5 sm:text-sm"
-          size="sm"
-          variant="outline"
-        >
-          <Link href="/applications">View all</Link>
-        </Button>
-      </div>
-      <Separator className="bg-blue-950/10" />
-      <div className="space-y-3 p-3 xl:space-y-0 xl:divide-y xl:divide-blue-950/10 xl:p-0">
-        {visibleApplications.map((application) => (
-          <RecentApplicationRow
-            application={application}
-            key={application.companyName}
-          />
-        ))}
-      </div>
+    <article className="rounded-2xl border border-white/80 bg-white/88 p-5 shadow-xl shadow-blue-950/10 backdrop-blur-xl md:p-7">
+      <RecentApplicationsHeader />
+      <RecentApplicationsTimeline applications={visibleApplications} />
     </article>
   );
 }
