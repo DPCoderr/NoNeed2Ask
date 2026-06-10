@@ -2,6 +2,7 @@ import type {
   ApplicationStatus,
   PrivateApplicationDto,
 } from "@/lib/api/types";
+import { normalizeApplicationStatus } from "@/lib/api/application-status";
 
 export type PipelineStage = {
   barClassName: string;
@@ -54,6 +55,26 @@ export type DashboardData = {
   recentApplications: RecentApplication[];
 };
 
+export type DashboardApplicationSource = Pick<
+  PrivateApplicationDto,
+  | "companyName"
+  | "jobTitle"
+  | "nextActionAt"
+  | "publicNote"
+  | "status"
+  | "updatedAt"
+> &
+  Partial<
+    Pick<
+      PrivateApplicationDto,
+      "createdAt" | "id" | "lastContactAt" | "privateNote"
+    >
+  >;
+
+type BuildDashboardDataOptions = {
+  recentLimit?: number;
+};
+
 type StatusMeta = {
   barClassName: string;
   icon: string;
@@ -62,12 +83,10 @@ type StatusMeta = {
 
 const statusOrder = [
   "applied",
-  "waiting_response",
   "interview_planned",
   "interview_done",
   "offer",
   "rejected",
-  "ghosted",
   "paused",
 ] satisfies ApplicationStatus[];
 
@@ -76,11 +95,6 @@ const statusMeta: Record<ApplicationStatus, StatusMeta> = {
     label: "Applied",
     icon: "AppliedStatusIcon.svg",
     barClassName: "bg-blue-700",
-  },
-  waiting_response: {
-    label: "Waiting response",
-    icon: "WaitingStatusIcon.svg",
-    barClassName: "bg-orange-600",
   },
   interview_planned: {
     label: "Interview planned",
@@ -102,11 +116,6 @@ const statusMeta: Record<ApplicationStatus, StatusMeta> = {
     icon: "DoneStatusIcon.svg",
     barClassName: "bg-rose-600",
   },
-  ghosted: {
-    label: "Ghosted",
-    icon: "WaitingStatusIcon.svg",
-    barClassName: "bg-slate-500",
-  },
   paused: {
     label: "Paused",
     icon: "PlannedStatusIcon.svg",
@@ -116,7 +125,6 @@ const statusMeta: Record<ApplicationStatus, StatusMeta> = {
 
 const terminalStatuses = new Set<ApplicationStatus>([
   "rejected",
-  "ghosted",
   "paused",
 ]);
 
@@ -133,11 +141,12 @@ const dateTimeFormatter = new Intl.DateTimeFormat("en-US", {
 });
 
 export function buildDashboardData(
-  applications: PrivateApplicationDto[],
-  now = new Date()
+  applications: DashboardApplicationSource[],
+  now = new Date(),
+  { recentLimit = 3 }: BuildDashboardDataOptions = {}
 ): DashboardData {
   const counts = countByStatus(applications);
-  const recentApplications = getRecentApplications(applications);
+  const recentApplications = getRecentApplications(applications, recentLimit);
   const pipelineStages = getPipelineStages(counts, applications.length);
 
   return {
@@ -149,20 +158,18 @@ export function buildDashboardData(
   };
 }
 
-function countByStatus(applications: PrivateApplicationDto[]) {
+function countByStatus(applications: DashboardApplicationSource[]) {
   return applications.reduce<Record<ApplicationStatus, number>>(
     (counts, application) => {
-      counts[application.status] += 1;
+      counts[normalizeApplicationStatus(application.status)] += 1;
       return counts;
     },
     {
       applied: 0,
-      waiting_response: 0,
       interview_planned: 0,
       interview_done: 0,
       offer: 0,
       rejected: 0,
-      ghosted: 0,
       paused: 0,
     }
   );
@@ -184,40 +191,37 @@ function getPipelineStages(
 }
 
 function getOverviewStats(
-  applications: PrivateApplicationDto[],
+  applications: DashboardApplicationSource[],
   counts: Record<ApplicationStatus, number>,
   now: Date
 ) {
   const activeApplications = applications.filter(
-    (application) => !terminalStatuses.has(application.status)
+    (application) =>
+      !terminalStatuses.has(normalizeApplicationStatus(application.status))
   ).length;
   const newThisWeek = applications.filter((application) =>
-    isWithinLastDays(application.createdAt, now, 7)
+    isWithinLastDays(getCreatedAt(application), now, 7)
   ).length;
-  const interviewCount = counts.interview_planned + counts.interview_done;
 
   return [
     {
-      detail: [`${newThisWeek} new this week`],
+      detail: [`${activeApplications} active`, `${newThisWeek} new this week`],
       icon: "icon_map.png",
-      title: "Active applications",
-      value: activeApplications,
+      title: "Applications",
+      value: applications.length,
     },
     {
-      detail: [getWaitingDetail(applications, now)],
-      icon: "icon_camp.png",
-      title: "Waiting responses",
-      tone: "text-orange-600",
-      value: counts.waiting_response,
-    },
-    {
-      detail: [
-        `${counts.interview_planned} upcoming`,
-        `${counts.interview_done} completed`,
-      ],
+      detail: ["Upcoming interviews"],
       icon: "icon_mountain.png",
-      title: "Interview pipeline",
-      value: interviewCount,
+      title: "Interviews planned",
+      value: counts.interview_planned,
+    },
+    {
+      detail: ["Completed interviews"],
+      icon: "icon_camp.png",
+      title: "Interviews done",
+      tone: "text-orange-600",
+      value: counts.interview_done,
     },
     {
       detail: ["Offer stage", counts.offer > 0 ? "Best outcome so far" : "No offers yet"],
@@ -229,24 +233,27 @@ function getOverviewStats(
   ] satisfies OverviewStat[];
 }
 
-function getRecentApplications(applications: PrivateApplicationDto[]) {
+function getRecentApplications(
+  applications: DashboardApplicationSource[],
+  recentLimit: number
+) {
   return [...applications]
     .sort((a, b) => getTime(b.updatedAt) - getTime(a.updatedAt))
-    .slice(0, 3)
+    .slice(0, recentLimit)
     .map((application) => ({
+      status: normalizeApplicationStatus(application.status),
       companyName: application.companyName,
       dateTime: application.updatedAt,
-      id: application.id,
+      id: getApplicationId(application),
       jobTitle: application.jobTitle,
-      status: application.status,
-      statusIcon: statusMeta[application.status].icon,
-      statusLabel: statusMeta[application.status].label,
+      statusIcon: statusMeta[normalizeApplicationStatus(application.status)].icon,
+      statusLabel: statusMeta[normalizeApplicationStatus(application.status)].label,
       updatedLabel: formatDate(application.updatedAt),
     }));
 }
 
 function getNextAction(
-  applications: PrivateApplicationDto[],
+  applications: DashboardApplicationSource[],
   now: Date
 ): DashboardNextAction {
   const nextApplication = [...applications]
@@ -278,7 +285,8 @@ function getNextAction(
   }
 
   const nextActionDate = nextApplication.nextActionAt ?? nextApplication.updatedAt;
-  const statusLabel = statusMeta[nextApplication.status].label;
+  const nextApplicationStatus = normalizeApplicationStatus(nextApplication.status);
+  const statusLabel = statusMeta[nextApplicationStatus].label;
 
   return {
     badge: formatDate(nextActionDate),
@@ -300,31 +308,20 @@ function getNextAction(
   };
 }
 
-function getWaitingDetail(applications: PrivateApplicationDto[], now: Date) {
-  const waitingApplications = applications.filter(
-    (application) => application.status === "waiting_response"
-  );
-
-  if (waitingApplications.length === 0) {
-    return "No waiting responses";
-  }
-
-  const oldestWaitingDate = waitingApplications.reduce((oldest, application) => {
-    const contactDate = application.lastContactAt ?? application.createdAt;
-    return getTime(contactDate) < getTime(oldest) ? contactDate : oldest;
-  }, waitingApplications[0].lastContactAt ?? waitingApplications[0].createdAt);
-
-  return `${daysBetween(oldestWaitingDate, now)} days oldest`;
-}
-
 function isWithinLastDays(value: string, now: Date, days: number) {
   const elapsedMs = now.getTime() - getTime(value);
   return elapsedMs >= 0 && elapsedMs <= days * 24 * 60 * 60 * 1000;
 }
 
-function daysBetween(value: string, now: Date) {
-  const elapsedMs = now.getTime() - getTime(value);
-  return Math.max(0, Math.floor(elapsedMs / (24 * 60 * 60 * 1000)));
+function getApplicationId(application: DashboardApplicationSource) {
+  return (
+    application.id ??
+    `${application.companyName}-${application.jobTitle}-${application.updatedAt}`
+  );
+}
+
+function getCreatedAt(application: DashboardApplicationSource) {
+  return application.createdAt ?? application.updatedAt;
 }
 
 function formatDate(value: string) {

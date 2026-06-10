@@ -40,12 +40,10 @@ Each application includes:
 Allowed statuses:
 
 - `applied`
-- `waiting_response`
 - `interview_planned`
 - `interview_done`
 - `offer`
 - `rejected`
-- `ghosted`
 - `paused`
 
 ## Public profile data

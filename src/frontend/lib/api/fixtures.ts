@@ -17,7 +17,6 @@ export const mockAuthUser: AuthUserDto = {
 }
 
 export const mockPublicProfileSettings: PublicProfileSettingsDto = {
-  id: "profile_john_01",
   userId: mockAuthUser.id,
   publicSlug: "john-job-search",
   isPublicSharingEnabled: true,
@@ -50,7 +49,7 @@ export const mockPrivateApplications: PrivateApplicationDto[] = [
     userId: mockAuthUser.id,
     companyName: "Kindred Health",
     jobTitle: "Product Engineer",
-    status: "waiting_response",
+    status: "applied",
     publicNote: "Application sent. Waiting for the first response.",
     privateNote: "Referral from Mira. Follow up after one week if quiet.",
     lastContactAt: "2026-05-18T16:45:00.000Z",

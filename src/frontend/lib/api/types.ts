@@ -1,11 +1,9 @@
 export type ApplicationStatus =
   | "applied"
-  | "waiting_response"
   | "interview_planned"
   | "interview_done"
   | "offer"
   | "rejected"
-  | "ghosted"
   | "paused"
 
 export type AuthUserDto = {
@@ -68,7 +66,6 @@ export type PublicStatusApplicationDto = Pick<
 >
 
 export type PublicProfileSettingsDto = {
-  id: string
   userId: string
   publicSlug: string
   isPublicSharingEnabled: boolean
@@ -85,7 +82,7 @@ export type OwnerDashboardResponseDto = {
 export type PublicStatusProfileDto = {
   publicSlug: string
   displayName: string
-  isPublicSharingEnabled: true
+  isPublicSharingEnabled: boolean
   updatedAt: string
 }
 

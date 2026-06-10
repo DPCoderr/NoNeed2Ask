@@ -56,6 +56,7 @@ import {
   createApplication,
   updateApplication,
 } from "@/lib/api/applications"
+import { normalizeApplicationStatus } from "@/lib/api/application-status"
 import type {
   ApplicationStatus,
   CreateApplicationRequestDto,
@@ -173,7 +174,7 @@ function getDefaultValues(
   return {
     companyName: application.companyName,
     jobTitle: application.jobTitle,
-    status: application.status,
+    status: normalizeApplicationStatus(application.status),
     publicNote: application.publicNote ?? "",
     privateNote: application.privateNote ?? "",
     lastContactAt: toDateTimeInputValue(application.lastContactAt),

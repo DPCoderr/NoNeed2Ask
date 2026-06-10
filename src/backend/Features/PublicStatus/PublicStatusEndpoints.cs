@@ -4,8 +4,10 @@ public static class PublicStatusEndpoints
 {
     public static IEndpointRouteBuilder MapPublicStatusEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGroup("/status")
+        var group = app.MapGroup("/status")
             .WithTags("Public Status");
+
+        group.MapGet("/{slug}", PublicStatusGet.Handle);
 
         return app;
     }

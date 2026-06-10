@@ -1,5 +1,6 @@
 import Image from "next/image"
 
+import { normalizeApplicationStatus } from "@/lib/api/application-status"
 import type { ApplicationStatus } from "@/lib/api/types"
 
 import { statusDetails } from "../../application-list-config"
@@ -49,7 +50,7 @@ export function formatDate(value: string) {
 
 // Displays the configured color, label, and optional icon for a status.
 export function StatusBadge({ status }: { status: ApplicationStatus }) {
-  const details = statusDetails[status]
+  const details = statusDetails[normalizeApplicationStatus(status)]
 
   return (
     <span

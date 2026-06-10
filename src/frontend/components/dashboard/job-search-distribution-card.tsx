@@ -3,9 +3,11 @@ import type { PipelineStage } from "@/components/dashboard/dashboard-data";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
 
 export function JobSearchDistributionCard({
+  description = "Where all your applications stand right now.",
   stages,
   total,
 }: {
+  description?: string;
   stages: PipelineStage[];
   total: number;
 }) {
@@ -23,7 +25,7 @@ export function JobSearchDistributionCard({
               Job Search Distribution
             </h2>
             <p className="mt-0.5 text-xs font-medium text-blue-950/75 xl:mt-1 xl:text-sm">
-              Where all your applications stand right now.
+              {description}
             </p>
           </div>
         </div>

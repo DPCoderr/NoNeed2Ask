@@ -271,7 +271,7 @@ namespace NoNeed2Ask.Api.Database.Migrations
 
                     b.ToTable("applications", null, t =>
                         {
-                            t.HasCheckConstraint("CK_applications_status", "\"Status\" IN ('applied', 'waiting_response', 'interview_planned', 'interview_done', 'offer', 'rejected', 'ghosted', 'paused')");
+                            t.HasCheckConstraint("CK_applications_status", "\"Status\" IN ('applied', 'interview_planned', 'interview_done', 'offer', 'rejected', 'paused')");
                         });
                 });
 

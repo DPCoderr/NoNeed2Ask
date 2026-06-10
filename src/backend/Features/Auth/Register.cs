@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using NoNeed2Ask.Api.Database;
 using NoNeed2Ask.Api.Domain.Entities;
+using NoNeed2Ask.Api.Features.Settings;
 
 namespace NoNeed2Ask.Api.Features.Auth;
 
@@ -10,18 +12,20 @@ public static class Register
     public record RegisterResponseDto(Guid Id, string Username, string Email);
 
     public static async Task<Results<Ok<RegisterResponseDto>, ValidationProblem>> Handle(
-        RegisterRequest request, 
+        RegisterRequest request,
         UserManager<AppUser> userManager,
-        SignInManager<AppUser> signInManager)
+        SignInManager<AppUser> signInManager,
+        AppDbContext dbContext,
+        CancellationToken cancellationToken)
     {
         var user = new AppUser()
         {
             UserName = request.Username,
             Email = request.Email,
         };
-        
+
         var result = await userManager.CreateAsync(user, request.Password);
-        
+
         if (!result.Succeeded)
         {
             return TypedResults.ValidationProblem(
@@ -29,9 +33,16 @@ public static class Register
                 title: "Registration failed",
                 detail: "One or more registration fields are invalid.");
         }
-        
-        await  signInManager.SignInAsync(user, isPersistent: request.RememberMe);
-        
+
+        await PublicProfileSettingsService.CreateDefaultAsync(
+            dbContext,
+            user.Id,
+            user.UserName!,
+            cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        await signInManager.SignInAsync(user, isPersistent: request.RememberMe);
+
         return TypedResults.Ok(new RegisterResponseDto(user.Id, user.UserName!, user.Email!));
     }
 

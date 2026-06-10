@@ -3,29 +3,26 @@ import Link from "next/link"
 import { PageShell } from "@/components/layout/page-shell"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { normalizeApplicationStatus } from "@/lib/api/application-status"
 import type { ApplicationStatus } from "@/lib/api/types"
 
 import { loadApplication } from "../_lib/load-application"
 
 const statusLabels: Record<ApplicationStatus, string> = {
   applied: "Applied",
-  waiting_response: "Waiting response",
   interview_planned: "Interview planned",
   interview_done: "Interview done",
   offer: "Offer",
   rejected: "Rejected",
-  ghosted: "Ghosted",
   paused: "Paused",
 }
 
 const statusClasses: Record<ApplicationStatus, string> = {
   applied: "border-sky-200 bg-sky-50 text-sky-700",
-  waiting_response: "border-amber-200 bg-amber-50 text-amber-700",
   interview_planned: "border-blue-200 bg-blue-50 text-blue-700",
   interview_done: "border-indigo-200 bg-indigo-50 text-indigo-700",
   offer: "border-emerald-200 bg-emerald-50 text-emerald-700",
   rejected: "border-rose-200 bg-rose-50 text-rose-700",
-  ghosted: "border-zinc-200 bg-zinc-50 text-zinc-700",
   paused: "border-stone-200 bg-stone-50 text-stone-700",
 }
 
@@ -52,6 +49,7 @@ export default async function ApplicationDetailPage({
 }: ApplicationDetailPageProps) {
   const { id } = await params
   const application = await loadApplication(id)
+  const status = normalizeApplicationStatus(application.status)
 
   return (
     <PageShell
@@ -69,9 +67,9 @@ export default async function ApplicationDetailPage({
             </p>
           </div>
           <span
-            className={`inline-flex w-fit items-center rounded-md border px-2 py-1 text-xs font-medium ${statusClasses[application.status]}`}
+            className={`inline-flex w-fit items-center rounded-md border px-2 py-1 text-xs font-medium ${statusClasses[status]}`}
           >
-            {statusLabels[application.status]}
+            {statusLabels[status]}
           </span>
         </div>
         <Separator />

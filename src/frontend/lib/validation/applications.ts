@@ -1,17 +1,6 @@
 import { z } from "zod"
 
-import type { ApplicationStatus } from "@/lib/api/types"
-
-const applicationStatuses = [
-  "applied",
-  "waiting_response",
-  "interview_planned",
-  "interview_done",
-  "offer",
-  "rejected",
-  "ghosted",
-  "paused",
-] as const satisfies readonly ApplicationStatus[]
+import { applicationStatuses } from "@/lib/api/application-status"
 
 const optionalDateTime = z.string().refine(
   (value) => !value || !Number.isNaN(new Date(value).getTime()),

@@ -30,6 +30,13 @@ public sealed record TestApplicationListResponse(
     int TotalItems,
     int TotalPages);
 
+public sealed record TestPublicProfileSettingsResponse(
+    Guid UserId,
+    string PublicSlug,
+    bool IsPublicSharingEnabled,
+    DateTimeOffset CreatedAt,
+    DateTimeOffset UpdatedAt);
+
 public sealed record TestUser(
     HttpClient Client,
     Guid Id,

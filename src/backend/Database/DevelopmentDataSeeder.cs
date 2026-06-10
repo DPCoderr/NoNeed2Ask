@@ -100,12 +100,10 @@ public static class DevelopmentDataSeeder
         var statuses = new[]
         {
             ApplicationStatuses.Applied,
-            ApplicationStatuses.WaitingResponse,
             ApplicationStatuses.InterviewPlanned,
             ApplicationStatuses.InterviewDone,
             ApplicationStatuses.Offer,
             ApplicationStatuses.Rejected,
-            ApplicationStatuses.Ghosted,
             ApplicationStatuses.Paused
         };
 
@@ -180,7 +178,6 @@ public static class DevelopmentDataSeeder
         return status switch
         {
             ApplicationStatuses.Applied => now.AddDays(seedNumber % 5 + 1),
-            ApplicationStatuses.WaitingResponse => now.AddDays(seedNumber % 7 + 1),
             ApplicationStatuses.InterviewPlanned => now.AddDays(seedNumber % 4 + 1),
             ApplicationStatuses.Paused => now.AddDays(14 + seedNumber % 7),
             _ => null
@@ -192,12 +189,10 @@ public static class DevelopmentDataSeeder
         return status switch
         {
             ApplicationStatuses.Applied => "Application submitted.",
-            ApplicationStatuses.WaitingResponse => "Waiting for a response.",
             ApplicationStatuses.InterviewPlanned => "Interview scheduled.",
             ApplicationStatuses.InterviewDone => "Interview completed.",
             ApplicationStatuses.Offer => "Offer received.",
             ApplicationStatuses.Rejected => "Process ended.",
-            ApplicationStatuses.Ghosted => "No response after follow-up.",
             ApplicationStatuses.Paused => "Application paused for now.",
             _ => "Application in progress."
         };

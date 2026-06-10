@@ -1,17 +1,9 @@
+import { applicationStatuses } from "@/lib/api/application-status"
 import type { ApplicationListSortBy, ApplicationStatus } from "@/lib/api/types"
 
 export const pageSize = 10
 
-export const statuses = [
-  "applied",
-  "waiting_response",
-  "interview_planned",
-  "interview_done",
-  "offer",
-  "rejected",
-  "ghosted",
-  "paused",
-] satisfies ApplicationStatus[]
+export const statuses = [...applicationStatuses] satisfies ApplicationStatus[]
 
 export const sortOptions = [
   { label: "Company", value: "company" },
@@ -38,12 +30,6 @@ export const statusDetails: Record<
     label: "Applied",
     className: "bg-blue-50 text-blue-700",
   },
-  waiting_response: {
-    icon: "WaitingStatusIcon.svg",
-    label: "Waiting response",
-    shortLabel: "Waiting",
-    className: "bg-orange-50 text-orange-700",
-  },
   interview_planned: {
     icon: "PlannedStatusIcon.svg",
     label: "Interview planned",
@@ -65,11 +51,6 @@ export const statusDetails: Record<
     icon: null,
     label: "Rejected",
     className: "bg-rose-50 text-rose-700",
-  },
-  ghosted: {
-    icon: null,
-    label: "Ghosted",
-    className: "bg-slate-100 text-slate-700",
   },
   paused: {
     icon: null,

@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useRef, useState } from "react"
 
+import { normalizeApplicationStatus } from "@/lib/api/application-status"
 import type { PrivateApplicationDto } from "@/lib/api/types"
 
 import { statusDetails, statuses } from "../application-list-config"
@@ -35,7 +36,9 @@ function getStatusCards(applications: PrivateApplicationDto[]): StatusCard[] {
     icon: statusDetails[status].icon,
     label: statusDetails[status].label,
     shortLabel: statusDetails[status].shortLabel,
-    value: applications.filter((application) => application.status === status).length,
+    value: applications.filter(
+      (application) => normalizeApplicationStatus(application.status) === status
+    ).length,
   }))
 }
 

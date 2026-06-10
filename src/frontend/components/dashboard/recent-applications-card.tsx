@@ -15,10 +15,7 @@ function getUpdateTitle(application: RecentApplication) {
     return `Interview completed with ${application.companyName}`;
   }
 
-  if (
-    application.status === "waiting_response" ||
-    application.status === "applied"
-  ) {
+  if (application.status === "applied") {
     return `Application submitted to ${application.companyName}`;
   }
 
@@ -102,7 +99,15 @@ function RecentApplicationsTimeline({
   );
 }
 
-function RecentApplicationsHeader() {
+function RecentApplicationsHeader({
+  description,
+  showViewAll,
+  title,
+}: {
+  description: string;
+  showViewAll: boolean;
+  title: string;
+}) {
   return (
     <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
       <div className="flex items-start gap-4">
@@ -115,39 +120,53 @@ function RecentApplicationsHeader() {
         </div>
         <div>
           <h2 className="text-xl font-semibold tracking-normal text-slate-950">
-            Recent Updates
+            {title}
           </h2>
           <p className="mt-1 text-sm font-semibold text-blue-950/80">
-            A timeline of your latest tracker updates.
+            {description}
           </p>
         </div>
       </div>
 
-      <Button
-        asChild
-        className="h-9 w-fit rounded-lg border-blue-100 bg-white/75 px-4 text-sm font-semibold text-slate-950 hover:bg-white"
-        size="sm"
-        variant="outline"
-      >
-        <Link href="/applications">View all</Link>
-      </Button>
+      {showViewAll ? (
+        <Button
+          asChild
+          className="h-9 w-fit rounded-lg border-blue-100 bg-white/75 px-4 text-sm font-semibold text-slate-950 hover:bg-white"
+          size="sm"
+          variant="outline"
+        >
+          <Link href="/applications">View all</Link>
+        </Button>
+      ) : null}
     </div>
   );
 }
 
 export function RecentApplicationsCard({
   applications,
+  description = "A timeline of your latest tracker updates.",
+  emptyMessage = "No applications yet.",
+  showViewAll = true,
+  title = "Recent Updates",
 }: {
   applications: RecentApplication[];
+  description?: string;
+  emptyMessage?: string;
+  showViewAll?: boolean;
+  title?: string;
 }) {
   return (
     <article className="rounded-2xl border border-white/80 bg-white/88 p-5 shadow-xl shadow-blue-950/10 backdrop-blur-xl md:p-7">
-      <RecentApplicationsHeader />
+      <RecentApplicationsHeader
+        description={description}
+        showViewAll={showViewAll}
+        title={title}
+      />
       {applications.length > 0 ? (
         <RecentApplicationsTimeline applications={applications} />
       ) : (
         <p className="mt-6 rounded-lg border border-blue-950/10 bg-white/55 p-4 text-sm font-semibold text-blue-950/75">
-          No applications yet.
+          {emptyMessage}
         </p>
       )}
     </article>
