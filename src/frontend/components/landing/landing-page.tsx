@@ -59,23 +59,38 @@ export function LandingPage() {
           </LandingReveal>
 
           <LandingReveal
-            className="landing-hero-perspective relative mt-7 w-full max-w-6xl translate-y-10 px-1 sm:mt-9 sm:px-4 md:translate-y-14"
+            className="relative mt-8 w-full max-w-6xl translate-y-8 px-1 sm:mt-10 sm:px-4 md:translate-y-12"
             delay={500}
             motion="fade"
           >
-            <div className="landing-hero-mist" aria-hidden="true" />
-            <div className="landing-hero-card relative overflow-hidden rounded-2xl border border-white/65 bg-white/10 shadow-2xl shadow-slate-950/20 ring-1 ring-white/50 backdrop-blur-sm">
-              <Image
-                src="/landingpage-hero-img.png"
-                alt="NoNeed2Ask applications dashboard with sidebar and tracked job applications"
-                width={1920}
-                height={930}
-                priority
-                className="landing-hero-image h-auto w-full"
-              />
+            <div
+              aria-hidden="true"
+              className="absolute inset-x-10 -top-3 h-px bg-gradient-to-r from-transparent via-border to-transparent"
+            />
+            <div className="relative overflow-hidden rounded-xl border border-border/80 bg-background/95 p-1 shadow-[0_24px_80px_-36px_rgb(15_23_42_/_0.45)] ring-1 ring-foreground/5 backdrop-blur">
+              <div className="flex h-9 items-center gap-1.5 border-b border-border/70 bg-muted/60 px-3">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57] ring-1 ring-black/10" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e] ring-1 ring-black/10" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#28c840] ring-1 ring-black/10" />
+                <div className="ml-3 flex h-5 min-w-0 flex-1 items-center rounded-md bg-background/85 px-3 text-left text-[11px] leading-none text-muted-foreground ring-1 ring-border/70">
+                  <span className="truncate">
+                    https://no-need2-ask.vercel.app/
+                  </span>
+                </div>
+              </div>
+              <div className="relative overflow-hidden rounded-b-lg bg-card">
+                <Image
+                  src="/landingpage-hero-img.png"
+                  alt="NoNeed2Ask applications dashboard with sidebar and tracked job applications"
+                  width={1920}
+                  height={930}
+                  priority
+                  className="h-auto w-full"
+                />
+              </div>
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/18 via-transparent to-white/30"
+                className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-white/45"
               />
             </div>
           </LandingReveal>
