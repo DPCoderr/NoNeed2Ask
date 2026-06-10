@@ -1,9 +1,5 @@
-import {
-  Calendar03Icon,
-  DashboardSquare01Icon,
-} from "@hugeicons/core-free-icons"
+import { Calendar03Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { ReactNode } from "react"
 
@@ -14,7 +10,7 @@ import { OverviewStats } from "@/components/dashboard/overview-stats"
 import { RecentApplicationsCard } from "@/components/dashboard/recent-applications-card"
 import { buildDashboardData } from "@/components/dashboard/dashboard-data"
 import { LandingNavbar } from "@/components/layout/landing-navbar"
-import { Button } from "@/components/ui/button"
+import { PrivateStatusContent } from "@/components/status/private-status-content"
 import { ApiResponseError } from "@/lib/api/errors"
 import { getPublicStatus } from "@/lib/api/public-status"
 import { getCurrentUserServer } from "@/lib/auth/get-current-user-server"
@@ -22,7 +18,6 @@ import type {
   PublicStatusEnabledResponseDto,
   PublicStatusResponseDto,
 } from "@/lib/api/types"
-import Image from "next/image"
 
 const recentApplicationsLimit = 10
 
@@ -70,39 +65,6 @@ function StatusPageContentFrame({ children }: { children: ReactNode }) {
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-screen-2xl flex-col gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10">
       {children}
-    </div>
-  )
-}
-
-function PrivateStatusMessage({
-  isAuthenticated,
-  slug,
-}: {
-  isAuthenticated: boolean
-  slug: string
-}) {
-  return (
-    <div className="relative z-10 px-6 py-10">
-      <div className="mx-auto max-w-3xl rounded-xl border border-white/80 bg-white/78 p-8 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
-        <p className="text-sm font-semibold text-blue-700">
-          Public status / {slug}
-        </p>
-        <Image src={"/1private-img.png"} height={80} width={80} alt="private image"/>
-        <h1 className="mt-4 text-3xl font-semibold tracking-normal">
-          This status page is private
-        </h1>
-        <p className="mt-3 leading-7 text-blue-950/70">
-          This status page is currently private.
-        </p>
-        {isAuthenticated ? (
-          <Button asChild className="mt-7 rounded-lg">
-            <Link href="/">
-              <HugeiconsIcon icon={DashboardSquare01Icon} />
-              Return to dashboard
-            </Link>
-          </Button>
-        ) : null}
-      </div>
     </div>
   )
 }
@@ -199,7 +161,7 @@ export default async function PublicStatusPage({
   if (publicStatus.kind === "disabled") {
     return (
       <StatusPageFrame isAuthenticated={isAuthenticated}>
-        <PrivateStatusMessage
+        <PrivateStatusContent
           isAuthenticated={isAuthenticated}
           slug={slug}
         />
