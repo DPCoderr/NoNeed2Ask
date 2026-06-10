@@ -32,6 +32,7 @@ public static class ApplicationList
         var sortBy = request.SortBy ?? "lastUpdated";
         var sortDirection = request.SortDirection ?? "desc";
 
+        // Build the query first so filtering, counting, sorting, and paging all use the same scope.
         var applicationsQuery = dbContext.Applications
             .AsNoTracking()
             .Where(a => a.UserId == userId);
@@ -43,13 +44,16 @@ public static class ApplicationList
 
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
+            // The % wildcards mean "contains this text anywhere", not just at the start.
             var searchPattern = $"%{request.Search.Trim()}%";
 
+            // ILike keeps the search case-insensitive for PostgreSQL.
             applicationsQuery = applicationsQuery.Where(a =>
                 EF.Functions.ILike(a.CompanyName, searchPattern) ||
                 EF.Functions.ILike(a.JobTitle, searchPattern));
         }
 
+        // Count before paging so the response can include full pagination metadata.
         var totalItems = await applicationsQuery.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalItems / (double)PageSize);
         var skip = (page - 1) * PageSize;
@@ -80,6 +84,7 @@ public static class ApplicationList
             totalPages));
     }
 
+    // The needed OrderBy() filtered in a switch function 
     private static IOrderedQueryable<DomainApplication> OrderByRequest(
         this IQueryable<DomainApplication> query,
         string sortBy,
