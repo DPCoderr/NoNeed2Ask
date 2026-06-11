@@ -1,5 +1,6 @@
+import { ChartBar } from "lucide-react";
+
 import type { PipelineStage } from "@/components/dashboard/dashboard-data";
-import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
 
 export function JobSearchDistributionCard({
   description = "Where all your applications stand right now.",
@@ -14,11 +15,13 @@ export function JobSearchDistributionCard({
     <article className="rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6">
       <div className="flex items-start justify-between gap-3 xl:items-center xl:gap-4">
         <div className="flex min-w-0 items-center gap-2.5 xl:gap-3">
-          <DashboardIcon
-            alt=""
-            className="size-8 shrink-0 text-blue-800 xl:size-9"
-            name="MountainMark.svg"
-          />
+          <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700 xl:size-12">
+            <ChartBar
+              aria-hidden="true"
+              className="size-6 xl:size-7"
+              strokeWidth={2}
+            />
+          </div>
           <div className="min-w-0">
             <h2 className="text-lg font-semibold tracking-normal text-slate-950 xl:text-xl">
               Job Search Distribution

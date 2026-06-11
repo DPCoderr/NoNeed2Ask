@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  ArrowRight,
   BriefcaseBusiness,
   CalendarClock,
   FileText,
@@ -8,7 +7,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
 
 type NextActionCardProps = {
   badge?: string;
@@ -83,10 +81,10 @@ export function NextInterviewCard({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 gap-3 xl:gap-4">
           <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-blue-100/80 xl:size-12">
-            <DashboardIcon
-              alt=""
-              className="size-7 text-blue-700 xl:size-8"
-              name="NextActionIcon.svg"
+            <CalendarClock
+              aria-hidden="true"
+              className="size-6 text-blue-700 xl:size-7"
+              strokeWidth={2}
             />
           </div>
           <div className="min-w-0">

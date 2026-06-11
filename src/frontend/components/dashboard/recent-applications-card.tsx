@@ -1,5 +1,6 @@
 import { Calendar03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { Clock3 } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -115,10 +116,10 @@ function RecentApplicationsHeader({
     <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
       <div className="flex items-start gap-4">
         <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700">
-          <HugeiconsIcon
-            className="size-8"
-            icon={Calendar03Icon}
-            strokeWidth={1.8}
+          <Clock3
+            aria-hidden="true"
+            className="size-7"
+            strokeWidth={2}
           />
         </div>
         <div>
