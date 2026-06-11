@@ -29,7 +29,7 @@ export function ApplicationsSortControls({
   sortDirection: ApplicationListSortDirection
 }) {
   return (
-    <div className="grid min-w-0 gap-2 sm:grid-cols-2 xl:w-[360px]">
+    <div className="grid min-w-0 gap-2 sm:grid-cols-2 xl:w-[34rem]">
       <Select
         defaultValue={sortBy}
         onValueChange={(value) =>

@@ -21,6 +21,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "NoNeed2Ask",
   description: "A calm job-search status tracker.",
+  icons: {
+    icon: "/logo-app.png",
+    shortcut: "/logo-app.png",
+    apple: "/logo-app.png",
+  },
 };
 
 export default async function RootLayout({

@@ -10,8 +10,6 @@ export function ApplicationsList() {
 
   return (
     <>
-      {/* <ApplicationsStatusSummary applications={applications.items} /> */}
-
       {isError ? (
         <div className="rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
           We could not load your applications right now.

@@ -1,6 +1,7 @@
-import Link from "next/link"
+import Link from "next/link";
+import { Plus } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 // Top row for the applications route, including the create shortcut.
 export function ApplicationsHeader() {
@@ -15,14 +16,16 @@ export function ApplicationsHeader() {
         </p>
       </div>
 
-      <Button asChild className="h-10 rounded-lg px-3 text-sm font-semibold xl:h-12 xl:px-6">
-        <Link aria-label="Add application" href="/applications/create">
-          <span className="text-xl leading-none xl:text-lg" aria-hidden="true">
-            +
-          </span>
-          <span>Add application</span>
+      <Button asChild className="h-10 rounded-lg px-4 sm:col-span-1">
+        <Link
+          aria-label="Add application"
+          href="/applications/create"
+          className="flex items-center"
+        >
+          <Plus className="h-4 w-4" />
+          <span> Add application</span>
         </Link>
       </Button>
     </header>
-  )
+  );
 }
