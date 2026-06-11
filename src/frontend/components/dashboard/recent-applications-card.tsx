@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import type { RecentApplication } from "@/components/dashboard/dashboard-data";
-import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
 
 function getUpdateTitle(application: RecentApplication) {
   if (application.status === "interview_planned") {
@@ -29,6 +28,8 @@ function RecentApplicationRow({
   application: RecentApplication;
   isLast: boolean;
 }) {
+  const StatusIcon = application.statusIcon;
+
   return (
     <div className="grid grid-cols-[2rem_3.5rem_minmax(0,1fr)] gap-3 md:grid-cols-[2rem_4rem_minmax(0,1fr)_auto]">
       <div className="relative z-10 flex justify-center">
@@ -36,11 +37,13 @@ function RecentApplicationRow({
       </div>
 
       <div className="flex justify-center py-3">
-        <div className="flex size-12 items-center justify-center rounded-full bg-blue-50">
-          <DashboardIcon
-            alt=""
-            className="size-9 text-blue-700"
-            name={application.statusIcon}
+        <div
+          className={`flex size-10 items-center justify-center rounded-full ${application.statusIconBackgroundClassName}`}
+        >
+          <StatusIcon
+            aria-hidden="true"
+            className={`size-5 ${application.statusIconClassName}`}
+            strokeWidth={2.2}
           />
         </div>
       </div>
@@ -131,8 +134,7 @@ function RecentApplicationsHeader({
       {showViewAll ? (
         <Button
           asChild
-          className="h-9 w-fit rounded-lg border-blue-100 bg-white/75 px-4 text-sm font-semibold text-slate-950 hover:bg-white"
-          size="sm"
+          className="h-auto w-fit shrink-0 rounded-lg border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 hover:bg-white xl:px-4 xl:py-2 xl:text-sm"
           variant="outline"
         >
           <Link href="/applications">View all</Link>

@@ -4,10 +4,21 @@ import type {
 } from "@/lib/api/types";
 import { normalizeApplicationStatus } from "@/lib/api/application-status";
 
+import {
+  Send,
+  CalendarDays,
+  CircleCheckBig,
+  Handshake,
+  CircleX,
+  PauseCircle,
+  LucideIcon,
+} from "lucide-react";
+
 export type PipelineStage = {
   barClassName: string;
   count: number;
-  icon: string;
+  icon: LucideIcon;
+  iconClassName: string;
   label: string;
   percent: number;
 };
@@ -26,7 +37,9 @@ export type RecentApplication = {
   id: string;
   jobTitle: string;
   status: ApplicationStatus;
-  statusIcon: string;
+  statusIcon: LucideIcon;
+  statusIconBackgroundClassName: string;
+  statusIconClassName: string;
   statusLabel: string;
   updatedLabel: string;
 };
@@ -80,7 +93,9 @@ type BuildDashboardDataOptions = {
 
 type StatusMeta = {
   barClassName: string;
-  icon: string;
+  icon: LucideIcon;
+  iconBackgroundClassName: string;
+  iconClassName: string;
   label: string;
 };
 
@@ -96,33 +111,45 @@ const statusOrder = [
 const statusMeta: Record<ApplicationStatus, StatusMeta> = {
   applied: {
     label: "Applied",
-    icon: "AppliedStatusIcon.svg",
+    icon: Send,
     barClassName: "bg-blue-700",
+    iconBackgroundClassName: "bg-blue-50",
+    iconClassName: "text-blue-700",
   },
   interview_planned: {
     label: "Interview planned",
-    icon: "PlannedStatusIcon.svg",
+    icon: CalendarDays,
     barClassName: "bg-indigo-600",
+    iconBackgroundClassName: "bg-indigo-50",
+    iconClassName: "text-indigo-600",
   },
   interview_done: {
     label: "Interview done",
-    icon: "DoneStatusIcon.svg",
+    icon: CircleCheckBig,
     barClassName: "bg-emerald-700",
+    iconBackgroundClassName: "bg-emerald-50",
+    iconClassName: "text-emerald-700",
   },
   offer: {
     label: "Offer",
-    icon: "OfferStatusIcon.svg",
-    barClassName: "bg-violet-700",
+    icon: Handshake,
+    barClassName: "bg-amber-500",
+    iconBackgroundClassName: "bg-amber-50",
+    iconClassName: "text-amber-600",
   },
   rejected: {
     label: "Rejected",
-    icon: "DoneStatusIcon.svg",
+    icon: CircleX,
     barClassName: "bg-rose-600",
+    iconBackgroundClassName: "bg-rose-50",
+    iconClassName: "text-rose-600",
   },
   paused: {
     label: "Paused",
-    icon: "PlannedStatusIcon.svg",
-    barClassName: "bg-teal-600",
+    icon: PauseCircle,
+    barClassName: "bg-slate-500",
+    iconBackgroundClassName: "bg-slate-100",
+    iconClassName: "text-slate-600",
   },
 };
 
@@ -228,7 +255,7 @@ function getOverviewStats(
     },
     {
       detail: ["Offer stage", counts.offer > 0 ? "Best outcome so far" : "No offers yet"],
-      icon: "icon_camp.png",
+      icon: "icon_top.png",
       title: "Offers",
       tone: "text-orange-600",
       value: counts.offer,
@@ -250,6 +277,11 @@ function getRecentApplications(
       id: getApplicationId(application),
       jobTitle: application.jobTitle,
       statusIcon: statusMeta[normalizeApplicationStatus(application.status)].icon,
+      statusIconBackgroundClassName:
+        statusMeta[normalizeApplicationStatus(application.status)]
+          .iconBackgroundClassName,
+      statusIconClassName:
+        statusMeta[normalizeApplicationStatus(application.status)].iconClassName,
       statusLabel: statusMeta[normalizeApplicationStatus(application.status)].label,
       updatedLabel: formatDate(application.updatedAt),
     }));

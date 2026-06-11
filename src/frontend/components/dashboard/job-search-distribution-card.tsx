@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import type { PipelineStage } from "@/components/dashboard/dashboard-data";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
 
@@ -35,37 +34,41 @@ export function JobSearchDistributionCard({
       </div>
 
       <div className="mt-5 space-y-4 xl:mt-7 xl:space-y-5">
-        {stages.map((stage) => (
-          <div
-            className="grid grid-cols-[2.25rem_minmax(0,1fr)] items-center gap-x-2 gap-y-2 xl:grid-cols-[3rem_9.5rem_minmax(10rem,1fr)_2rem_2.75rem] xl:gap-3"
-            key={stage.label}
-          >
-            <DashboardIcon
-              alt=""
-              className="size-8 text-blue-700 xl:size-9"
-              name={stage.icon}
-            />
-            <p className="min-w-0 text-sm font-semibold text-slate-950">
-              {stage.label}
-            </p>
-            <div className="col-span-2 h-2 overflow-hidden rounded-full bg-blue-950/10 xl:col-span-1 xl:h-2.5">
-              <div
-                aria-label={`${stage.label}: ${stage.percent}%`}
-                className={`h-full rounded-full ${stage.barClassName}`}
-                role="img"
-                style={{ width: `${stage.percent}%` }}
+        {stages.map((stage) => {
+          const StageIcon = stage.icon;
+
+          return (
+            <div
+              className="grid grid-cols-[2.25rem_minmax(0,1fr)] items-center gap-x-2 gap-y-2 xl:grid-cols-[3rem_9.5rem_minmax(10rem,1fr)_2rem_2.75rem] xl:gap-3"
+              key={stage.label}
+            >
+              <StageIcon
+                aria-hidden="true"
+                className={`size-5 ${stage.iconClassName}`}
+                strokeWidth={2.2}
               />
-            </div>
-            <div className="col-span-2 flex items-center justify-between px-1 xl:contents">
-              <p className="text-base font-semibold tracking-normal text-slate-950 xl:text-right xl:text-lg">
-                {stage.count}
+              <p className="min-w-0 text-sm font-semibold text-slate-950">
+                {stage.label}
               </p>
-              <p className="text-xs font-semibold text-blue-950/70 xl:text-right xl:text-sm">
-                {stage.percent}%
-              </p>
+              <div className="col-span-2 h-2 overflow-hidden rounded-full bg-blue-950/10 xl:col-span-1 xl:h-2.5">
+                <div
+                  aria-label={`${stage.label}: ${stage.percent}%`}
+                  className={`h-full rounded-full ${stage.barClassName}`}
+                  role="img"
+                  style={{ width: `${stage.percent}%` }}
+                />
+              </div>
+              <div className="col-span-2 flex items-center justify-between px-1 xl:contents">
+                <p className="text-base font-semibold tracking-normal text-slate-950 xl:text-right xl:text-lg">
+                  {stage.count}
+                </p>
+                <p className="text-xs font-semibold text-blue-950/70 xl:text-right xl:text-sm">
+                  {stage.percent}%
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         <div className="flex items-center justify-between border-t border-blue-950/10 pt-4 text-sm font-semibold text-slate-950">
           <span>Total</span>

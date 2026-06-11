@@ -3,8 +3,8 @@ import {
   ArrowRight,
   BriefcaseBusiness,
   CalendarClock,
-  CheckCircle2,
   FileText,
+  type LucideIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,36 @@ type NextActionCardProps = {
   title?: string;
 };
 
-export function NextActionCard({
+function NextActionDetailTile({
+  detail,
+  icon: Icon,
+  label,
+  value,
+}: {
+  detail: string;
+  icon: LucideIcon;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-lg border border-blue-950/10 bg-white/55 p-3 xl:p-4">
+      <div className="flex items-center gap-2 text-blue-950/55">
+        <Icon className="size-4" strokeWidth={2} />
+        <p className="text-xs font-semibold uppercase tracking-normal">
+          {label}
+        </p>
+      </div>
+      <p className="mt-2 text-sm font-semibold text-slate-950">
+        {value}
+      </p>
+      <p className="mt-1 text-sm font-medium text-blue-950/65">
+        {detail}
+      </p>
+    </div>
+  );
+}
+
+export function NextInterviewCard({
   badge = "May 24",
   contactDetail = "Northstar Labs",
   contactLabel = "Contact",
@@ -72,40 +101,36 @@ export function NextActionCard({
             </p>
           </div>
         </div>
-        <span className="w-fit shrink-0 rounded-lg border border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 xl:px-4 xl:py-2 xl:text-sm">
-          {badge}
-        </span>
+        {showActions ? (
+          <Button
+            asChild
+            className="h-auto w-fit shrink-0 rounded-lg border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 hover:bg-white xl:px-4 xl:py-2 xl:text-sm"
+            variant="outline"
+          >
+            <Link href="/applications">
+              View details
+            </Link>
+          </Button>
+        ) : (
+          <span className="w-fit shrink-0 rounded-lg border border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 xl:px-4 xl:py-2 xl:text-sm">
+            {badge}
+          </span>
+        )}
       </div>
 
       <div className="mt-4 grid gap-3 xl:mt-5 xl:grid-cols-2">
-        <div className="rounded-lg border border-blue-950/10 bg-white/55 p-3 xl:p-4">
-          <div className="flex items-center gap-2 text-blue-950/55">
-            <BriefcaseBusiness className="size-4" strokeWidth={2} />
-            <p className="text-xs font-semibold uppercase tracking-normal">
-              {contactLabel}
-            </p>
-          </div>
-          <p className="mt-2 text-sm font-semibold text-slate-950">
-            {contactName}
-          </p>
-          <p className="mt-1 text-sm font-medium text-blue-950/65">
-            {contactDetail}
-          </p>
-        </div>
-        <div className="rounded-lg border border-blue-950/10 bg-white/55 p-3 xl:p-4">
-          <div className="flex items-center gap-2 text-blue-950/55">
-            <CalendarClock className="size-4" strokeWidth={2} />
-            <p className="text-xs font-semibold uppercase tracking-normal">
-              {timelineLabel}
-            </p>
-          </div>
-          <p className="mt-2 text-sm font-semibold text-slate-950">
-            {timelineValue}
-          </p>
-          <p className="mt-1 text-sm font-medium text-blue-950/65">
-            {timelineDetail}
-          </p>
-        </div>
+        <NextActionDetailTile
+          detail={contactDetail}
+          icon={BriefcaseBusiness}
+          label={contactLabel}
+          value={contactName}
+        />
+        <NextActionDetailTile
+          detail={timelineDetail}
+          icon={CalendarClock}
+          label={timelineLabel}
+          value={timelineValue}
+        />
       </div>
 
       <div className="mt-3 flex min-h-34 min-w-0 flex-1 flex-col rounded-lg border border-blue-950/10 bg-blue-50/45 p-3 xl:mt-4 xl:min-h-0 xl:overflow-hidden xl:p-4">
@@ -142,24 +167,6 @@ export function NextActionCard({
           ))}
         </div>
       </div>
-
-      {showActions ? (
-        <div className="mt-auto flex flex-col gap-3 pt-4 sm:flex-row xl:pt-5">
-          <Button asChild className="rounded-lg px-5 sm:w-fit xl:px-7">
-            <Link href="/applications">
-              <ArrowRight className="size-4" />
-              View details
-            </Link>
-          </Button>
-          <Button
-            className="rounded-lg border-blue-100 bg-white/75 px-5 font-semibold text-slate-950 hover:bg-white sm:w-fit xl:px-7"
-            variant="outline"
-          >
-            <CheckCircle2 className="size-4" />
-            Mark as done
-          </Button>
-        </div>
-      ) : null}
     </article>
   );
 }

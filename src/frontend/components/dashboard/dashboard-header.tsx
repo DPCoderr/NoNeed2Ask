@@ -6,6 +6,64 @@ import type { ReactNode } from "react";
 import { PublicProfileSharingSwitch } from "@/components/dashboard/public-profile-sharing-switch";
 import { Button } from "@/components/ui/button";
 
+export type DashboardHeaderProps = {
+  actions?: ReactNode;
+  description?: string;
+  eyebrow?: string;
+  isPublicProfileAvailable?: boolean;
+  isPublicSharingEnabled?: boolean;
+  publicSlug?: string;
+  title?: string;
+  userDisplayName?: string;
+};
+
+const previewButtonClassName =
+  "h-9 rounded-lg border-blue-100 bg-white/75 px-4 text-sm font-semibold text-slate-950 shadow-sm shadow-blue-950/5 hover:bg-white";
+
+function PreviewPublicPageButton({
+  isAvailable,
+  publicSlug,
+}: {
+  isAvailable: boolean;
+  publicSlug: string;
+}) {
+  const content = (
+    <>
+      Preview public page
+      <HugeiconsIcon
+        aria-hidden="true"
+        className="ml-2 size-4"
+        icon={ArrowUpRight01Icon}
+        strokeWidth={2}
+      />
+    </>
+  );
+
+  if (!isAvailable) {
+    return (
+      <Button
+        className={previewButtonClassName}
+        disabled
+        size="sm"
+        variant="outline"
+      >
+        {content}
+      </Button>
+    );
+  }
+
+  return (
+    <Button
+      asChild
+      className={previewButtonClassName}
+      size="sm"
+      variant="outline"
+    >
+      <Link href={`/status/${publicSlug}`}>{content}</Link>
+    </Button>
+  );
+}
+
 export function DashboardHeader({
   actions,
   description,
@@ -15,16 +73,7 @@ export function DashboardHeader({
   publicSlug,
   title,
   userDisplayName,
-}: {
-  actions?: ReactNode;
-  description?: string;
-  eyebrow?: string;
-  isPublicProfileAvailable?: boolean;
-  isPublicSharingEnabled?: boolean;
-  publicSlug?: string;
-  title?: string;
-  userDisplayName?: string;
-}) {
+}: DashboardHeaderProps) {
   const headerTitle = title ?? `Welcome back, ${userDisplayName}`;
   const headerDescription =
     description ??
@@ -37,39 +86,10 @@ export function DashboardHeader({
           disabled={!isPublicProfileAvailable}
           initialEnabled={Boolean(isPublicSharingEnabled)}
         />
-        {isPublicProfileAvailable ? (
-          <Button
-            asChild
-            className="h-9 rounded-lg border-blue-100 bg-white/75 px-4 text-sm font-semibold text-slate-950 shadow-sm shadow-blue-950/5 hover:bg-white"
-            size="sm"
-            variant="outline"
-          >
-            <Link href={`/status/${publicSlug}`}>
-              Preview public page
-              <HugeiconsIcon
-                aria-hidden="true"
-                className="ml-2 size-4"
-                icon={ArrowUpRight01Icon}
-                strokeWidth={2}
-              />
-            </Link>
-          </Button>
-        ) : (
-          <Button
-            className="h-9 rounded-lg border-blue-100 bg-white/75 px-4 text-sm font-semibold text-slate-950 shadow-sm shadow-blue-950/5"
-            disabled
-            size="sm"
-            variant="outline"
-          >
-            Preview public page
-            <HugeiconsIcon
-              aria-hidden="true"
-              className="ml-2 size-4"
-              icon={ArrowUpRight01Icon}
-              strokeWidth={2}
-            />
-          </Button>
-        )}
+        <PreviewPublicPageButton
+          isAvailable={Boolean(isPublicProfileAvailable)}
+          publicSlug={publicSlug}
+        />
       </>
     ) : null);
 
