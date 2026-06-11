@@ -29,16 +29,9 @@ export function JobSearchDistributionCard({
             </p>
           </div>
         </div>
-        <Button
-          className="h-8 rounded-lg border-blue-100 bg-white/70 px-3 text-xs font-semibold text-slate-950 hover:bg-white xl:h-9 xl:px-4 xl:text-sm"
-          size="sm"
-          variant="outline"
-        >
+        <span className="w-fit shrink-0 rounded-lg border border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 xl:px-4 xl:py-2 xl:text-sm">
           All time
-          <span aria-hidden="true" className="ml-2 text-blue-900">
-            v
-          </span>
-        </Button>
+        </span>
       </div>
 
       <div className="mt-5 space-y-4 xl:mt-7 xl:space-y-5">

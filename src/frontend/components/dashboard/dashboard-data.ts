@@ -36,8 +36,11 @@ export type DashboardNextAction = {
   contactDetail: string;
   contactLabel: string;
   contactName: string;
-  note: string;
   noteTitle: string;
+  notes: {
+    label: string;
+    value: string;
+  }[];
   primaryText: string;
   secondaryText: string;
   showActions: boolean;
@@ -258,6 +261,10 @@ function getNextAction(
 ): DashboardNextAction {
   const nextApplication = [...applications]
     .filter((application) => {
+      if (normalizeApplicationStatus(application.status) !== "interview_planned") {
+        return false;
+      }
+
       if (!application.nextActionAt) {
         return false;
       }
@@ -271,16 +278,21 @@ function getNextAction(
       badge: "Clear",
       contactDetail: "No company selected",
       contactLabel: "Status",
-      contactName: "Nothing scheduled",
-      note: "Add a next action to an application when you want it to show up here.",
-      noteTitle: "Suggested follow-up",
-      primaryText: "No next action scheduled",
-      secondaryText: "Your tracker is ready when there is something to follow up.",
+      contactName: "No interview planned",
+      noteTitle: "Notes",
+      notes: [
+        {
+          label: "Public note",
+          value: "Add an interview date to a planned interview when you want it to show up here.",
+        },
+      ],
+      primaryText: "No planned interview scheduled",
+      secondaryText: "Your tracker is ready when an upcoming interview is on the calendar.",
       showActions: false,
       timelineDetail: `${applications.length} applications tracked`,
-      timelineLabel: "Pipeline",
+      timelineLabel: "Planned interviews",
       timelineValue: "Up to date",
-      title: "Next action",
+      title: "Next planned interview",
     };
   }
 
@@ -293,18 +305,20 @@ function getNextAction(
     contactDetail: nextApplication.companyName,
     contactLabel: "Application",
     contactName: nextApplication.jobTitle,
-    note:
-      nextApplication.privateNote ??
-      nextApplication.publicNote ??
-      "Review your notes and follow up with the next useful step.",
-    noteTitle: "Suggested follow-up",
-    primaryText: `Follow up with ${nextApplication.companyName}`,
+    noteTitle: "Notes",
+    notes: [
+      {
+        label: "Public note",
+        value: nextApplication.publicNote ?? "No public note added yet.",
+      },
+    ],
+    primaryText: `Interview with ${nextApplication.companyName}`,
     secondaryText: `${statusLabel} for ${nextApplication.jobTitle}.`,
     showActions: true,
     timelineDetail: statusLabel,
-    timelineLabel: "Next action",
+    timelineLabel: "Planned for",
     timelineValue: formatDateTime(nextActionDate),
-    title: "Next action",
+    title: "Next planned interview",
   };
 }
 
