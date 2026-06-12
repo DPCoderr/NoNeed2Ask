@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { Switch } from "@/components/ui/switch";
+import { Button } from "../ui/button";
 
 export function PublicSharingControlsPreview() {
   const [isEnabled, setIsEnabled] = useState(true);
@@ -23,9 +23,8 @@ export function PublicSharingControlsPreview() {
           />
         </div>
         {isEnabled ? (
-          <Link
-            className="flex h-9 items-center rounded-lg border border-blue-100 bg-white/75 px-4 shadow-sm shadow-blue-950/5 transition-colors hover:bg-white"
-            href="/status/daan-job-search"
+          <Button
+            className="flex h-9 items-center rounded-lg border border-blue-100 bg-white/75 px-4 shadow-sm shadow-blue-950/5 transition-colors hover:bg-white text-slate-950 font-semibold"
           >
             Preview public page
             <HugeiconsIcon
@@ -34,7 +33,7 @@ export function PublicSharingControlsPreview() {
               icon={ArrowUpRight01Icon}
               strokeWidth={2}
             />
-          </Link>
+          </Button>
         ) : null}
       </div>
       <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">

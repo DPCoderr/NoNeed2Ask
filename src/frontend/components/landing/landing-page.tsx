@@ -76,7 +76,7 @@ function ProductSection({
     >
       {step ? (
         <div
-          className="absolute left-5 top-28 z-10 flex size-11 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow-lg shadow-blue-950/20 md:left-[calc(50%-38rem)] md:top-36"
+          className="absolute left-5 top-28 z-10 flex size-11 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow-lg shadow-blue-950/20 md:top-36 xl:left-[calc(50%-38rem)]"
           aria-hidden="true"
         >
           {step}
@@ -136,7 +136,7 @@ export function LandingPage() {
               size="lg"
               variant="secondary"
             >
-              <Link href="/status/daan-job-search">View public example</Link>
+              <Link href="#dashboard">View public example</Link>
             </Button>
           </LandingReveal>
 
@@ -171,7 +171,7 @@ export function LandingPage() {
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-[calc(1.25rem+1.375rem)] top-0 bottom-0 w-px bg-[linear-gradient(180deg,transparent,rgb(11_111_170_/_0.45)_10%,rgb(11_111_170_/_0.22)_72%,transparent)] md:left-[calc(50%-38rem+1.375rem)]"
+          className="pointer-events-none absolute left-[calc(1.25rem+1.375rem)] top-0 bottom-0 w-px bg-[linear-gradient(180deg,transparent,rgb(11_111_170_/_0.45)_10%,rgb(11_111_170_/_0.22)_72%,transparent)] xl:left-[calc(50%-38rem+1.375rem)]"
         />
         <div
           aria-hidden="true"

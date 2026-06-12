@@ -30,7 +30,7 @@ export function StatusPageFrame({
         navItems={publicStatusNavItems}
       />
 
-      {children}
+      <div className="relative z-10 pt-24 md:pt-28">{children}</div>
     </main>
   );
 }
