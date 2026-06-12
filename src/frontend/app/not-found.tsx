@@ -13,6 +13,7 @@ export default async function NotFoundPage() {
         eyebrow="404"
         isAuthenticated={isAuthenticated}
         title="This page could not be found"
+        actionLabel="Return to home"
       />
     </StatusPageFrame>
   )
