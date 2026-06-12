@@ -90,7 +90,7 @@ function ProductSection({
 export function LandingPage() {
   return (
     <main className="min-h-svh overflow-hidden bg-background text-foreground">
-      <section className="relative flex min-h-[760px] flex-col overflow-hidden md:min-h-svh">
+      <section className="relative flex min-h-[660px] flex-col overflow-hidden md:min-h-[calc(100svh-100px)]">
         <Image
           alt=""
           className="object-cover object-center"
