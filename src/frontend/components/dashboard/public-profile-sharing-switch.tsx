@@ -9,17 +9,22 @@ import { updatePublicProfileSettings } from "@/lib/api/public-profile"
 export function PublicProfileSharingSwitch({
   disabled = false,
   initialEnabled,
+  onEnabledChange,
 }: {
   disabled?: boolean
   initialEnabled: boolean
+  onEnabledChange?: (enabled: boolean) => void
 }) {
   const [isEnabled, setIsEnabled] = React.useState(initialEnabled)
 
   const updateMutation = useMutation({
     mutationFn: (request: { isPublicSharingEnabled: boolean }) =>
       updatePublicProfileSettings(request),
-    onError: () => {
-      setIsEnabled((current) => !current)
+    onError: (_error, request) => {
+      const revertedEnabled = !request.isPublicSharingEnabled
+
+      setIsEnabled(revertedEnabled)
+      onEnabledChange?.(revertedEnabled)
     },
   })
 
@@ -29,6 +34,7 @@ export function PublicProfileSharingSwitch({
     }
 
     setIsEnabled(checked)
+    onEnabledChange?.(checked)
     updateMutation.mutate({ isPublicSharingEnabled: checked })
   }
 

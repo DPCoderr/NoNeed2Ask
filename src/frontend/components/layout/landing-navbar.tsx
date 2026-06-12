@@ -18,9 +18,9 @@ type LandingNavbarProps = {
 };
 
 const defaultNavItems = [
-  { href: "#features", label: "Features" },
+  { href: "#dashboard", label: "Dashboard" },
   { href: "#applications", label: "Applications" },
-  { href: "#contact", label: "Contact" },
+  { href: "#public-status", label: "Public page" },
 ];
 
 export function LandingNavbar({
@@ -32,7 +32,7 @@ export function LandingNavbar({
   return (
     <header
       className={cn(
-        "sticky top-4 z-20 mx-auto mt-4 w-[calc(100%-2rem)] max-w-6xl border border-white/70 bg-white/90 shadow-lg shadow-foreground/5 backdrop-blur-xl",
+        "fixed inset-x-4 top-4 z-50 mx-auto max-w-6xl border border-white/70 bg-white/90 shadow-lg shadow-foreground/5 backdrop-blur-xl",
         isMenuOpen ? "rounded-3xl" : "rounded-full",
       )}
     >
@@ -68,7 +68,12 @@ export function LandingNavbar({
             <Button asChild size="lg">
               <Link href="/">Dashboard</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="bg-white/50">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="bg-white/50"
+            >
               <Link href="/applications">Applications</Link>
             </Button>
           </div>
@@ -77,7 +82,12 @@ export function LandingNavbar({
             <Button asChild size="lg">
               <Link href="/login">Login</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="bg-white/50">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="bg-white/50"
+            >
               <Link href="/register">Sign Up</Link>
             </Button>
           </div>

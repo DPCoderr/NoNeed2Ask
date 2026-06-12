@@ -48,7 +48,6 @@ const workspaceRoutes = [
 ];
 
 const accountRoutes = [
-  { href: "/profile", label: "Profile", icon: UserIcon },
   { href: "/settings", label: "Settings", icon: Setting07Icon },
 ];
 
@@ -142,10 +141,7 @@ export function AppSidebar({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
-                  isActive={
-                    isActiveRoute(pathname, "/profile") ||
-                    isActiveRoute(pathname, "/settings")
-                  }
+                  isActive={isActiveRoute(pathname, "/settings")}
                   tooltip="Settings"
                   type="button"
                 >

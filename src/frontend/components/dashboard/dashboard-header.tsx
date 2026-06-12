@@ -1,7 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import { PublicProfileSharingSwitch } from "@/components/dashboard/public-profile-sharing-switch";
 import { Button } from "@/components/ui/button";
@@ -74,6 +76,8 @@ export function DashboardHeader({
   title,
   userDisplayName,
 }: DashboardHeaderProps) {
+  const [isPublicSharingPreviewEnabled, setIsPublicSharingPreviewEnabled] =
+    useState(Boolean(isPublicSharingEnabled));
   const headerTitle = title ?? `Welcome back, ${userDisplayName}`;
   const headerDescription =
     description ??
@@ -85,11 +89,14 @@ export function DashboardHeader({
         <PublicProfileSharingSwitch
           disabled={!isPublicProfileAvailable}
           initialEnabled={Boolean(isPublicSharingEnabled)}
+          onEnabledChange={setIsPublicSharingPreviewEnabled}
         />
-        <PreviewPublicPageButton
-          isAvailable={Boolean(isPublicProfileAvailable)}
-          publicSlug={publicSlug}
-        />
+        {isPublicProfileAvailable && isPublicSharingPreviewEnabled ? (
+          <PreviewPublicPageButton
+            isAvailable={Boolean(isPublicProfileAvailable)}
+            publicSlug={publicSlug}
+          />
+        ) : null}
       </>
     ) : null);
 

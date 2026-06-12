@@ -685,7 +685,7 @@ function ApplicationForm({ mode, application }: ApplicationFormProps) {
                 >
                   {actionLabel}
                 </Button>
-                <AlertDialogContent>
+                <AlertDialogContent className="rounded-lg">
                   <AlertDialogHeader>
                     <AlertDialogTitle>{confirmTitle}</AlertDialogTitle>
                     <AlertDialogDescription>
@@ -693,10 +693,15 @@ function ApplicationForm({ mode, application }: ApplicationFormProps) {
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isSaving} type="button">
+                    <AlertDialogCancel
+                      className="rounded-lg"
+                      disabled={isSaving}
+                      type="button"
+                    >
                       Cancel
                     </AlertDialogCancel>
                     <AlertDialogAction
+                      className="rounded-lg"
                       disabled={isSaving}
                       onClick={() => void handleSubmit(onSubmit)()}
                       type="button"
