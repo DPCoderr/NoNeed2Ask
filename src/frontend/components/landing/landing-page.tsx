@@ -45,6 +45,20 @@ function ScreenshotFrame({
 }) {
   return (
     <figure className="overflow-hidden rounded-lg border border-white/70 bg-white/20 shadow-[0_26px_80px_-54px_rgb(15_23_42_/_0.65)] ring-1 ring-foreground/5">
+      <div
+        aria-hidden="true"
+        className="flex min-h-7 items-center gap-1.5 border-b border-black/10 bg-slate-100/95 px-2 py-1 backdrop-blur sm:min-h-10 sm:gap-2 sm:px-3 sm:py-2"
+      >
+        <div className="flex shrink-0 items-center gap-1 sm:gap-1.5">
+          <span className="size-2 rounded-full bg-[#ff5f57] shadow-[inset_0_0_0_1px_rgb(0_0_0_/_0.08)] sm:size-3" />
+          <span className="size-2 rounded-full bg-[#febc2e] shadow-[inset_0_0_0_1px_rgb(0_0_0_/_0.08)] sm:size-3" />
+          <span className="size-2 rounded-full bg-[#28c840] shadow-[inset_0_0_0_1px_rgb(0_0_0_/_0.08)] sm:size-3" />
+        </div>
+        <div className="mx-auto min-w-0 max-w-[min(34rem,calc(100%-3rem))] flex-1 rounded border border-black/10 bg-white/80 px-2 py-0.5 text-center text-[8px] font-medium leading-3 text-slate-600 shadow-sm sm:rounded-md sm:px-4 sm:py-1 sm:text-xs sm:leading-4">
+          <span className="block truncate">https://no-need2-ask.vercel.app</span>
+        </div>
+        <div className="hidden w-[3.75rem] shrink-0 sm:block" />
+      </div>
       <Image
         alt={alt}
         className="h-auto w-full"
@@ -141,7 +155,7 @@ export function LandingPage() {
           </LandingReveal>
 
           <LandingReveal
-            className="relative mt-8 w-full max-w-6xl translate-y-8 px-1 sm:mt-10 sm:px-4 md:translate-y-12"
+            className="relative mt-8 w-full max-w-6xl translate-y-3 px-1 sm:mt-10 sm:translate-y-8 sm:px-4 md:translate-y-12"
             delay={500}
             motion="fade"
           >
