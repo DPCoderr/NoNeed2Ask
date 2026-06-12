@@ -20,7 +20,7 @@ export default function SignupPage() {
 
       <LandingNavbar />
 
-      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-6 py-12 md:px-8 md:py-16">
+      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-start justify-center px-6 pb-12 pt-32 md:px-8 md:pb-16 md:pt-36 lg:items-center lg:py-28">
         <div className="flex w-full max-w-sm flex-col gap-5">
           <Suspense>
             <SignupForm />

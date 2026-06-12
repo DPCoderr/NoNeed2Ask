@@ -18,9 +18,9 @@ type LandingNavbarProps = {
 };
 
 const defaultNavItems = [
-  { href: "#dashboard", label: "Dashboard" },
-  { href: "#applications", label: "Applications" },
-  { href: "#public-status", label: "Public page" },
+  { href: "/#dashboard", label: "Dashboard" },
+  { href: "/#applications", label: "Applications" },
+  { href: "/#public-status", label: "Public page" },
 ];
 
 export function LandingNavbar({
