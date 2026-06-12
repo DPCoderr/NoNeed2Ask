@@ -92,7 +92,7 @@ export function LandingPage() {
     <main className="min-h-svh overflow-hidden bg-background text-foreground">
       <section className="relative flex min-h-[660px] flex-col overflow-hidden md:min-h-[calc(100svh-100px)]">
         <Image
-          alt=""
+          alt="background image"
           className="object-cover object-center"
           fill
           priority
@@ -104,7 +104,7 @@ export function LandingPage() {
 
         <LandingNavbar />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center px-5 pb-0 pt-24 text-center sm:px-6 sm:pt-28 md:px-8 md:pt-32">
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center px-5 pb-8 pt-24 text-center sm:px-6 sm:pt-28 md:px-8 md:pb-12 md:pt-32">
           <LandingReveal>
             <h1 className="mt-7 max-w-5xl text-5xl font-semibold leading-[1.03] tracking-normal text-foreground sm:text-6xl md:mt-9 md:text-7xl">
               <span className="block md:inline">Track jobs,</span>{" "}
@@ -153,7 +153,7 @@ export function LandingPage() {
               alt="NoNeed2Ask private dashboard showing application totals, interview planning, and job search distribution"
               height={2011}
               priority
-              src="/landing/dashboard-overview.png"
+              src="/landing/hero-image.png"
               width={2509}
             />
           </LandingReveal>
