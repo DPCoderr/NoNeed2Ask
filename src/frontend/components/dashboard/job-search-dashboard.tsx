@@ -46,7 +46,7 @@ export function JobSearchDashboard({
     <>
       <DashboardHeader {...header} />
 
-      <OverviewStats id={overviewId} stats={dashboardData.overviewStats} />
+      {/* <OverviewStats id={overviewId} stats={dashboardData.overviewStats} /> */}
 
       <section
         className={cn(

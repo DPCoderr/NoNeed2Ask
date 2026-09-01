@@ -32,7 +32,7 @@ export function LandingNavbar({
   return (
     <header
       className={cn(
-        "landing-safe-nav fixed inset-x-4 top-4 z-50 mx-auto max-w-6xl border border-white/80 bg-white/88 shadow-[0_14px_45px_-24px_rgb(15_45_75_/_0.45)] backdrop-blur-xl",
+        "landing-safe-nav fixed inset-x-4 top-4 z-[100] mx-auto max-w-6xl border border-slate-200 bg-white shadow-[0_14px_45px_-24px_rgb(15_45_75_/_0.45)]",
         isMenuOpen ? "rounded-3xl" : "rounded-full",
       )}
     >
