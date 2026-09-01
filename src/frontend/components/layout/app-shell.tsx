@@ -92,13 +92,13 @@ export function AppShell({
         <SidebarInset className="relative min-h-0 overflow-hidden">
           <header
             className={cn(
-              "relative z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12",
+              "app-safe-header relative z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:md:h-12",
               hasLandingBackground
                 ? "border-transparent bg-transparent"
                 : "bg-background"
             )}
           >
-            <div className="flex min-w-0 items-center gap-3 px-8">
+            <div className="app-safe-inline flex min-w-0 items-center gap-3 px-5 md:px-8">
               <SidebarTrigger className="-ml-1 bg-white/60 text-slate-950 shadow-sm shadow-slate-950/10 hover:bg-white/80" />
               <Separator
                 className="mx-2 bg-slate-900/25 data-[orientation=vertical]:!self-center data-[orientation=vertical]:h-4"

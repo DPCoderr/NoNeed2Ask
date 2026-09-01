@@ -91,7 +91,7 @@ function Sidebar({
           data-slot="sidebar"
           data-state={openMobile ? "expanded" : "collapsed"}
           className={cn(
-            "fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col border-r border-white/70 bg-white/72 text-sidebar-foreground shadow-lg shadow-slate-950/10 backdrop-blur-xl transition-transform duration-200 ease-linear md:hidden",
+            "app-safe-sidebar fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col border-r border-white/70 bg-white/72 text-sidebar-foreground shadow-lg shadow-slate-950/10 backdrop-blur-xl transition-transform duration-200 ease-linear md:hidden",
             openMobile ? "translate-x-0" : "-translate-x-full",
             className
           )}
@@ -108,7 +108,7 @@ function Sidebar({
       data-slot="sidebar"
       data-state={open ? "expanded" : "collapsed"}
       className={cn(
-        "sticky top-0 hidden h-screen shrink-0 rounded-tr-2xl border-r border-white/70 bg-white/72 text-sidebar-foreground shadow-sm shadow-slate-950/10 backdrop-blur-xl transition-[width] duration-200 ease-linear md:flex md:flex-col",
+        "app-safe-sidebar sticky top-0 hidden h-screen shrink-0 rounded-tr-2xl border-r border-white/70 bg-white/72 text-sidebar-foreground shadow-sm shadow-slate-950/10 backdrop-blur-xl transition-[width] duration-200 ease-linear md:flex md:flex-col",
         "overflow-hidden",
         open ? "w-64" : "w-16",
         className
