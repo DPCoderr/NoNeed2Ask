@@ -101,7 +101,7 @@ export function AppSidebar({
           onClick={handleSidebarNavigation}
         >
           <Image
-            src="/logo-transparent.png"
+            src="/logo-mark.webp"
             height={36}
             width={36}
             alt="NoNeed2Ask logo"

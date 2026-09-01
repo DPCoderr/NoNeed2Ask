@@ -18,9 +18,9 @@ type LandingNavbarProps = {
 };
 
 const defaultNavItems = [
-  { href: "/#dashboard", label: "Dashboard" },
-  { href: "/#applications", label: "Applications" },
-  { href: "/#public-status", label: "Public page" },
+  { href: "/#dashboard", label: "How it works" },
+  { href: "/#applications", label: "Private tracker" },
+  { href: "/#public-status", label: "Public status" },
 ];
 
 export function LandingNavbar({
@@ -32,7 +32,7 @@ export function LandingNavbar({
   return (
     <header
       className={cn(
-        "fixed inset-x-4 top-4 z-50 mx-auto max-w-6xl border border-white/70 bg-white/90 shadow-lg shadow-foreground/5 backdrop-blur-xl",
+        "fixed inset-x-4 top-4 z-50 mx-auto max-w-6xl border border-white/80 bg-white/88 shadow-[0_14px_45px_-24px_rgb(15_45_75_/_0.45)] backdrop-blur-xl",
         isMenuOpen ? "rounded-3xl" : "rounded-full",
       )}
     >
@@ -42,12 +42,7 @@ export function LandingNavbar({
           href="/"
           onClick={() => setIsMenuOpen(false)}
         >
-          <Image
-            src="/logo-transparent.png"
-            height={36}
-            width={36}
-            alt="NoNeed2Ask logo"
-          />
+          <Image src="/logo-mark.webp" height={36} width={36} alt="" />
           <span>NoNeed2Ask</span>
         </Link>
 
@@ -79,16 +74,16 @@ export function LandingNavbar({
           </div>
         ) : (
           <div className="hidden items-center gap-2 md:flex">
-            <Button asChild size="lg">
-              <Link href="/login">Login</Link>
-            </Button>
             <Button
               asChild
+              className="bg-white/40"
               size="lg"
               variant="outline"
-              className="bg-white/50"
             >
-              <Link href="/register">Sign Up</Link>
+              <Link href="/login">Log in</Link>
+            </Button>
+            <Button asChild className="shadow-sm shadow-blue-950/10" size="lg">
+              <Link href="/register">Create tracker</Link>
             </Button>
           </div>
         )}
@@ -150,14 +145,14 @@ export function LandingNavbar({
             </div>
           ) : (
             <div className="mt-3 grid gap-2">
-              <Button asChild size="lg">
+              <Button asChild size="lg" variant="outline">
                 <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                  Login
+                  Log in
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline">
+              <Button asChild size="lg">
                 <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-                  Sign Up
+                  Create tracker
                 </Link>
               </Button>
             </div>
