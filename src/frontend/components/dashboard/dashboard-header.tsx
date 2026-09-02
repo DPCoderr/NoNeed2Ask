@@ -101,10 +101,7 @@ export function DashboardHeader({
     ) : null);
 
   return (
-    <section className="relative isolate overflow-hidden rounded-[2rem] border border-blue-100 bg-white px-6 py-7 shadow-[0_28px_80px_-58px_rgb(30_64_175_/_0.55)] before:absolute before:left-10 before:top-0 before:h-1 before:w-20 before:rounded-b-full before:bg-blue-600 sm:px-9 sm:py-8 lg:flex lg:items-center lg:justify-between lg:gap-12 lg:px-10 lg:py-9">
-      <div aria-hidden="true" className="absolute -right-20 -top-28 -z-10 size-64 rounded-full border-2 border-blue-200/80" />
-      <div aria-hidden="true" className="absolute right-8 top-8 -z-10 size-28 rounded-full border border-blue-200/70" />
-
+    <section className="py-3 sm:py-5 lg:flex lg:items-center lg:justify-between lg:gap-12 lg:py-6">
       <header className="min-w-0 max-w-3xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary sm:text-sm">
           {eyebrow}
@@ -118,7 +115,7 @@ export function DashboardHeader({
       </header>
 
       {headerActions ? (
-        <div className="mt-4 w-full shrink-0 sm:mt-6 lg:mt-0 lg:max-w-sm">
+        <div className="mt-4 w-full shrink-0 sm:mt-6 lg:ml-auto lg:mt-0 lg:max-w-sm">
           <p className="mb-2.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-900/55">
             Sharing
           </p>
