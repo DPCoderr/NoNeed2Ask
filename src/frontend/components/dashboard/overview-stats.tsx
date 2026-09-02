@@ -1,5 +1,8 @@
 import type { OverviewStat } from "@/components/dashboard/dashboard-data";
-import { DashboardIcon } from "@/components/dashboard/dashboard-icon";
+import {
+  DashboardGlyph,
+  type DashboardGlyphName,
+} from "@/components/dashboard/dashboard-glyph";
 
 function StatCard({
   detail,
@@ -9,34 +12,31 @@ function StatCard({
   value,
 }: {
   detail: string[];
-  icon: string;
+  icon: DashboardGlyphName;
   tone?: string;
   title: string;
   value: number;
 }) {
   return (
-    <article className="relative overflow-hidden rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6">
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-3/5 bg-gradient-to-l from-blue-200/90 via-blue-100/55 to-transparent" />
-      <DashboardIcon
-        alt=""
-        className={`pointer-events-none absolute right-3 top-1/2 size-24 -translate-y-1/2 object-contain opacity-95 sm:right-4 sm:size-32 lg:right-2 lg:size-28 xl:right-4 xl:size-32 ${tone}`}
-        name={icon}
-        priority
-      />
-      <div className="relative z-10 flex items-center justify-between gap-3 sm:gap-5">
-        <div className="min-w-0 pr-24 sm:pr-36 lg:pr-24 xl:pr-32">
-          <h2 className="text-sm font-semibold text-blue-950 sm:text-base">
+    <article className="flex min-w-0 items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4">
+      <div className="flex size-9 shrink-0 items-center justify-center border border-blue-950/10 bg-white text-blue-700 sm:size-10">
+        <DashboardGlyph
+          className={`size-5 sm:size-5.5 ${tone}`}
+          name={icon}
+        />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-baseline justify-between gap-2">
+          <h2 className="truncate text-sm font-semibold text-blue-950/75">
             {title}
           </h2>
-          <p className="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:mt-4 sm:text-4xl">
+          <p className="text-2xl font-semibold tracking-tight text-slate-950">
             {value}
           </p>
-          <div className="mt-1.5 space-y-0.5 text-xs font-medium leading-5 text-blue-950/75 sm:mt-2 sm:space-y-1 sm:text-sm">
-            {detail.map((item) => (
-              <p key={item}>{item}</p>
-            ))}
-          </div>
         </div>
+        <p className="mt-0.5 truncate text-xs font-medium text-blue-950/55">
+          {detail.join(" · ")}
+        </p>
       </div>
     </article>
   );
@@ -51,7 +51,8 @@ export function OverviewStats({
 }) {
   return (
     <section
-      className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-3 pt-1 sm:gap-4 sm:pt-2"
+      aria-label="Application overview"
+      className="grid overflow-hidden border border-blue-950/10 bg-white shadow-[0_20px_60px_-45px_rgb(15_23_42_/_0.35)] lg:grid-cols-2 xl:grid-cols-4 [&>article:not(:first-child)]:border-t [&>article]:border-blue-950/8 lg:[&>article:nth-child(2)]:border-t-0 lg:[&>article:nth-child(even)]:border-l xl:[&>article]:border-l xl:[&>article]:border-t-0 xl:[&>article:first-child]:border-l-0"
       id={id}
     >
       {stats.map((stat) => (

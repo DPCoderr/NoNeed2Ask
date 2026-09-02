@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation"
 import { Fragment, type ReactNode } from "react"
 
 import { AppSidebar } from "@/components/app-sidebar"
+import { TopographyPattern } from "@/components/dashboard/dashboard-glyph"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -62,8 +63,9 @@ export function AppShell({
 }) {
   const pathname = usePathname()
   const breadcrumbs = getBreadcrumbs(pathname)
+  const isDashboard = pathname === "/"
   const hasLandingBackground =
-    pathname === "/" ||
+    isDashboard ||
     pathname === "/applications" ||
     pathname.startsWith("/applications/")
 
@@ -83,8 +85,25 @@ export function AppShell({
               backgroundImage: "url('/bg-userpage-light.jpg')",
             }}
           />
-          <div className="fixed inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(246_250_255/0.96)_100%)]" />
-          <div className="fixed inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]" />
+          <div
+            className={cn(
+              "fixed inset-0 z-[1]",
+              isDashboard
+                ? "bg-[linear-gradient(225deg,rgb(255_255_255/0.28)_0%,rgb(255_255_255/0.62)_46%,rgb(246_250_255/0.97)_100%)]"
+                : "bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(246_250_255/0.96)_100%)]"
+            )}
+          />
+          <div
+            className={cn(
+              "fixed inset-0 z-[2]",
+              isDashboard
+                ? "bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0.18)_0%,rgb(255_255_255/0.54)_42%,rgb(246_250_255/0.9)_82%)]"
+                : "bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]"
+            )}
+          />
+          {isDashboard ? (
+            <TopographyPattern className="pointer-events-none fixed -right-16 top-16 z-[3] w-[min(48rem,72vw)] text-blue-900/7" />
+          ) : null}
         </>
       ) : null}
       <div className="relative z-10 flex h-full min-h-0 w-full">
@@ -94,7 +113,10 @@ export function AppShell({
             className={cn(
               "app-safe-header relative z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:md:h-12",
               hasLandingBackground
-                ? "border-transparent bg-transparent"
+                ? cn(
+                    "bg-transparent",
+                    isDashboard ? "border-blue-950/8" : "border-transparent"
+                  )
                 : "bg-background"
             )}
           >

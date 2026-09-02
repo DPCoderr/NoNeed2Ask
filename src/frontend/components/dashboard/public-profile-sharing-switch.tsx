@@ -39,7 +39,7 @@ export function PublicProfileSharingSwitch({
   }
 
   return (
-    <div className="flex h-9 items-center gap-2 rounded-lg border border-blue-100 bg-white/75 px-3 shadow-sm shadow-blue-950/5">
+    <div className="flex h-9 items-center gap-2 px-2.5 text-sm text-blue-950/68">
       <span>Public page {isEnabled ? "on" : "off"}</span>
       <Switch
         aria-label="Toggle public status page"

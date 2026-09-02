@@ -1,83 +1,87 @@
-import { ChartBar } from "lucide-react";
-
 import type { PipelineStage } from "@/components/dashboard/dashboard-data";
+import { DashboardGlyph } from "@/components/dashboard/dashboard-glyph";
 
 export function JobSearchDistributionCard({
   description = "Where all your applications stand right now.",
+  id,
   stages,
   total,
 }: {
   description?: string;
+  id?: string;
   stages: PipelineStage[];
   total: number;
 }) {
   return (
-    <article className="rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 lg:p-6">
-      <div className="flex items-start justify-between gap-3 xl:items-center xl:gap-4">
-        <div className="flex min-w-0 items-center gap-2.5 xl:gap-3">
-          <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700 xl:size-12">
-            <ChartBar
-              aria-hidden="true"
-              className="size-6 xl:size-7"
-              strokeWidth={2}
-            />
+    <section
+      className="min-w-0 scroll-mt-28 border border-blue-950/12 bg-white p-5 shadow-[0_28px_80px_-55px_rgb(15_23_42_/_0.5)] sm:p-7 lg:p-8"
+      id={id}
+    >
+      <div className="flex items-start justify-between gap-5">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex size-10 shrink-0 items-center justify-center border border-blue-950/12 bg-[#f8fbff] text-blue-700">
+            <DashboardGlyph className="size-5" name="contour" />
           </div>
           <div className="min-w-0">
-            <h2 className="text-lg font-semibold tracking-normal text-slate-950 xl:text-xl">
-              Job Search Distribution
+            <h2 className="text-2xl font-semibold tracking-[-0.035em] text-slate-950 sm:text-3xl">
+              Application pipeline
             </h2>
-            <p className="mt-0.5 text-xs font-medium text-blue-950/75 xl:mt-1 xl:text-sm">
-              {description}
-            </p>
           </div>
         </div>
-        <span className="w-fit shrink-0 rounded-lg border border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 xl:px-4 xl:py-2 xl:text-sm">
-          All time
-        </span>
+        <div className="shrink-0 text-right">
+          <p className="text-3xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-4xl">{total}</p>
+          <p className="mt-1 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-blue-950/42">Applications</p>
+        </div>
       </div>
 
-      <div className="mt-5 space-y-4 xl:mt-7 xl:space-y-5">
-        {stages.map((stage) => {
-          const StageIcon = stage.icon;
+      <p className="mt-5 max-w-2xl text-sm font-medium leading-6 text-blue-950/58">
+        {description}
+      </p>
 
+      <div
+        aria-label={`${total} applications distributed across ${stages.length} statuses`}
+        className="mt-7 flex h-3 w-full overflow-hidden bg-blue-950/8"
+        role="img"
+      >
+        {stages.map((stage) => (
+          <span
+            className={stage.barClassName}
+            key={stage.label}
+            style={{ width: `${stage.percent}%` }}
+          />
+        ))}
+      </div>
+
+      <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden border border-blue-950/10 bg-blue-950/10 md:grid-cols-3 xl:grid-cols-6">
+        {stages.map((stage) => {
           return (
             <div
-              className="grid grid-cols-[2.25rem_minmax(0,1fr)] items-center gap-x-2 gap-y-2 xl:grid-cols-[3rem_9.5rem_minmax(10rem,1fr)_2rem_2.75rem] xl:gap-3"
+              className="min-w-0 bg-white"
               key={stage.label}
             >
-              <StageIcon
-                aria-hidden="true"
-                className={`size-5 ${stage.iconClassName}`}
-                strokeWidth={2.2}
-              />
-              <p className="min-w-0 text-sm font-semibold text-slate-950">
-                {stage.label}
-              </p>
-              <div className="col-span-2 h-2 overflow-hidden rounded-full bg-blue-950/10 xl:col-span-1 xl:h-2.5">
-                <div
-                  aria-label={`${stage.label}: ${stage.percent}%`}
-                  className={`h-full rounded-full ${stage.barClassName}`}
-                  role="img"
-                  style={{ width: `${stage.percent}%` }}
+              <div
+                className={`flex min-h-14 items-center gap-2.5 border-b border-black/5 px-3 py-3 sm:px-4 ${stage.headerClassName}`}
+              >
+                <DashboardGlyph
+                  className={`size-5 shrink-0 ${stage.iconClassName}`}
+                  name={stage.icon}
                 />
+                <p className="min-w-0 text-sm font-semibold leading-5">
+                  {stage.label}
+                </p>
               </div>
-              <div className="col-span-2 flex items-center justify-between px-1 xl:contents">
-                <p className="text-base font-semibold tracking-normal text-slate-950 xl:text-right xl:text-lg">
+              <div className="flex items-baseline gap-2 px-3 py-4 tabular-nums sm:px-4 sm:py-5">
+                <p className="text-2xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-3xl">
                   {stage.count}
                 </p>
-                <p className="text-xs font-semibold text-blue-950/70 xl:text-right xl:text-sm">
+                <p className="text-xs font-semibold text-blue-950/42">
                   {stage.percent}%
                 </p>
               </div>
             </div>
           );
         })}
-
-        <div className="flex items-center justify-between border-t border-blue-950/10 pt-4 text-sm font-semibold text-slate-950">
-          <span>Total</span>
-          <span>{total} applications</span>
-        </div>
       </div>
-    </article>
+    </section>
   );
 }

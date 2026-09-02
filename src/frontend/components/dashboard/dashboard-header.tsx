@@ -20,7 +20,7 @@ export type DashboardHeaderProps = {
 };
 
 const previewButtonClassName =
-  "h-9 rounded-lg border-blue-100 bg-white/75 px-4 text-sm font-semibold text-slate-950 shadow-sm shadow-blue-950/5 hover:bg-white";
+  "h-9 rounded-none border-blue-950/15 bg-white px-3 text-sm font-semibold text-blue-900 shadow-none hover:bg-blue-50 hover:text-slate-950";
 
 function PreviewPublicPageButton({
   isAvailable,
@@ -81,7 +81,7 @@ export function DashboardHeader({
   const headerTitle = title ?? `Welcome back, ${userDisplayName}`;
   const headerDescription =
     description ??
-    "A private command center for the job search: pipeline health, follow-ups, and public status visibility.";
+    "Your applications, upcoming interview, and latest progress at a glance.";
   const headerActions =
     actions ??
     (publicSlug ? (
@@ -101,21 +101,21 @@ export function DashboardHeader({
     ) : null);
 
   return (
-    <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-      <header className="max-w-2xl pt-1 lg:pt-2">
-        <p className="text-sm font-semibold text-blue-700">
+    <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+      <header className="min-w-0 max-w-3xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-700">
           {eyebrow}
         </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:mt-4 lg:text-5xl">
+        <h1 className="mt-2 break-words text-3xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-[2.65rem] sm:leading-[1.08]">
           {headerTitle}
         </h1>
-        <p className="mt-3 max-w-xl text-sm leading-6 text-blue-950/75 sm:text-base sm:leading-8 lg:mt-5">
+        <p className="mt-2.5 max-w-2xl text-sm leading-6 text-blue-950/70 sm:text-base">
           {headerDescription}
         </p>
       </header>
 
       {headerActions ? (
-        <div className="flex shrink-0 flex-wrap items-center justify-start gap-3 pr-1 text-sm font-semibold text-slate-950 lg:justify-end lg:gap-4 ">
+        <div className="flex w-fit shrink-0 flex-wrap items-center gap-2 border-t border-blue-950/12 pt-3 text-sm font-semibold text-slate-950 lg:border-l lg:border-t-0 lg:pb-0.5 lg:pl-5 lg:pt-0">
           {headerActions}
         </div>
       ) : null}

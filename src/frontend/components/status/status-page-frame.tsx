@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { TopographyPattern } from "@/components/dashboard/dashboard-glyph";
 import { LandingNavbar } from "@/components/layout/landing-navbar";
 
 const publicStatusNavItems = [
@@ -24,6 +25,7 @@ export function StatusPageFrame({
       />
       <div className="fixed inset-0 z-[1] bg-[linear-gradient(225deg,rgb(255_255_255/0.04)_0%,rgb(255_255_255/0.2)_34%,rgb(255_255_255/0.72)_62%,rgb(246_250_255/0.96)_100%)]" />
       <div className="fixed inset-0 z-[2] bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]" />
+      <TopographyPattern className="pointer-events-none fixed -right-16 top-20 z-[3] w-[min(48rem,72vw)] text-blue-900/7" />
 
       <LandingNavbar
         isAuthenticated={isAuthenticated}

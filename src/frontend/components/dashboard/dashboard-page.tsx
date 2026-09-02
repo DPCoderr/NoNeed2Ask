@@ -17,6 +17,7 @@ export async function DashboardPage() {
     getDashboardPublicProfileSettings(user),
   ]);
   const dashboardData = buildDashboardData(applications);
+  const reminderApplication = applications[0];
 
   if (!publicProfile) {
     return null;
@@ -25,7 +26,7 @@ export async function DashboardPage() {
   return (
     <PageShell
       background="landing"
-      className="max-w-screen-2xl gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10"
+      className="max-w-screen-2xl gap-4 px-4 py-4 sm:px-5 md:gap-5 md:px-8 md:py-6 xl:px-10 xl:py-7"
     >
       <JobSearchDashboard
         dashboardData={dashboardData}
@@ -34,6 +35,15 @@ export async function DashboardPage() {
           isPublicSharingEnabled: publicProfile.isPublicSharingEnabled,
           publicSlug: publicProfile.publicSlug,
           userDisplayName: user.username,
+        }}
+        nextInterview={{
+          companyName: reminderApplication?.companyName ?? "Northstar Labs",
+          dateLabel: "Sep 12 · 10:30 AM",
+          href: reminderApplication
+            ? `/applications/${reminderApplication.id}`
+            : "/applications",
+          jobTitle:
+            reminderApplication?.jobTitle ?? "Senior Frontend Engineer",
         }}
       />
     </PageShell>

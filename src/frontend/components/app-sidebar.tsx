@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/sidebar";
 import { logout } from "@/lib/api";
 import type { AuthMeResponseDto } from "@/lib/api/auth";
+import { cn } from "@/lib/utils";
 
 const workspaceRoutes = [
   { href: "/", label: "Home", icon: DashboardSquare01Icon },
@@ -121,6 +122,10 @@ export function AppSidebar({
                 <SidebarMenuItem key={route.href}>
                   <SidebarMenuButton
                     asChild
+                    className={cn(
+                      route.href === "/" &&
+                        "relative data-[active=true]:bg-blue-50 data-[active=true]:text-blue-950 data-[active=true]:shadow-none data-[active=true]:before:absolute data-[active=true]:before:inset-y-1.5 data-[active=true]:before:left-0 data-[active=true]:before:w-0.5 data-[active=true]:before:bg-blue-700"
+                    )}
                     isActive={isActiveRoute(pathname, route.href)}
                   >
                     <Link href={route.href} onClick={handleSidebarNavigation}>

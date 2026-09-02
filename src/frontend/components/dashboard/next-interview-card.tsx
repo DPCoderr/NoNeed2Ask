@@ -1,170 +1,94 @@
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import {
-  BriefcaseBusiness,
-  CalendarClock,
-  FileText,
-  type LucideIcon,
-} from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { DashboardGlyph } from "@/components/dashboard/dashboard-glyph";
+import { cn } from "@/lib/utils";
 
-type NextActionCardProps = {
-  badge?: string;
-  contactDetail?: string;
-  contactLabel?: string;
-  contactName?: string;
-  noteTitle?: string;
-  notes?: {
-    label: string;
-    value: string;
-  }[];
-  primaryText?: string;
-  secondaryText?: string;
-  showActions?: boolean;
-  timelineDetail?: string;
-  timelineLabel?: string;
-  timelineValue?: string;
-  title?: string;
+export type InterviewReminder = {
+  companyName: string;
+  dateLabel: string;
+  href?: string;
+  jobTitle: string;
 };
 
-function NextActionDetailTile({
-  detail,
-  icon: Icon,
-  label,
-  value,
-}: {
-  detail: string;
-  icon: LucideIcon;
-  label: string;
-  value: string;
-}) {
+function ReminderContent({
+  companyName,
+  dateLabel,
+  isLinked,
+  jobTitle,
+}: InterviewReminder & { isLinked: boolean }) {
   return (
-    <div className="rounded-lg border border-blue-950/10 bg-white/55 p-3 xl:p-4">
-      <div className="flex items-center gap-2 text-blue-950/55">
-        <Icon className="size-4" strokeWidth={2} />
-        <p className="text-xs font-semibold uppercase tracking-normal">
-          {label}
-        </p>
-      </div>
-      <p className="mt-2 text-sm font-semibold text-slate-950">
-        {value}
-      </p>
-      <p className="mt-1 text-sm font-medium text-blue-950/65">
-        {detail}
-      </p>
-    </div>
+    <>
+      <span className="flex size-10 shrink-0 items-center justify-center border border-blue-950/12 bg-[#f8fbff] text-blue-700">
+        <DashboardGlyph className="size-5" name="signpost" />
+      </span>
+
+      <span className="min-w-0 sm:w-44 sm:shrink-0">
+        <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-blue-700">
+          Next interview
+        </span>
+        <span className="mt-1 block text-base font-semibold tabular-nums text-slate-950">
+          {dateLabel}
+        </span>
+      </span>
+
+      <span className="col-start-2 min-w-0 flex-1 border-blue-950/10 sm:col-start-auto sm:border-l sm:pl-5">
+        <span className="block truncate text-base font-semibold tracking-[-0.015em] text-slate-950">
+          {companyName}
+        </span>
+        <span className="mt-0.5 block truncate text-sm font-medium text-blue-950/52">
+          {jobTitle}
+        </span>
+      </span>
+
+      {isLinked ? (
+        <ArrowRight
+          aria-hidden="true"
+          className="col-start-3 row-start-1 size-4 shrink-0 self-center text-blue-700 transition-transform group-hover/reminder:translate-x-0.5 sm:col-start-auto sm:row-start-auto"
+          strokeWidth={1.8}
+        />
+      ) : null}
+    </>
   );
 }
 
 export function NextInterviewCard({
-  badge = "May 24",
-  contactDetail = "Northstar Labs",
-  contactLabel = "Contact",
-  contactName = "Sarah Chen",
-  noteTitle = "Notes",
-  notes = [
-    {
-      label: "Public note",
-      value: "Confirm the agenda, ask who will join the call, and resend your portfolio link.",
-    },
-  ],
-  primaryText = "Interview with Sarah at Northstar Labs",
-  secondaryText = "Interview scheduled for Frontend Engineer role.",
-  showActions = true,
-  timelineDetail = "Upcoming",
-  timelineLabel = "Planned for",
-  timelineValue = "May 24 at 2:30 PM",
-  title = "Next planned interview",
-}: NextActionCardProps) {
+  companyName,
+  dateLabel,
+  href,
+  jobTitle,
+}: InterviewReminder) {
+  const className = cn(
+    "group/reminder grid min-w-0 grid-cols-[2.5rem_minmax(0,1fr)_auto] gap-3 border border-blue-950/12 bg-white px-4 py-4 shadow-[0_18px_55px_-48px_rgb(15_23_42_/_0.5)] sm:grid-cols-[2.5rem_11rem_minmax(0,1fr)_auto] sm:items-center sm:gap-4 sm:px-5",
+    href &&
+      "outline-none transition-colors hover:border-blue-700/30 hover:bg-white focus-visible:border-blue-700 focus-visible:ring-3 focus-visible:ring-blue-600/18"
+  );
+
+  if (href) {
+    return (
+      <Link
+        aria-label={`View ${companyName} ${jobTitle} application details`}
+        className={className}
+        href={href}
+      >
+        <ReminderContent
+          companyName={companyName}
+          dateLabel={dateLabel}
+          isLinked
+          jobTitle={jobTitle}
+        />
+      </Link>
+    );
+  }
+
   return (
-    <article className="flex h-full flex-col rounded-xl border border-white/80 bg-white/78 p-4 shadow-lg shadow-blue-950/8 backdrop-blur-xl sm:p-5 xl:p-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex min-w-0 gap-3 xl:gap-4">
-          <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-blue-100/80 xl:size-12">
-            <CalendarClock
-              aria-hidden="true"
-              className="size-6 text-blue-700 xl:size-7"
-              strokeWidth={2}
-            />
-          </div>
-          <div className="min-w-0">
-            <h2 className="text-lg font-semibold text-slate-950 xl:text-xl">
-              {title}
-            </h2>
-            <p className="mt-2 max-w-md text-sm font-semibold leading-6 text-slate-950 xl:text-base xl:leading-7">
-              {primaryText}
-            </p>
-            <p className="mt-1 max-w-md text-xs font-medium leading-5 text-blue-950/75 xl:text-sm xl:leading-6">
-              {secondaryText}
-            </p>
-          </div>
-        </div>
-        {showActions ? (
-          <Button
-            asChild
-            className="h-auto w-fit shrink-0 rounded-lg border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 hover:bg-white xl:px-4 xl:py-2 xl:text-sm"
-            variant="outline"
-          >
-            <Link href="/applications">
-              View details
-            </Link>
-          </Button>
-        ) : (
-          <span className="w-fit shrink-0 rounded-lg border border-blue-100 bg-white/70 px-3 py-1.5 text-xs font-semibold text-blue-950/75 xl:px-4 xl:py-2 xl:text-sm">
-            {badge}
-          </span>
-        )}
-      </div>
-
-      <div className="mt-4 grid gap-3 xl:mt-5 xl:grid-cols-2">
-        <NextActionDetailTile
-          detail={contactDetail}
-          icon={BriefcaseBusiness}
-          label={contactLabel}
-          value={contactName}
-        />
-        <NextActionDetailTile
-          detail={timelineDetail}
-          icon={CalendarClock}
-          label={timelineLabel}
-          value={timelineValue}
-        />
-      </div>
-
-      <div className="mt-3 flex min-h-34 min-w-0 flex-1 flex-col rounded-lg border border-blue-950/10 bg-blue-50/45 p-3 xl:mt-4 xl:min-h-0 xl:overflow-hidden xl:p-4">
-        <div className="flex items-center gap-2 text-blue-950/70">
-          <FileText className="size-4" strokeWidth={2} />
-          <p className="text-sm font-semibold text-slate-950">
-            {noteTitle}
-          </p>
-        </div>
-
-        <div
-          className={`mt-3 grid min-h-0 flex-1 gap-2 ${
-            showActions ? "content-start" : "content-stretch"
-          }`}
-        >
-          {notes.map((note) => (
-            <div
-              className={`min-h-24 rounded-lg border border-blue-950/10 bg-white/45 px-3 py-3 xl:min-h-28 ${
-                showActions ? "" : "flex flex-col"
-              }`}
-              key={note.label}
-            >
-              <p className="text-xs font-semibold uppercase tracking-normal text-blue-950/55">
-                {note.label}
-              </p>
-              <p
-                className={`mt-2 line-clamp-4 text-sm font-medium leading-6 text-blue-950/70 xl:line-clamp-5 ${
-                  showActions ? "" : "flex-1"
-                }`}
-              >
-                {note.value}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
+    <article className={className}>
+      <ReminderContent
+        companyName={companyName}
+        dateLabel={dateLabel}
+        isLinked={false}
+        jobTitle={jobTitle}
+      />
     </article>
   );
 }

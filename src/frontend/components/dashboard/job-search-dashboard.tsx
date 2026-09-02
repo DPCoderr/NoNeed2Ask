@@ -4,7 +4,10 @@ import {
   type DashboardHeaderProps,
 } from "@/components/dashboard/dashboard-header";
 import { JobSearchDistributionCard } from "@/components/dashboard/job-search-distribution-card";
-import { NextInterviewCard } from "@/components/dashboard/next-interview-card";
+import {
+  NextInterviewCard,
+  type InterviewReminder,
+} from "@/components/dashboard/next-interview-card";
 import { OverviewStats } from "@/components/dashboard/overview-stats";
 import { RecentApplicationsCard } from "@/components/dashboard/recent-applications-card";
 import { cn } from "@/lib/utils";
@@ -21,6 +24,7 @@ type JobSearchDashboardProps = {
   distributionDescription?: string;
   header: DashboardHeaderProps;
   journeyId?: string;
+  nextInterview?: InterviewReminder;
   overviewId?: string;
   recentApplications?: RecentApplicationsOptions;
   showNextActionControls?: boolean;
@@ -32,38 +36,38 @@ export function JobSearchDashboard({
   distributionDescription,
   header,
   journeyId,
+  nextInterview,
   overviewId,
   recentApplications,
   showNextActionControls = true,
   updatesId,
 }: JobSearchDashboardProps) {
-  const nextAction = {
-    ...dashboardData.nextAction,
-    showActions: dashboardData.nextAction.showActions && showNextActionControls,
+  const reminder = nextInterview ?? {
+    companyName: dashboardData.nextAction.contactDetail,
+    dateLabel: dashboardData.nextAction.timelineValue,
+    jobTitle: dashboardData.nextAction.contactName,
+  };
+  const visibleReminder = {
+    ...reminder,
+    href: showNextActionControls ? reminder.href : undefined,
   };
 
   return (
     <>
       <DashboardHeader {...header} />
 
-      {/* <OverviewStats id={overviewId} stats={dashboardData.overviewStats} /> */}
+      {overviewId ? (
+        <OverviewStats id={overviewId} stats={dashboardData.overviewStats} />
+      ) : null}
 
-      <section
-        className={cn(
-          "grid gap-4 md:gap-4 xl:grid-cols-[1.08fr_0.94fr]",
-          journeyId && "scroll-mt-28"
-        )}
+      <JobSearchDistributionCard
+        description={distributionDescription}
         id={journeyId}
-      >
-        <JobSearchDistributionCard
-          description={distributionDescription}
-          stages={dashboardData.pipelineStages}
-          total={dashboardData.pipelineTotal}
-        />
-        <div className="grid">
-          <NextInterviewCard {...nextAction} />
-        </div>
-      </section>
+        stages={dashboardData.pipelineStages}
+        total={dashboardData.pipelineTotal}
+      />
+
+      <NextInterviewCard {...visibleReminder} />
 
       <section className={cn(updatesId && "scroll-mt-28")} id={updatesId}>
         <RecentApplicationsCard

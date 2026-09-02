@@ -3,21 +3,13 @@ import type {
   PrivateApplicationDto,
 } from "@/lib/api/types";
 import { normalizeApplicationStatus } from "@/lib/api/application-status";
-
-import {
-  Send,
-  CalendarDays,
-  CircleCheckBig,
-  Handshake,
-  CircleX,
-  PauseCircle,
-  LucideIcon,
-} from "lucide-react";
+import type { DashboardGlyphName } from "@/components/dashboard/dashboard-glyph";
 
 export type PipelineStage = {
   barClassName: string;
   count: number;
-  icon: LucideIcon;
+  headerClassName: string;
+  icon: DashboardGlyphName;
   iconClassName: string;
   label: string;
   percent: number;
@@ -25,7 +17,7 @@ export type PipelineStage = {
 
 export type OverviewStat = {
   detail: string[];
-  icon: string;
+  icon: DashboardGlyphName;
   title: string;
   tone?: string;
   value: number;
@@ -37,7 +29,7 @@ export type RecentApplication = {
   id: string;
   jobTitle: string;
   status: ApplicationStatus;
-  statusIcon: LucideIcon;
+  statusIcon: DashboardGlyphName;
   statusIconBackgroundClassName: string;
   statusIconClassName: string;
   statusLabel: string;
@@ -93,7 +85,8 @@ type BuildDashboardDataOptions = {
 
 type StatusMeta = {
   barClassName: string;
-  icon: LucideIcon;
+  headerClassName: string;
+  icon: DashboardGlyphName;
   iconBackgroundClassName: string;
   iconClassName: string;
   label: string;
@@ -111,43 +104,49 @@ const statusOrder = [
 const statusMeta: Record<ApplicationStatus, StatusMeta> = {
   applied: {
     label: "Applied",
-    icon: Send,
+    icon: "applied",
     barClassName: "bg-blue-700",
+    headerClassName: "bg-blue-50 text-blue-950",
     iconBackgroundClassName: "bg-blue-50",
     iconClassName: "text-blue-700",
   },
   interview_planned: {
     label: "Interview planned",
-    icon: CalendarDays,
+    icon: "planned",
     barClassName: "bg-indigo-600",
+    headerClassName: "bg-indigo-50 text-indigo-950",
     iconBackgroundClassName: "bg-indigo-50",
     iconClassName: "text-indigo-600",
   },
   interview_done: {
     label: "Interview done",
-    icon: CircleCheckBig,
+    icon: "checkpoint",
     barClassName: "bg-emerald-700",
+    headerClassName: "bg-emerald-50 text-emerald-950",
     iconBackgroundClassName: "bg-emerald-50",
     iconClassName: "text-emerald-700",
   },
   offer: {
     label: "Offer",
-    icon: Handshake,
+    icon: "offer",
     barClassName: "bg-amber-500",
+    headerClassName: "bg-amber-50 text-amber-950",
     iconBackgroundClassName: "bg-amber-50",
     iconClassName: "text-amber-600",
   },
   rejected: {
     label: "Rejected",
-    icon: CircleX,
+    icon: "closed-route",
     barClassName: "bg-rose-600",
+    headerClassName: "bg-rose-50 text-rose-950",
     iconBackgroundClassName: "bg-rose-50",
     iconClassName: "text-rose-600",
   },
   paused: {
     label: "Paused",
-    icon: PauseCircle,
+    icon: "paused",
     barClassName: "bg-slate-500",
+    headerClassName: "bg-slate-100 text-slate-950",
     iconBackgroundClassName: "bg-slate-100",
     iconClassName: "text-slate-600",
   },
@@ -236,26 +235,26 @@ function getOverviewStats(
   return [
     {
       detail: [`${activeApplications} active`, `${newThisWeek} new this week`],
-      icon: "icon_map.png",
+      icon: "trailhead",
       title: "Applications",
       value: applications.length,
     },
     {
       detail: ["Upcoming interviews"],
-      icon: "icon_mountain.png",
+      icon: "planned",
       title: "Interviews planned",
       value: counts.interview_planned,
     },
     {
       detail: ["Completed interviews"],
-      icon: "icon_camp.png",
+      icon: "checkpoint",
       title: "Interviews done",
       tone: "text-orange-600",
       value: counts.interview_done,
     },
     {
       detail: ["Offer stage", counts.offer > 0 ? "Best outcome so far" : "No offers yet"],
-      icon: "icon_top.png",
+      icon: "summit",
       title: "Offers",
       tone: "text-orange-600",
       value: counts.offer,
