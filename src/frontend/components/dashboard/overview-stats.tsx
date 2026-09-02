@@ -19,7 +19,7 @@ function StatCard({
 }) {
   return (
     <article className="flex min-w-0 items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4">
-      <div className="flex size-9 shrink-0 items-center justify-center border border-blue-950/10 bg-white text-blue-700 sm:size-10">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700 sm:size-10">
         <DashboardGlyph
           className={`size-5 sm:size-5.5 ${tone}`}
           name={icon}
@@ -52,7 +52,7 @@ export function OverviewStats({
   return (
     <section
       aria-label="Application overview"
-      className="grid overflow-hidden border border-blue-950/10 bg-white shadow-[0_20px_60px_-45px_rgb(15_23_42_/_0.35)] lg:grid-cols-2 xl:grid-cols-4 [&>article:not(:first-child)]:border-t [&>article]:border-blue-950/8 lg:[&>article:nth-child(2)]:border-t-0 lg:[&>article:nth-child(even)]:border-l xl:[&>article]:border-l xl:[&>article]:border-t-0 xl:[&>article:first-child]:border-l-0"
+      className="grid overflow-hidden rounded-2xl border border-blue-950/9 bg-white/88 shadow-[0_18px_55px_-45px_rgb(15_23_42_/_0.35)] backdrop-blur-xl sm:grid-cols-2 xl:grid-cols-4 [&>article:not(:first-child)]:border-t [&>article]:border-blue-950/7 sm:[&>article:nth-child(2)]:border-t-0 sm:[&>article:nth-child(even)]:border-l xl:[&>article]:border-l xl:[&>article]:border-t-0 xl:[&>article:first-child]:border-l-0"
       id={id}
     >
       {stats.map((stat) => (

@@ -14,12 +14,12 @@ export function JobSearchDistributionCard({
 }) {
   return (
     <section
-      className="min-w-0 scroll-mt-28 border border-blue-950/12 bg-white p-5 shadow-[0_28px_80px_-55px_rgb(15_23_42_/_0.5)] sm:p-7 lg:p-8"
+      className="min-w-0 scroll-mt-28 rounded-2xl border border-blue-950/9 bg-white/90 p-5 shadow-[0_24px_75px_-52px_rgb(15_23_42_/_0.42)] backdrop-blur-xl sm:p-7 lg:p-8"
       id={id}
     >
       <div className="flex items-start justify-between gap-5">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex size-10 shrink-0 items-center justify-center border border-blue-950/12 bg-[#f8fbff] text-blue-700">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700 ring-1 ring-blue-950/8">
             <DashboardGlyph className="size-5" name="contour" />
           </div>
           <div className="min-w-0">
@@ -40,9 +40,43 @@ export function JobSearchDistributionCard({
 
       <div
         aria-label={`${total} applications distributed across ${stages.length} statuses`}
-        className="mt-7 flex h-3 w-full overflow-hidden bg-blue-950/8"
+        className="mt-8 grid gap-0 md:grid-cols-6"
         role="img"
       >
+        {stages.map((stage) => {
+          return (
+            <div
+              className="group/stage relative grid min-w-0 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3 pb-7 last:pb-0 after:absolute after:left-[1.35rem] after:top-10 after:h-[calc(100%-2rem)] after:w-px after:bg-blue-950/12 last:after:hidden md:block md:px-2 md:pb-0 md:text-center md:after:left-[calc(50%+1.4rem)] md:after:top-[1.35rem] md:after:h-px md:after:w-[calc(100%-2.8rem)]"
+              key={stage.label}
+            >
+              <div className={`relative z-10 flex size-11 items-center justify-center rounded-full ring-4 ring-white md:mx-auto ${stage.headerClassName}`}>
+                <DashboardGlyph
+                  className={`size-5 ${stage.iconClassName}`}
+                  name={stage.icon}
+                />
+              </div>
+              <div className="min-w-0 md:mt-4">
+                <p className="text-sm font-semibold leading-5 text-slate-950">
+                  {stage.label}
+                </p>
+                <p className="mt-0.5 text-xs font-medium text-blue-950/45 md:hidden">
+                  {stage.percent}% of pipeline
+                </p>
+              </div>
+              <div className="flex items-baseline gap-1.5 tabular-nums md:mt-2 md:justify-center">
+                <p className="text-2xl font-semibold tracking-[-0.04em] text-slate-950">
+                  {stage.count}
+                </p>
+                <p className="hidden text-xs font-semibold text-blue-950/42 md:block">
+                  {stage.percent}%
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-8 flex h-1.5 w-full overflow-hidden rounded-full bg-blue-950/8">
         {stages.map((stage) => (
           <span
             className={stage.barClassName}
@@ -50,37 +84,6 @@ export function JobSearchDistributionCard({
             style={{ width: `${stage.percent}%` }}
           />
         ))}
-      </div>
-
-      <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden border border-blue-950/10 bg-blue-950/10 md:grid-cols-3 xl:grid-cols-6">
-        {stages.map((stage) => {
-          return (
-            <div
-              className="min-w-0 bg-white"
-              key={stage.label}
-            >
-              <div
-                className={`flex min-h-14 items-center gap-2.5 border-b border-black/5 px-3 py-3 sm:px-4 ${stage.headerClassName}`}
-              >
-                <DashboardGlyph
-                  className={`size-5 shrink-0 ${stage.iconClassName}`}
-                  name={stage.icon}
-                />
-                <p className="min-w-0 text-sm font-semibold leading-5">
-                  {stage.label}
-                </p>
-              </div>
-              <div className="flex items-baseline gap-2 px-3 py-4 tabular-nums sm:px-4 sm:py-5">
-                <p className="text-2xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-3xl">
-                  {stage.count}
-                </p>
-                <p className="text-xs font-semibold text-blue-950/42">
-                  {stage.percent}%
-                </p>
-              </div>
-            </div>
-          );
-        })}
       </div>
     </section>
   );

@@ -19,7 +19,7 @@ function ReminderContent({
 }: InterviewReminder & { isLinked: boolean }) {
   return (
     <>
-      <span className="flex size-10 shrink-0 items-center justify-center border border-blue-950/12 bg-[#f8fbff] text-blue-700">
+      <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700 ring-1 ring-blue-950/8">
         <DashboardGlyph className="size-5" name="signpost" />
       </span>
 
@@ -59,7 +59,7 @@ export function NextInterviewCard({
   jobTitle,
 }: InterviewReminder) {
   const className = cn(
-    "group/reminder grid min-w-0 grid-cols-[2.5rem_minmax(0,1fr)_auto] gap-3 border border-blue-950/12 bg-white px-4 py-4 shadow-[0_18px_55px_-48px_rgb(15_23_42_/_0.5)] sm:grid-cols-[2.5rem_11rem_minmax(0,1fr)_auto] sm:items-center sm:gap-4 sm:px-5",
+    "group/reminder grid min-w-0 grid-cols-[2.5rem_minmax(0,1fr)_auto] gap-3 rounded-2xl border border-blue-950/9 bg-white/90 px-4 py-5 shadow-[0_20px_60px_-48px_rgb(15_23_42_/_0.4)] backdrop-blur-xl sm:grid-cols-[2.5rem_11rem_minmax(0,1fr)_auto] sm:items-center sm:gap-4 sm:px-5 lg:py-6",
     href &&
       "outline-none transition-colors hover:border-blue-700/30 hover:bg-white focus-visible:border-blue-700 focus-visible:ring-3 focus-visible:ring-blue-600/18"
   );

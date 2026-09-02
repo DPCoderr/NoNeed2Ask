@@ -20,7 +20,7 @@ export type DashboardHeaderProps = {
 };
 
 const previewButtonClassName =
-  "h-9 rounded-none border-blue-950/15 bg-white px-3 text-sm font-semibold text-blue-900 shadow-none hover:bg-blue-50 hover:text-slate-950";
+  "h-9 rounded-lg border-blue-950/12 bg-white/80 px-3 text-sm font-semibold text-blue-900 shadow-none hover:bg-blue-50 hover:text-slate-950";
 
 function PreviewPublicPageButton({
   isAvailable,
@@ -101,7 +101,7 @@ export function DashboardHeader({
     ) : null);
 
   return (
-    <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+    <div className="flex flex-col gap-5 border-l-2 border-blue-600 pl-4 sm:pl-5 lg:flex-row lg:items-end lg:justify-between">
       <header className="min-w-0 max-w-3xl">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-700">
           {eyebrow}
@@ -115,7 +115,7 @@ export function DashboardHeader({
       </header>
 
       {headerActions ? (
-        <div className="flex w-fit shrink-0 flex-wrap items-center gap-2 border-t border-blue-950/12 pt-3 text-sm font-semibold text-slate-950 lg:border-l lg:border-t-0 lg:pb-0.5 lg:pl-5 lg:pt-0">
+        <div className="flex w-fit shrink-0 flex-wrap items-center gap-2 border-t border-blue-950/10 pt-3 text-sm font-semibold text-slate-950 lg:border-l lg:border-t-0 lg:pb-0.5 lg:pl-5 lg:pt-0">
           {headerActions}
         </div>
       ) : null}
