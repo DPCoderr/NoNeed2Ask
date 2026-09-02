@@ -14,12 +14,12 @@ export function JobSearchDistributionCard({
 }) {
   return (
     <section
-      className="min-w-0 scroll-mt-28 border border-blue-950/12 bg-white p-5 shadow-[0_28px_80px_-55px_rgb(15_23_42_/_0.5)] sm:p-7 lg:p-8"
+      className="min-w-0 scroll-mt-28 rounded-3xl border border-blue-950/8 bg-white/92 p-5 shadow-[0_22px_70px_-50px_rgb(15_23_42_/_0.38)] backdrop-blur-xl sm:p-7 lg:p-8"
       id={id}
     >
       <div className="flex items-start justify-between gap-5">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex size-10 shrink-0 items-center justify-center border border-blue-950/12 bg-[#f8fbff] text-blue-700">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
             <DashboardGlyph className="size-5" name="contour" />
           </div>
           <div className="min-w-0">
@@ -40,7 +40,7 @@ export function JobSearchDistributionCard({
 
       <div
         aria-label={`${total} applications distributed across ${stages.length} statuses`}
-        className="mt-7 flex h-3 w-full overflow-hidden bg-blue-950/8"
+        className="mt-7 flex h-2.5 w-full overflow-hidden rounded-full bg-blue-950/8"
         role="img"
       >
         {stages.map((stage) => (
@@ -52,11 +52,11 @@ export function JobSearchDistributionCard({
         ))}
       </div>
 
-      <div className="mt-7 grid grid-cols-2 gap-px overflow-hidden border border-blue-950/10 bg-blue-950/10 md:grid-cols-3 xl:grid-cols-6">
+      <div className="mt-7 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         {stages.map((stage) => {
           return (
             <div
-              className="min-w-0 bg-white"
+              className="min-w-0 overflow-hidden rounded-2xl border border-blue-950/8 bg-white"
               key={stage.label}
             >
               <div

@@ -53,8 +53,10 @@ export function JobSearchDashboard({
   };
 
   return (
-    <>
+    <div className="flex min-w-0 flex-col gap-5 md:gap-6">
       <DashboardHeader {...header} />
+
+      <NextInterviewCard {...visibleReminder} />
 
       {overviewId ? (
         <OverviewStats id={overviewId} stats={dashboardData.overviewStats} />
@@ -67,14 +69,12 @@ export function JobSearchDashboard({
         total={dashboardData.pipelineTotal}
       />
 
-      <NextInterviewCard {...visibleReminder} />
-
       <section className={cn(updatesId && "scroll-mt-28")} id={updatesId}>
         <RecentApplicationsCard
           applications={dashboardData.recentApplications}
           {...recentApplications}
         />
       </section>
-    </>
+    </div>
   );
 }
