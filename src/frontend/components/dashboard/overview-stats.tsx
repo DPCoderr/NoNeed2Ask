@@ -18,8 +18,8 @@ function StatCard({
   value: number;
 }) {
   return (
-    <article className="flex min-w-0 items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4">
-      <div className="flex size-9 shrink-0 items-center justify-center border border-blue-950/10 bg-white text-blue-700 sm:size-10">
+    <article className="flex min-w-0 items-center gap-3 rounded-2xl border border-blue-950/8 bg-white px-4 py-4 sm:px-5">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-700 sm:size-10">
         <DashboardGlyph
           className={`size-5 sm:size-5.5 ${tone}`}
           name={icon}
@@ -52,7 +52,7 @@ export function OverviewStats({
   return (
     <section
       aria-label="Application overview"
-      className="grid overflow-hidden border border-blue-950/10 bg-white shadow-[0_20px_60px_-45px_rgb(15_23_42_/_0.35)] lg:grid-cols-2 xl:grid-cols-4 [&>article:not(:first-child)]:border-t [&>article]:border-blue-950/8 lg:[&>article:nth-child(2)]:border-t-0 lg:[&>article:nth-child(even)]:border-l xl:[&>article]:border-l xl:[&>article]:border-t-0 xl:[&>article:first-child]:border-l-0"
+      className="grid gap-3 sm:grid-cols-2"
       id={id}
     >
       {stats.map((stat) => (
