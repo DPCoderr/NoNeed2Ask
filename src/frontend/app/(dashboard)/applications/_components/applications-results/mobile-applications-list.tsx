@@ -1,13 +1,11 @@
 import Link from "next/link"
 
 import type { PrivateApplicationDto } from "@/lib/api/types"
+import { formatApplicationDate } from "@/lib/applications/presentation"
 
 import { ApplicationActionsMenu } from "./application-actions-menu"
-import {
-  CompanyMark,
-  formatDate,
-  StatusBadge,
-} from "./application-list-ui"
+import { CompanyMark } from "./company-mark"
+import { StatusBadge } from "./status-badge"
 
 // Compact card view used below the desktop table breakpoint.
 export function MobileApplicationsList({
@@ -41,17 +39,21 @@ export function MobileApplicationsList({
               <StatusBadge status={application.status} />
             </div>
             <div className="hidden min-w-0 text-right text-xs font-medium text-blue-950/75 sm:block">
-              <p className="truncate">{formatDate(application.updatedAt)}</p>
+              <p className="truncate">
+                {formatApplicationDate(application.updatedAt)}
+              </p>
             </div>
             <ApplicationActionsMenu application={application} />
           </div>
           <div className="mt-3 grid gap-1.5 pl-12 text-xs font-medium text-blue-950/75 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
             <p className="min-w-0 truncate">
               {application.nextActionAt
-                ? `Next ${formatDate(application.nextActionAt)}`
+                ? `Next ${formatApplicationDate(application.nextActionAt)}`
                 : "No next action"}
             </p>
-            <p className="min-w-0 truncate">Updated {formatDate(application.updatedAt)}</p>
+            <p className="min-w-0 truncate">
+              Updated {formatApplicationDate(application.updatedAt)}
+            </p>
           </div>
         </article>
       ))}

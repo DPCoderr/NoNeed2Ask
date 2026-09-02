@@ -17,19 +17,6 @@ type StatusCard = {
 
 const iconPath = "/dashboard-icons"
 
-// Renders a configured status icon from the dashboard asset folder.
-function StatusIcon({ name }: { name: string }) {
-  return (
-    <Image
-      alt=""
-      className="size-8 text-blue-700 sm:size-11 xl:size-14"
-      height={80}
-      src={`${iconPath}/${name}`}
-      width={80}
-    />
-  )
-}
-
 // Converts the current page of applications into the six summary cards.
 function getStatusCards(applications: PrivateApplicationDto[]): StatusCard[] {
   return statuses.slice(0, 6).map((status) => ({
@@ -96,7 +83,13 @@ export function ApplicationsStatusSummary({
             >
               <div className="flex flex-col items-center gap-1 text-center sm:flex-row sm:items-center sm:gap-3 sm:text-left xl:gap-4">
                 {card.icon ? (
-                  <StatusIcon name={card.icon} />
+                  <Image
+                    alt=""
+                    className="size-8 text-blue-700 sm:size-11 xl:size-14"
+                    height={80}
+                    src={`${iconPath}/${card.icon}`}
+                    width={80}
+                  />
                 ) : (
                   <span className="flex size-8 items-center justify-center rounded-lg border-2 border-blue-950/70 text-xl text-blue-950/70 sm:size-11 xl:size-14 xl:text-3xl">
                     |

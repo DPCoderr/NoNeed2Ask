@@ -1,0 +1,15 @@
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vitest/config"
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    tsconfigPaths: true,
+  },
+  test: {
+    clearMocks: true,
+    environment: "jsdom",
+    maxWorkers: 1,
+    setupFiles: ["./tests/setup.ts"],
+  },
+})

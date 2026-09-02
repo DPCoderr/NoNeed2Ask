@@ -1,18 +1,12 @@
 import type { NextRequest } from "next/server"
 
 import { proxyBackendRequest } from "@/app/api/_lib/proxy-backend-request"
-
-const backendPublicProfileSettingsUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env.PUBLIC_PROFILE_SETTINGS_URL ??
-      "https://noneed2ask.onrender.com/settings/public-profile"
-    : process.env.PUBLIC_PROFILE_SETTINGS_URL_DEV ??
-      "http://localhost:5273/settings/public-profile"
+import { backendUrls } from "@/lib/server/backend-urls"
 
 function proxyPublicProfileSettingsRequest(request: NextRequest) {
   return proxyBackendRequest(
     request,
-    new URL(backendPublicProfileSettingsUrl),
+    new URL(backendUrls.publicProfileSettings),
     "Public profile settings service is unavailable."
   )
 }

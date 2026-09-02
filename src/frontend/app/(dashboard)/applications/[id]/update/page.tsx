@@ -3,7 +3,7 @@ import Link from "next/link"
 import { PageShell } from "@/components/layout/page-shell"
 import { Button } from "@/components/ui/button"
 
-import { ApplicationUpdateForm } from "../../_components/application-form"
+import { ApplicationForm } from "../../_components/application-form/application-form"
 import { loadApplication } from "../../_lib/load-application"
 
 type UpdateApplicationPageProps = {
@@ -39,7 +39,7 @@ export default async function UpdateApplicationPage({
         </Button>
       </header>
 
-      <ApplicationUpdateForm application={application} />
+      <ApplicationForm application={application} mode="update" />
     </PageShell>
   )
 }

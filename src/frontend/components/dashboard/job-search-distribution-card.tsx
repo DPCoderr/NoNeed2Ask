@@ -1,4 +1,4 @@
-import type { PipelineStage } from "@/components/dashboard/dashboard-data";
+import type { PipelineStage } from "@/components/dashboard/dashboard-types";
 import { DashboardGlyph } from "@/components/dashboard/dashboard-glyph";
 
 export function JobSearchDistributionCard({

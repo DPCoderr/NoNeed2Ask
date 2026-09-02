@@ -1,14 +1,12 @@
 import Link from "next/link"
 
 import type { ApplicationListResponseDto } from "@/lib/api/types"
+import { formatApplicationDate } from "@/lib/applications/presentation"
 
 import { ApplicationActionsMenu } from "./application-actions-menu"
-import {
-  CompanyMark,
-  formatDate,
-  StatusBadge,
-} from "./application-list-ui"
 import { ApplicationsPagination } from "./applications-pagination"
+import { CompanyMark } from "./company-mark"
+import { StatusBadge } from "./status-badge"
 
 // Desktop table view for the current page of applications.
 export function ApplicationsTable({
@@ -53,10 +51,12 @@ export function ApplicationsTable({
                   <StatusBadge status={application.status} />
                 </td>
                 <td className="truncate px-4 py-4 text-blue-950/80 xl:px-5">
-                  {formatDate(application.updatedAt)}
+                  {formatApplicationDate(application.updatedAt)}
                 </td>
                 <td className="truncate px-4 py-4 text-blue-950/80 xl:px-5">
-                  {application.nextActionAt ? formatDate(application.nextActionAt) : "-"}
+                  {application.nextActionAt
+                    ? formatApplicationDate(application.nextActionAt)
+                    : "-"}
                 </td>
                 <td className="px-4 py-4 xl:px-5">
                   <div className="flex justify-end">

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { TopographyPattern } from "@/components/dashboard/dashboard-glyph";
+import { TopographyPattern } from "@/components/dashboard/topography-pattern";
 import { LandingNavbar } from "@/components/layout/landing-navbar";
 
 const publicStatusNavItems = [

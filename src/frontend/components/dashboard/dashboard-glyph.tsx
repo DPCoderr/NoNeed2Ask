@@ -92,24 +92,3 @@ export function DashboardGlyph({ name, ...props }: DashboardGlyphProps) {
     </svg>
   );
 }
-
-export function TopographyPattern({ className }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      fill="none"
-      viewBox="0 0 640 420"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g stroke="currentColor" strokeWidth="1">
-        <path d="M663 52c-84-46-193-51-279-9-48 24-79 65-126 88-66 32-145 18-211 50-57 28-90 84-126 135" />
-        <path d="M659 83c-79-42-179-46-260-7-45 22-75 61-119 83-61 30-135 17-197 47-52 26-84 77-117 124" />
-        <path d="M652 114c-71-38-162-42-236-6-42 20-69 56-110 76-57 28-123 16-180 44-48 23-77 69-107 112" />
-        <path d="M640 148c-64-34-144-37-210-5-37 18-62 50-98 68-50 24-109 14-160 39-42 20-68 61-94 99" />
-        <path d="M624 183c-55-29-124-32-181-4-32 15-53 43-84 58-43 21-94 12-137 33-36 18-58 52-81 84" />
-        <path d="M601 220c-45-24-102-26-149-4-26 13-44 36-70 49-35 17-77 10-113 27-30 15-48 43-67 69" />
-      </g>
-    </svg>
-  );
-}

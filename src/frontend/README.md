@@ -16,6 +16,18 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Quality checks
+
+Run the full frontend verification before review:
+
+```bash
+npm run check
+```
+
+For faster feedback while developing, use `npm run lint`, `npm run typecheck`,
+`npm run test`, or `npm run test:watch` separately. Application code is organized
+by route or feature; generated shadcn primitives remain in `components/ui`.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

@@ -7,13 +7,7 @@ import type { AuthMeResponseDto } from "@/lib/api/auth";
 import { getPublicProfileSettings } from "@/lib/api/public-profile";
 import type { PublicProfileSettingsDto } from "@/lib/api/types";
 import { authCookieName } from "@/lib/auth/cookies";
-
-const backendPublicProfileSettingsUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env.PUBLIC_PROFILE_SETTINGS_URL ??
-      "https://noneed2ask.onrender.com/settings/public-profile"
-    : process.env.PUBLIC_PROFILE_SETTINGS_URL_DEV ??
-      "http://localhost:5273/settings/public-profile";
+import { backendUrls } from "@/lib/server/backend-urls";
 
 export type DashboardPublicProfileSettings = PublicProfileSettingsDto & {
   isSettingsAvailable: boolean;
@@ -31,7 +25,7 @@ export async function getDashboardPublicProfileSettings(
 
   try {
     const settings = await getPublicProfileSettings({
-      url: backendPublicProfileSettingsUrl,
+      url: backendUrls.publicProfileSettings,
       headers: {
         Cookie: `${authCookie.name}=${authCookie.value}`,
       },

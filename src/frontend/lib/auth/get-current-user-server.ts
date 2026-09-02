@@ -5,11 +5,7 @@ import { cache } from "react";
 
 import type { AuthMeResponseDto } from "@/lib/api/auth";
 import { authCookieName } from "@/lib/auth/cookies";
-
-const backendAuthBaseUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env.AUTH_BASE_URL ?? "https://noneed2ask.onrender.com/auth"
-    : process.env.AUTH_BASE_URL_DEV ?? "http://localhost:5273/auth";
+import { backendUrls } from "@/lib/server/backend-urls";
 
 export const getCurrentUserServer = cache(async function getCurrentUserServer() {
   const cookieStore = await cookies();
@@ -20,7 +16,7 @@ export const getCurrentUserServer = cache(async function getCurrentUserServer() 
   }
 
   try {
-    const response = await fetch(`${backendAuthBaseUrl}/me`, {
+    const response = await fetch(`${backendUrls.auth}/me`, {
       method: "GET",
       headers: {
         Cookie: `${authCookie.name}=${authCookie.value}`,

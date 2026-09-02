@@ -6,6 +6,7 @@ import {
 } from "nuqs"
 
 import type { ApplicationListRequestDto } from "@/lib/api/types"
+import { queryKeys } from "@/lib/query-keys"
 
 import {
   pageSize,
@@ -41,14 +42,5 @@ export function toApplicationListRequest(
 
 // Gives React Query a stable cache key for each filter/sort/page combination.
 export function applicationListQueryKey(request: ApplicationListRequestDto) {
-  return [
-    "applications",
-    {
-      page: request.page ?? 1,
-      search: request.search?.trim() ?? "",
-      sortBy: request.sortBy ?? "lastUpdated",
-      sortDirection: request.sortDirection ?? "desc",
-      status: request.status ?? [],
-    },
-  ] as const
+  return queryKeys.applications.list(request)
 }

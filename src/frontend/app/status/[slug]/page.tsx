@@ -7,13 +7,7 @@ import { ApiResponseError } from "@/lib/api/errors"
 import { getPublicStatus } from "@/lib/api/public-status"
 import { getCurrentUserServer } from "@/lib/auth/get-current-user-server"
 import type { PublicStatusResponseDto } from "@/lib/api/types"
-
-const backendPublicStatusBaseUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env.PUBLIC_STATUS_BASE_URL ??
-      "https://noneed2ask.onrender.com/status"
-    : process.env.PUBLIC_STATUS_BASE_URL_DEV ??
-      "http://localhost:5273/status"
+import { backendUrls } from "@/lib/server/backend-urls"
 
 type PublicStatusPageProps = {
   params: Promise<{
@@ -31,7 +25,7 @@ export default async function PublicStatusPage({
 
   try {
     publicStatus = await getPublicStatus(slug, {
-      baseUrl: backendPublicStatusBaseUrl,
+      baseUrl: backendUrls.publicStatus,
     })
   } catch (error) {
     if (error instanceof ApiResponseError && error.status === 404) {

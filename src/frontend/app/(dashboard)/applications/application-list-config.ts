@@ -1,4 +1,7 @@
-import { applicationStatuses } from "@/lib/api/application-status"
+import {
+  applicationStatusLabels,
+  applicationStatuses,
+} from "@/lib/api/application-status"
 import type { ApplicationListSortBy, ApplicationStatus } from "@/lib/api/types"
 
 export const pageSize = 10
@@ -27,34 +30,34 @@ export const statusDetails: Record<
 > = {
   applied: {
     icon: "AppliedStatusIcon.svg",
-    label: "Applied",
+    label: applicationStatusLabels.applied,
     className: "bg-blue-50 text-blue-700",
   },
   interview_planned: {
     icon: "PlannedStatusIcon.svg",
-    label: "Interview planned",
+    label: applicationStatusLabels.interview_planned,
     shortLabel: "Planned",
     className: "bg-blue-50 text-blue-700",
   },
   interview_done: {
     icon: "DoneStatusIcon.svg",
-    label: "Interview done",
+    label: applicationStatusLabels.interview_done,
     shortLabel: "Done",
     className: "bg-emerald-50 text-emerald-700",
   },
   offer: {
     icon: "OfferStatusIcon.svg",
-    label: "Offer",
+    label: applicationStatusLabels.offer,
     className: "bg-emerald-50 text-emerald-700",
   },
   rejected: {
     icon: null,
-    label: "Rejected",
+    label: applicationStatusLabels.rejected,
     className: "bg-rose-50 text-rose-700",
   },
   paused: {
     icon: null,
-    label: "Paused",
+    label: applicationStatusLabels.paused,
     className: "bg-violet-50 text-violet-700",
   },
 }

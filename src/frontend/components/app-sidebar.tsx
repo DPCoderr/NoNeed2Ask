@@ -34,8 +34,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { logout } from "@/lib/api";
-import type { AuthMeResponseDto } from "@/lib/api/auth";
+import { logout, type AuthMeResponseDto } from "@/lib/api/auth";
 import { cn } from "@/lib/utils";
 
 const workspaceRoutes = [

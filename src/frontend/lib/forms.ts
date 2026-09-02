@@ -4,7 +4,7 @@ import {
   type UseFormSetError,
 } from "react-hook-form"
 
-import { ApiResponseError } from "@/lib/api"
+import { ApiResponseError } from "@/lib/api/errors"
 
 export function applyApiFormErrors<TValues extends FieldValues>({
   error,

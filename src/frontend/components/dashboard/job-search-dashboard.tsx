@@ -1,13 +1,13 @@
-import type { DashboardData } from "@/components/dashboard/dashboard-data";
+import type {
+  DashboardData,
+  InterviewReminder,
+} from "@/components/dashboard/dashboard-types";
 import {
   DashboardHeader,
   type DashboardHeaderProps,
 } from "@/components/dashboard/dashboard-header";
 import { JobSearchDistributionCard } from "@/components/dashboard/job-search-distribution-card";
-import {
-  NextInterviewCard,
-  type InterviewReminder,
-} from "@/components/dashboard/next-interview-card";
+import { NextInterviewCard } from "@/components/dashboard/next-interview-card";
 import { RecentApplicationsCard } from "@/components/dashboard/recent-applications-card";
 import { cn } from "@/lib/utils";
 

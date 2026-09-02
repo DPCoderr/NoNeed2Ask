@@ -48,6 +48,19 @@ export function createApplicationListUrl(
   return url.toString()
 }
 
+export function createApplicationUrl(
+  id: string,
+  baseUrl = proxiedApplicationsBaseUrl
+) {
+  const url = new URL(baseUrl, "http://localhost")
+
+  url.pathname = `${url.pathname.replace(/\/$/, "")}/${encodeURIComponent(id)}`
+
+  return baseUrl.startsWith("/")
+    ? `${url.pathname}${url.search}`
+    : url.toString()
+}
+
 export async function listApplications(
   request: ApplicationListRequestDto = {},
   options?: ApiRequestOptions & { baseUrl?: string }
@@ -91,11 +104,7 @@ export async function getApplication(
 ) {
   const { baseUrl = proxiedApplicationsBaseUrl, ...fetchOptions } =
     options ?? {}
-  const url = new URL(baseUrl, "http://localhost")
-  url.pathname = `${url.pathname.replace(/\/$/, "")}/${encodeURIComponent(id)}`
-  const input = baseUrl.startsWith("/") ? `${url.pathname}${url.search}` : url.toString()
-
-  return apiFetch<PrivateApplicationDto>(input, {
+  return apiFetch<PrivateApplicationDto>(createApplicationUrl(id, baseUrl), {
     method: "GET",
     credentials: "include",
     cache: "no-store",
@@ -111,14 +120,9 @@ export async function updateApplication(
   const { baseUrl = proxiedApplicationsBaseUrl, ...fetchOptions } =
     options ?? {}
   const headers = new Headers(fetchOptions.headers)
-  const url = new URL(baseUrl, "http://localhost")
-
-  url.pathname = `${url.pathname.replace(/\/$/, "")}/${encodeURIComponent(id)}`
   headers.set("Content-Type", "application/json")
 
-  const input = baseUrl.startsWith("/") ? `${url.pathname}${url.search}` : url.toString()
-
-  return apiFetch<void>(input, {
+  return apiFetch<void>(createApplicationUrl(id, baseUrl), {
     method: "PUT",
     credentials: "include",
     cache: "no-store",
@@ -134,12 +138,7 @@ export async function deleteApplication(
 ) {
   const { baseUrl = proxiedApplicationsBaseUrl, ...fetchOptions } =
     options ?? {}
-  const url = new URL(baseUrl, "http://localhost")
-
-  url.pathname = `${url.pathname.replace(/\/$/, "")}/${encodeURIComponent(id)}`
-  const input = baseUrl.startsWith("/") ? `${url.pathname}${url.search}` : url.toString()
-
-  return apiFetch<void>(input, {
+  return apiFetch<void>(createApplicationUrl(id, baseUrl), {
     method: "DELETE",
     credentials: "include",
     cache: "no-store",

@@ -3,7 +3,7 @@ import Link from "next/link"
 import { PageShell } from "@/components/layout/page-shell"
 import { Button } from "@/components/ui/button"
 
-import { ApplicationCreateForm } from "../_components/application-form"
+import { ApplicationForm } from "../_components/application-form/application-form"
 
 export default function CreateApplicationPage() {
   return (
@@ -27,7 +27,7 @@ export default function CreateApplicationPage() {
         </Button>
       </header>
 
-      <ApplicationCreateForm />
+      <ApplicationForm mode="create" />
     </PageShell>
   )
 }

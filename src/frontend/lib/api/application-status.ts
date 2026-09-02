@@ -9,6 +9,15 @@ export const applicationStatuses = [
   "paused",
 ] as const satisfies readonly ApplicationStatus[]
 
+export const applicationStatusLabels: Record<ApplicationStatus, string> = {
+  applied: "Applied",
+  interview_planned: "Interview planned",
+  interview_done: "Interview done",
+  offer: "Offer",
+  rejected: "Rejected",
+  paused: "Paused",
+}
+
 export function normalizeApplicationStatus(status: string): ApplicationStatus {
   if (status === "waiting_response" || status === "ghosted") {
     return "applied"

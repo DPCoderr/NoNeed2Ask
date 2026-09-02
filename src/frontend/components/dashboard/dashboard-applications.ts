@@ -4,11 +4,7 @@ import { cookies } from "next/headers";
 
 import { listApplications } from "@/lib/api/applications";
 import { authCookieName } from "@/lib/auth/cookies";
-
-const backendApplicationsBaseUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env.APPLICATIONS_BASE_URL ?? "https://noneed2ask.onrender.com/applications"
-    : process.env.APPLICATIONS_BASE_URL_DEV ?? "http://localhost:5273/applications";
+import { backendUrls } from "@/lib/server/backend-urls";
 
 const applicationListRequest = {
   sortBy: "lastUpdated",
@@ -24,7 +20,7 @@ export async function getDashboardApplications() {
   }
 
   const requestOptions = {
-    baseUrl: ensureTrailingSlash(backendApplicationsBaseUrl),
+    baseUrl: ensureTrailingSlash(backendUrls.applications),
     headers: {
       Cookie: `${authCookie.name}=${authCookie.value}`,
     },

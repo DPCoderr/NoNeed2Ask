@@ -1,12 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { useState, type ReactNode } from "react";
 
 import { PublicProfileSharingSwitch } from "@/components/dashboard/public-profile-sharing-switch";
-import { Button } from "@/components/ui/button";
+import { PreviewPublicPageButton } from "@/components/dashboard/preview-public-page-button";
 
 export type DashboardHeaderProps = {
   actions?: ReactNode;
@@ -18,53 +15,6 @@ export type DashboardHeaderProps = {
   title?: string;
   userDisplayName?: string;
 };
-
-const previewButtonClassName =
-  "h-11 min-w-0 w-full justify-between rounded-xl border-blue-200 bg-blue-50 px-3 text-sm font-semibold text-blue-800 shadow-none hover:border-blue-300 hover:bg-blue-100 hover:text-blue-950";
-
-function PreviewPublicPageButton({
-  isAvailable,
-  publicSlug,
-}: {
-  isAvailable: boolean;
-  publicSlug: string;
-}) {
-  const content = (
-    <>
-      <span className="truncate">Preview page</span>
-      <HugeiconsIcon
-        aria-hidden="true"
-        className="size-4"
-        icon={ArrowUpRight01Icon}
-        strokeWidth={2}
-      />
-    </>
-  );
-
-  if (!isAvailable) {
-    return (
-      <Button
-        className={previewButtonClassName}
-        disabled
-        size="sm"
-        variant="outline"
-      >
-        {content}
-      </Button>
-    );
-  }
-
-  return (
-    <Button
-      asChild
-      className={previewButtonClassName}
-      size="sm"
-      variant="outline"
-    >
-      <Link href={`/status/${publicSlug}`}>{content}</Link>
-    </Button>
-  );
-}
 
 export function DashboardHeader({
   actions,
