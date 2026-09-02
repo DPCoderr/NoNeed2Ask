@@ -136,17 +136,25 @@ export function AppShell({
                     hasLandingBackground && "text-slate-700"
                   )}
                 >
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink
-                      className={cn(
-                        hasLandingBackground &&
-                          "font-medium text-slate-700 hover:text-slate-950"
-                      )}
-                      href="/"
-                    >
-                      Home
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
+                  {isDashboard ? (
+                    <BreadcrumbItem>
+                      <BreadcrumbPage className="font-medium text-slate-950">
+                        Dashboard
+                      </BreadcrumbPage>
+                    </BreadcrumbItem>
+                  ) : (
+                    <BreadcrumbItem className="hidden md:block">
+                      <BreadcrumbLink
+                        className={cn(
+                          hasLandingBackground &&
+                            "font-medium text-slate-700 hover:text-slate-950"
+                        )}
+                        href="/"
+                      >
+                        Home
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  )}
                   {breadcrumbs[0]?.href !== "/" && (
                     <BreadcrumbSeparator className="hidden text-slate-500 md:block" />
                   )}

@@ -56,7 +56,7 @@ function SidebarProvider({
     >
       <div
         data-slot="sidebar-wrapper"
-        data-collapsible={open ? "" : "icon"}
+        data-collapsible={!isMobile && !open ? "icon" : ""}
         className={cn(
           "group/sidebar-wrapper flex min-h-screen w-full bg-background",
           className

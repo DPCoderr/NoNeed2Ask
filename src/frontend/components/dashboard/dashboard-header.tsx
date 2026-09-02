@@ -20,7 +20,7 @@ export type DashboardHeaderProps = {
 };
 
 const previewButtonClassName =
-  "h-10 rounded-xl border-blue-200 bg-blue-50 px-4 text-sm font-semibold text-blue-800 shadow-none hover:border-blue-300 hover:bg-blue-100 hover:text-blue-950";
+  "h-11 min-w-0 w-full justify-between rounded-xl border-blue-200 bg-blue-50 px-3 text-sm font-semibold text-blue-800 shadow-none hover:border-blue-300 hover:bg-blue-100 hover:text-blue-950";
 
 function PreviewPublicPageButton({
   isAvailable,
@@ -31,10 +31,10 @@ function PreviewPublicPageButton({
 }) {
   const content = (
     <>
-      Preview public page
+      <span className="truncate">Preview page</span>
       <HugeiconsIcon
         aria-hidden="true"
-        className="ml-2 size-4"
+        className="size-4"
         icon={ArrowUpRight01Icon}
         strokeWidth={2}
       />
@@ -101,10 +101,9 @@ export function DashboardHeader({
     ) : null);
 
   return (
-    <section className="relative isolate overflow-hidden rounded-[2rem] border border-blue-200/80 bg-[linear-gradient(135deg,#f8fbff_0%,#eaf5ff_58%,#f6fbff_100%)] px-6 py-7 shadow-[0_30px_90px_-60px_rgb(30_64_175_/_0.65)] sm:px-9 sm:py-8 lg:flex lg:items-center lg:justify-between lg:gap-12 lg:px-10 lg:py-9">
-      <div aria-hidden="true" className="absolute inset-0 -z-20 bg-[linear-gradient(to_right,rgb(29_112_168_/_0.055)_1px,transparent_1px),linear-gradient(to_bottom,rgb(29_112_168_/_0.055)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:linear-gradient(105deg,black,transparent_78%)]" />
-      <div aria-hidden="true" className="absolute -right-20 -top-24 -z-10 size-80 rounded-full bg-cyan-200/55 blur-3xl" />
-      <div aria-hidden="true" className="absolute -bottom-40 left-1/4 -z-10 size-80 rounded-full bg-blue-200/45 blur-3xl" />
+    <section className="relative isolate overflow-hidden rounded-[2rem] border border-blue-100 bg-white px-6 py-7 shadow-[0_28px_80px_-58px_rgb(30_64_175_/_0.55)] before:absolute before:left-10 before:top-0 before:h-1 before:w-20 before:rounded-b-full before:bg-blue-600 sm:px-9 sm:py-8 lg:flex lg:items-center lg:justify-between lg:gap-12 lg:px-10 lg:py-9">
+      <div aria-hidden="true" className="absolute -right-20 -top-28 -z-10 size-64 rounded-full border-2 border-blue-200/80" />
+      <div aria-hidden="true" className="absolute right-8 top-8 -z-10 size-28 rounded-full border border-blue-200/70" />
 
       <header className="min-w-0 max-w-3xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary sm:text-sm">
@@ -119,11 +118,11 @@ export function DashboardHeader({
       </header>
 
       {headerActions ? (
-        <div className="mt-7 w-full max-w-sm shrink-0 lg:mt-0">
+        <div className="mt-4 w-full shrink-0 sm:mt-6 lg:mt-0 lg:max-w-sm">
           <p className="mb-2.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-blue-900/55">
             Sharing
           </p>
-          <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-blue-100 bg-white/85 p-2.5 text-sm font-semibold text-slate-900 shadow-[0_18px_55px_-40px_rgb(30_64_175_/_0.55)] backdrop-blur">
+          <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] items-center gap-3 rounded-2xl border border-blue-100 bg-white p-3 text-sm font-semibold text-slate-900 shadow-[0_18px_55px_-40px_rgb(30_64_175_/_0.55)]">
             {headerActions}
           </div>
         </div>
