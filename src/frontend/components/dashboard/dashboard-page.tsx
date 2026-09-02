@@ -26,7 +26,7 @@ export async function DashboardPage() {
   return (
     <PageShell
       background="landing"
-      className="max-w-screen-2xl gap-4 px-4 py-4 sm:px-5 md:gap-5 md:px-8 md:py-6 xl:px-10 xl:py-7"
+      className="max-w-screen-2xl gap-0 px-4 pb-10 pt-5 sm:px-6 md:px-8 md:pb-14 md:pt-8 xl:px-12 xl:pt-10"
     >
       <JobSearchDashboard
         dashboardData={dashboardData}

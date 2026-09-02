@@ -19,35 +19,39 @@ function ReminderContent({
 }: InterviewReminder & { isLinked: boolean }) {
   return (
     <>
-      <span className="flex size-10 shrink-0 items-center justify-center border border-blue-950/12 bg-[#f8fbff] text-blue-700">
-        <DashboardGlyph className="size-5" name="signpost" />
+      <span className="flex items-center justify-between gap-4">
+        <span className="flex min-w-0 items-center gap-3">
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-white text-blue-700 shadow-sm ring-1 ring-blue-100">
+            <DashboardGlyph className="size-5" name="signpost" />
+          </span>
+          <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary">
+            Up next
+          </span>
+        </span>
+        {isLinked ? (
+          <ArrowRight
+            aria-hidden="true"
+            className="size-5 shrink-0 text-blue-700 transition-transform group-hover/reminder:translate-x-1"
+            strokeWidth={1.8}
+          />
+        ) : null}
       </span>
 
-      <span className="min-w-0 sm:w-44 sm:shrink-0">
-        <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-blue-700">
-          Next interview
-        </span>
-        <span className="mt-1 block text-base font-semibold tabular-nums text-slate-950">
+      <span className="flex min-w-0 flex-1 flex-col items-center justify-center py-6 text-center">
+        <span className="block whitespace-nowrap text-3xl font-semibold tracking-[-0.045em] tabular-nums text-slate-950 xl:text-[2rem]">
           {dateLabel}
         </span>
       </span>
 
-      <span className="col-start-2 min-w-0 flex-1 border-blue-950/10 sm:col-start-auto sm:border-l sm:pl-5">
-        <span className="block truncate text-base font-semibold tracking-[-0.015em] text-slate-950">
+      <span className="mt-auto block min-w-0 border-t border-blue-200/70 pt-5">
+        <span className="block truncate text-lg font-semibold tracking-[-0.02em] text-slate-950">
           {companyName}
         </span>
-        <span className="mt-0.5 block truncate text-sm font-medium text-blue-950/52">
+        <span className="mt-1 block truncate text-sm font-medium text-slate-600">
           {jobTitle}
         </span>
       </span>
 
-      {isLinked ? (
-        <ArrowRight
-          aria-hidden="true"
-          className="col-start-3 row-start-1 size-4 shrink-0 self-center text-blue-700 transition-transform group-hover/reminder:translate-x-0.5 sm:col-start-auto sm:row-start-auto"
-          strokeWidth={1.8}
-        />
-      ) : null}
     </>
   );
 }
@@ -59,9 +63,9 @@ export function NextInterviewCard({
   jobTitle,
 }: InterviewReminder) {
   const className = cn(
-    "group/reminder grid min-w-0 grid-cols-[2.5rem_minmax(0,1fr)_auto] gap-3 border border-blue-950/12 bg-white px-4 py-4 shadow-[0_18px_55px_-48px_rgb(15_23_42_/_0.5)] sm:grid-cols-[2.5rem_11rem_minmax(0,1fr)_auto] sm:items-center sm:gap-4 sm:px-5",
+    "group/reminder relative flex min-h-64 min-w-0 flex-col overflow-hidden rounded-[1.75rem] border border-blue-100 bg-[radial-gradient(circle_at_100%_0%,rgb(186_230_253_/_0.7),transparent_48%),linear-gradient(145deg,#f8fbff_0%,#eaf5ff_100%)] p-6 shadow-[0_28px_80px_-58px_rgb(30_64_175_/_0.55)] sm:p-7 lg:h-full lg:min-h-0",
     href &&
-      "outline-none transition-colors hover:border-blue-700/30 hover:bg-white focus-visible:border-blue-700 focus-visible:ring-3 focus-visible:ring-blue-600/18"
+      "outline-none transition-all hover:-translate-y-0.5 hover:border-blue-300 focus-visible:border-blue-500 focus-visible:ring-3 focus-visible:ring-blue-500/20"
   );
 
   if (href) {

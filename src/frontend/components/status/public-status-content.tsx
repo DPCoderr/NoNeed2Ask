@@ -44,7 +44,6 @@ export function PublicStatusContent({
           title: `${profile.displayName}'s Job Search`,
         }}
         journeyId="journey"
-        overviewId="overview"
         recentApplications={{
           description: "A read-only timeline of the latest public updates.",
           emptyMessage: "No public applications yet.",

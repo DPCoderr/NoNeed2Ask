@@ -32,6 +32,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#f8fbff",
 };
 
 export default async function RootLayout({
@@ -43,14 +44,14 @@ export default async function RootLayout({
     <html
       lang="en"
       className={cn(
-        "h-full",
+        "h-full bg-[#f8fbff]",
         "antialiased",
         geistSans.variable,
         geistMono.variable,
         inter.variable
       )}
     >
-      <body className="min-h-full bg-background font-sans text-foreground">
+      <body className="min-h-full bg-[#f8fbff] font-sans text-foreground">
         <NuqsAdapter>
           <QueryProvider>{children}</QueryProvider>
         </NuqsAdapter>

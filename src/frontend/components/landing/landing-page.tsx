@@ -231,7 +231,7 @@ export function LandingPage() {
               <p className="mt-6 max-w-xl text-pretty text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
                 Track roles, interviews, notes, and next actions in your private
                 dashboard. When people ask how it is going, share a read-only
-                status page—without sharing private details.
+                status page, without sharing private details.
               </p>
             </LandingReveal>
 
@@ -293,18 +293,6 @@ export function LandingPage() {
               </div>
             </div>
           </LandingReveal>
-        </div>
-
-        <div className="mx-auto max-w-6xl px-5 pb-8 sm:px-6 lg:px-0">
-          <div className="grid gap-4 border-t border-blue-200/80 pt-6 sm:grid-cols-[0.55fr_1.45fr] sm:items-baseline sm:gap-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              You stay in control
-            </p>
-            <p className="max-w-3xl text-balance text-lg leading-8 tracking-[-0.015em] text-slate-600 sm:text-xl sm:leading-9">
-              <strong className="font-semibold text-slate-950">Private by default.</strong>{" "}
-              Share only what you choose, and turn sharing off anytime.
-            </p>
-          </div>
         </div>
       </section>
 

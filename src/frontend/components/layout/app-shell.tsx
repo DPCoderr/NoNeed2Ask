@@ -73,10 +73,10 @@ export function AppShell({
     <SidebarProvider
       className={cn(
         "h-svh min-h-svh overflow-hidden",
-        hasLandingBackground && "relative isolate overflow-hidden bg-[#f6faff]"
+        hasLandingBackground && "relative isolate overflow-hidden bg-[#f8fbff]"
       )}
     >
-      {hasLandingBackground ? (
+      {hasLandingBackground && !isDashboard ? (
         <>
           <div
             aria-hidden="true"
@@ -101,9 +101,13 @@ export function AppShell({
                 : "bg-[radial-gradient(ellipse_at_top_right,rgb(255_255_255/0)_0%,rgb(255_255_255/0.1)_32%,rgb(246_250_255/0.86)_78%)]"
             )}
           />
-          {isDashboard ? (
-            <TopographyPattern className="pointer-events-none fixed -right-16 top-16 z-[3] w-[min(48rem,72vw)] text-blue-900/7" />
-          ) : null}
+        </>
+      ) : null}
+      {isDashboard ? (
+        <>
+          <div aria-hidden="true" className="fixed inset-0 z-0 bg-[linear-gradient(145deg,#f8fbff_10%,#edf7ff_52%,#f7fbff_100%)]" />
+          <div aria-hidden="true" className="fixed inset-0 z-[1] bg-[linear-gradient(to_right,rgb(29_112_168_/_0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgb(29_112_168_/_0.035)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent_88%)]" />
+          <TopographyPattern className="pointer-events-none fixed -right-16 top-16 z-[2] w-[min(48rem,72vw)] text-blue-900/5" />
         </>
       ) : null}
       <div className="relative z-10 flex h-full min-h-0 w-full">

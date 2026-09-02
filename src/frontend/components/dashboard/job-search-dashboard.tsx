@@ -8,7 +8,6 @@ import {
   NextInterviewCard,
   type InterviewReminder,
 } from "@/components/dashboard/next-interview-card";
-import { OverviewStats } from "@/components/dashboard/overview-stats";
 import { RecentApplicationsCard } from "@/components/dashboard/recent-applications-card";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +24,6 @@ type JobSearchDashboardProps = {
   header: DashboardHeaderProps;
   journeyId?: string;
   nextInterview?: InterviewReminder;
-  overviewId?: string;
   recentApplications?: RecentApplicationsOptions;
   showNextActionControls?: boolean;
   updatesId?: string;
@@ -37,7 +35,6 @@ export function JobSearchDashboard({
   header,
   journeyId,
   nextInterview,
-  overviewId,
   recentApplications,
   showNextActionControls = true,
   updatesId,
@@ -53,28 +50,29 @@ export function JobSearchDashboard({
   };
 
   return (
-    <>
+    <div className="relative">
       <DashboardHeader {...header} />
 
-      {overviewId ? (
-        <OverviewStats id={overviewId} stats={dashboardData.overviewStats} />
-      ) : null}
+      <div className="relative z-10 mt-6 grid gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(18rem,0.65fr)] lg:items-stretch">
+        <JobSearchDistributionCard
+          description={distributionDescription}
+          id={journeyId}
+          stages={dashboardData.pipelineStages}
+          total={dashboardData.pipelineTotal}
+        />
 
-      <JobSearchDistributionCard
-        description={distributionDescription}
-        id={journeyId}
-        stages={dashboardData.pipelineStages}
-        total={dashboardData.pipelineTotal}
-      />
+        <NextInterviewCard {...visibleReminder} />
+      </div>
 
-      <NextInterviewCard {...visibleReminder} />
-
-      <section className={cn(updatesId && "scroll-mt-28")} id={updatesId}>
+      <section
+        className={cn("relative z-10 mt-6", updatesId && "scroll-mt-28")}
+        id={updatesId}
+      >
         <RecentApplicationsCard
           applications={dashboardData.recentApplications}
           {...recentApplications}
         />
       </section>
-    </>
+    </div>
   );
 }

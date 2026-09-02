@@ -29,11 +29,11 @@ function RecentApplicationRow({
 }) {
   return (
     <div
-      className={`grid grid-cols-[1.75rem_minmax(0,1fr)] items-center gap-x-3 gap-y-1 py-4 sm:grid-cols-[1.75rem_minmax(0,1fr)_7rem] ${
+      className={`group/row grid grid-cols-[2.25rem_minmax(0,1fr)] items-center gap-x-3 gap-y-1 py-4 sm:grid-cols-[2.25rem_minmax(0,1fr)_7rem] ${
         isLast ? "" : "border-b"
       }`}
     >
-      <div className="flex justify-center">
+      <div className={`flex size-8 items-center justify-center rounded-full ${application.statusIconBackgroundClassName}`}>
         <DashboardGlyph
           className={`size-4.5 ${application.statusIconClassName}`}
           name={application.statusIcon}
@@ -41,7 +41,7 @@ function RecentApplicationRow({
       </div>
 
       <div className="min-w-0">
-        <h3 className="truncate text-sm font-semibold tracking-[-0.01em] text-slate-950 sm:text-base">
+        <h3 className="truncate text-sm font-semibold tracking-[-0.01em] text-slate-950 transition-colors group-hover/row:text-primary sm:text-base">
           {getUpdateTitle(application)}
         </h3>
         <p className="mt-0.5 truncate text-sm font-medium text-blue-950/52">
@@ -65,7 +65,7 @@ function RecentApplicationsTimeline({
   applications: RecentApplication[];
 }) {
   return (
-    <div className="mt-3 border-t border-blue-950/12 [&>div]:border-blue-950/8">
+    <div className="mt-5 border-t border-blue-100 [&>div]:border-blue-100">
       {applications.map((application, index) => (
         <RecentApplicationRow
           application={application}
@@ -87,11 +87,12 @@ function RecentApplicationsHeader({
   return (
     <div className="flex items-end justify-between gap-4">
       <div className="flex min-w-0 items-center gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center border border-blue-950/12 bg-white text-blue-700">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700 ring-1 ring-blue-100">
           <DashboardGlyph className="size-4.5" name="activity" />
         </div>
         <div className="min-w-0">
-          <h2 className="text-xl font-semibold tracking-[-0.025em] text-slate-950">
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary">Activity log</p>
+          <h2 className="mt-0.5 text-xl font-semibold tracking-[-0.025em] text-slate-950">
             {title}
           </h2>
         </div>
@@ -100,7 +101,7 @@ function RecentApplicationsHeader({
       {showViewAll ? (
         <Button
           asChild
-          className="h-9 w-fit shrink-0 rounded-none border-blue-950/15 bg-white px-3 text-sm font-semibold text-blue-800 shadow-none hover:bg-blue-50"
+          className="h-10 w-fit shrink-0 rounded-xl border-blue-200 bg-white px-4 text-sm font-semibold text-blue-800 shadow-none hover:bg-blue-50"
           variant="outline"
         >
           <Link href="/applications">View all</Link>
@@ -124,7 +125,7 @@ export function RecentApplicationsCard({
   title?: string;
 }) {
   return (
-    <article className="border border-blue-950/12 bg-white p-5 shadow-[0_22px_65px_-52px_rgb(15_23_42_/_0.45)] sm:p-6">
+    <article className="rounded-[1.75rem] border border-blue-100 bg-white p-5 shadow-[0_24px_70px_-55px_rgb(30_64_175_/_0.5)] sm:p-7 lg:p-8">
       <RecentApplicationsHeader
         showViewAll={showViewAll}
         title={title}
