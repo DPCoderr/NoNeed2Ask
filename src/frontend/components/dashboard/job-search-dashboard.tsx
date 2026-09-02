@@ -53,7 +53,7 @@ export function JobSearchDashboard({
   };
 
   return (
-    <>
+    <div className="flex min-w-0 flex-col gap-5 md:gap-6">
       <DashboardHeader {...header} />
 
       {overviewId ? (
@@ -67,14 +67,16 @@ export function JobSearchDashboard({
         total={dashboardData.pipelineTotal}
       />
 
-      <NextInterviewCard {...visibleReminder} />
+      <div className="grid min-w-0 items-start gap-5 lg:grid-cols-[minmax(18rem,0.72fr)_minmax(0,1.28fr)] lg:gap-6">
+        <NextInterviewCard {...visibleReminder} />
 
-      <section className={cn(updatesId && "scroll-mt-28")} id={updatesId}>
-        <RecentApplicationsCard
-          applications={dashboardData.recentApplications}
-          {...recentApplications}
-        />
-      </section>
-    </>
+        <section className={cn(updatesId && "scroll-mt-28")} id={updatesId}>
+          <RecentApplicationsCard
+            applications={dashboardData.recentApplications}
+            {...recentApplications}
+          />
+        </section>
+      </div>
+    </div>
   );
 }

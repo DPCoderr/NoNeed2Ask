@@ -65,7 +65,7 @@ function RecentApplicationsTimeline({
   applications: RecentApplication[];
 }) {
   return (
-    <div className="mt-3 border-t border-blue-950/12 [&>div]:border-blue-950/8">
+    <div className="relative mt-3 border-t border-blue-950/10 before:absolute before:bottom-5 before:left-[0.85rem] before:top-5 before:w-px before:bg-blue-950/10 [&>div]:relative [&>div]:border-blue-950/7">
       {applications.map((application, index) => (
         <RecentApplicationRow
           application={application}
@@ -100,7 +100,7 @@ function RecentApplicationsHeader({
       {showViewAll ? (
         <Button
           asChild
-          className="h-9 w-fit shrink-0 rounded-none border-blue-950/15 bg-white px-3 text-sm font-semibold text-blue-800 shadow-none hover:bg-blue-50"
+          className="h-9 w-fit shrink-0 rounded-lg border-blue-950/12 bg-white px-3 text-sm font-semibold text-blue-800 shadow-none hover:bg-blue-50"
           variant="outline"
         >
           <Link href="/applications">View all</Link>
@@ -124,7 +124,7 @@ export function RecentApplicationsCard({
   title?: string;
 }) {
   return (
-    <article className="border border-blue-950/12 bg-white p-5 shadow-[0_22px_65px_-52px_rgb(15_23_42_/_0.45)] sm:p-6">
+    <article className="rounded-2xl border border-blue-950/9 bg-white/90 p-5 shadow-[0_20px_60px_-48px_rgb(15_23_42_/_0.4)] backdrop-blur-xl sm:p-6">
       <RecentApplicationsHeader
         showViewAll={showViewAll}
         title={title}
