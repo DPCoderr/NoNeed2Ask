@@ -3,17 +3,19 @@
 import { useMutation } from "@tanstack/react-query"
 import * as React from "react"
 
-import { Switch } from "@/components/ui/switch"
+import { PublicProfileSharingControl } from "./public-profile-sharing-control"
 import { updatePublicProfileSettings } from "@/lib/api/public-profile"
 
 export function PublicProfileSharingSwitch({
   disabled = false,
   initialEnabled,
   onEnabledChange,
+  appearance = "default",
 }: {
   disabled?: boolean
   initialEnabled: boolean
   onEnabledChange?: (enabled: boolean) => void
+  appearance?: "default" | "compact"
 }) {
   const [isEnabled, setIsEnabled] = React.useState(initialEnabled)
 
@@ -39,18 +41,6 @@ export function PublicProfileSharingSwitch({
   }
 
   return (
-    <div className="flex h-11 min-w-0 items-center justify-between gap-1 px-1.5 text-sm text-blue-950/70 sm:gap-2 sm:px-3">
-      <span className="whitespace-nowrap font-medium">
-        Public page
-        <span className="sr-only"> {isEnabled ? "on" : "off"}</span>
-      </span>
-      <Switch
-        aria-label="Toggle public status page"
-        checked={isEnabled}
-        disabled={disabled || updateMutation.isPending}
-        onCheckedChange={handleCheckedChange}
-        size="sm"
-      />
-    </div>
+    <PublicProfileSharingControl enabled={isEnabled} disabled={disabled || updateMutation.isPending} onCheckedChange={handleCheckedChange} appearance={appearance} />
   )
 }
