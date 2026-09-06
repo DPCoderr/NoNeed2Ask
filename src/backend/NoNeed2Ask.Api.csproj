@@ -28,6 +28,8 @@
 
     <ItemGroup>
       <Folder Include="Domain\Services\" />
+      <Folder Include="Features\Application\delete\" />
+      <Folder Include="Features\Application\update\" />
     </ItemGroup>
 
 </Project>

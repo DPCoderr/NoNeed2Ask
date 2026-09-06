@@ -1,11 +1,12 @@
-﻿using NoNeed2Ask.Api.Shared;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using NoNeed2Ask.Api.Database;
+using NoNeed2Ask.Api.Shared;
 
 namespace NoNeed2Ask.Api.Features.Application.get;
 
-public class ApplicationGetById
+public class GetApplication
 {
-    public const string RouteName = "GetApplicationById";
-    
+    private const string RouteName = "GetApplication";
     private sealed record ApplicationCreateRequestDto(
         string CompanyName,
         string JobTitle,
@@ -34,7 +35,7 @@ public class ApplicationGetById
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapPost("/applications", Handler.Handle)
-                .WithName("CreateApplication")
+                .WithName(RouteName)
                 .RequireAuthorization();
         }
     }
