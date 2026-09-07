@@ -9,7 +9,7 @@ const assert = require('node:assert/strict');
  page.on('request', r => { if (r.url().includes('/api/')) requests.push(r.url()); });
  await page.goto('http://localhost:3007/preview-design/public-page', { waitUntil: 'networkidle', timeout: 120000 });
  await page.evaluate(() => document.fonts.ready);
- await page.addStyleTag({content: 'nextjs-portal { display: none; }'});
+ await page.addStyleTag({content: 'nextjs-portal { display: none; } *, *::before, *::after { animation: none !important; transition: none !important; }'});
  await page.addScriptTag({path: 'src/frontend/node_modules/axe-core/axe.min.js'});
  const report = { responsive: [], accessibility: [], errors, requests };
  const scenarios = ['Populated', 'Private', 'Private · signed in', 'Empty', 'No interview', 'Loading', 'Error', 'Not found', 'Long text'];
@@ -24,7 +24,7 @@ const assert = require('node:assert/strict');
     const axe = await page.evaluate(async () => (await axe.run(document, {runOnly: {type:'tag', values:['wcag2a','wcag2aa','wcag21a','wcag21aa']}})).violations.map(v=>({id:v.id, impact:v.impact, nodes:v.nodes.map(n=>({html:n.html, summary:n.failureSummary}))})));
     report.accessibility.push({width, scenario, violations: axe});
    }
-   if ([390, 768, 1440].includes(width) && ['Populated', 'Private', 'Long text', 'Error', 'Loading', 'Empty'].includes(scenario)) {
+   if (!process.env.SKIP_SCREENSHOTS && [390, 768, 1440].includes(width) && ['Populated', 'Private', 'Long text', 'Error', 'Loading', 'Empty'].includes(scenario)) {
     await page.evaluate(()=>scrollTo(0,0));
     await page.screenshot({path: `artifacts/public-page-review/${scenario.toLowerCase().replaceAll(' ','-')}-${width}.png`, fullPage:true});
    }
@@ -57,3 +57,5 @@ const assert = require('node:assert/strict');
  console.log(JSON.stringify({responsiveChecks: report.responsive.length, accessibilityViolations:report.accessibility.filter(a=>a.violations.length), errors, requests, keyboard:report.keyboard, skipTarget:report.skipTarget, interLoaded:report.fonts.faces.some(f=>f.family === 'Inter' && f.status === 'loaded')},null,2));
  await browser.close();
 })();
+
+

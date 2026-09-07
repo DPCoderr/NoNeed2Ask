@@ -322,3 +322,11 @@ Desktop- en mobiele screenshots staan in artifacts/public-page-review.
 Een gerichte regressietest bewaakt het sluiten en focusherstel van het menu.
 Dashboard en applications zijn in deze ronde niet aangepast. Wacht op beoordeling.
 
+
+### Aanvulling: achtergrond onderaan de publieke pagina
+
+Een tweede blauwgrijze boog vult nu de rechteronderhoek. De decoratieve container
+volgt de volledige inhoudshoogte; de onderste boog is aan de onderrand verankerd,
+zodat deze ook op lange mobiele pagina's tijdens het scrollen zichtbaar wordt.
+De bestaande bovencompositie behoudt haar eigen fade. Beide lagen blijven achter
+de ondoorzichtige kaarten en worden uitsluitend binnen de decoratielaag afgeknipt.

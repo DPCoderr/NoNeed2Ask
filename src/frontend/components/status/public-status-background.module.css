@@ -1,5 +1,13 @@
 .artwork {
   position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.upper {
+  position: absolute;
   inset: 0 0 auto;
   height: 1060px;
   max-height: 100%;
@@ -7,6 +15,42 @@
   z-index: -1;
   pointer-events: none;
   mask-image: linear-gradient(#000 0 65%, transparent 100%);
+}
+
+/* Echo the upper arch near the end of the content, including long mobile pages. */
+.lowerArch {
+  position: absolute;
+  right: -340px;
+  bottom: -100px;
+  width: 560px;
+  height: 740px;
+  border: 64px solid transparent;
+  border-radius: 48% 48% 44% 44%;
+  transform: rotate(-32deg);
+  background: linear-gradient(#f7f8fa, #f7f8fa) padding-box,
+    linear-gradient(135deg, #e5edf4 8%, #b8cddd 55%, #d3e0eb 90%) border-box;
+  box-shadow: inset 8px 8px 24px rgb(63 91 123 / 7%),
+    -12px -8px 40px rgb(77 104 131 / 7%);
+}
+
+@media (min-width: 640px) {
+  .lowerArch {
+    right: -360px;
+    bottom: -180px;
+    width: 720px;
+    height: 900px;
+    border-width: 86px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .lowerArch {
+    right: max(-290px, calc((100vw - 1900px) / 2));
+    bottom: -260px;
+    width: 860px;
+    height: 1040px;
+    border-width: 100px;
+  }
 }
 
 /* A solid architectural arch, with a recessed opening and a lit outer edge. */
