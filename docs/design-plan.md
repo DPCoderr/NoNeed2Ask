@@ -10,7 +10,10 @@ oplevering; onderscheid implementatie van goedkeuring door de gebruiker.
 | Onderdeel | Status |
 | --- | --- |
 | Dashboard, sidebar en bovenbalk | Uitgewerkt en met de gebruiker verfijnd; gebruiker heeft opdracht gegeven door te gaan naar applications. |
+| Dashboard CSS-achtergrond | Gelaagde reliëfvormen opgeleverd; gebruiker heeft opdracht gegeven door te gaan naar applications. |
+| Applications CSS-achtergrond | Compacte variant met reliëf rechtsboven geïmplementeerd; wacht op beoordeling. |
 | Sollicitatielijst (applications) | Nieuwe UI en lokale preview opgeleverd; wacht op beoordeling. |
+| Publieke statuspagina | Nieuwe publieke compositie en lokale preview opgeleverd; wacht op beoordeling. Op expliciete opdracht vóór sollicitatiedetail uitgevoerd. |
 | Sollicitatiedetail en overige pagina's | Nog niet vernieuwd binnen dit traject. |
 
 De laatst gerapporteerde controle voor applications was een geslaagde
@@ -95,6 +98,110 @@ lange namen, veel pagina's en verwijderfout. Zoeken, filteren, sorteren,
 pagineren en verwijderen werken daar met lokale state. Niet uitgewerkte
 bestemmingen tonen een previewmelding.
 
+## CSS-achtergronden — dashboard eerst
+
+Op expliciete opdracht zijn achtergrondafbeeldingen geschrapt ten gunste van
+CSS-figuren. Na beoordeling zijn de dunne contourkaders vervangen door grotere, gelaagde reliëfvormen: herkenbaar, maar met rustige licht- en schaduwwerking.
+De basis blijft `#F7F8FA`; de vormen gebruiken off-white en gedempte blauwgrijze tinten.
+Geen raster, topografie, rotatie, glow of animatie.
+
+Ronde 1 is uitgevoerd voor het dashboard: twee brede afgeronde oppervlakken
+rechtsboven vormen samen een reliëf met zachte slagschaduwen en lichte randen.
+Links staat een tweede, deels afgesneden vlak. De decoratie is begrensd tot
+760 px hoog, vervaagt onderaan en scrollt met de inhoud mee. Op tablet worden
+de vormen kleiner; onder 640 px blijft alleen de compositie rechts zichtbaar.
+Kaarten blijven wit en
+ondoorzichtig; de bestaande inhoud, acties en afstanden zijn behouden.
+
+`WorkspaceBackground` en het lokale CSS-module staan in `components/layout`.
+De dashboardvariant is actief op pathname `/`; de dashboardpreview
+hergebruikt dezelfde code. De laag is verborgen voor hulptechnologie en vangt
+geen muis- of aanraakacties af. Er zijn geen nieuwe dependencies, afbeeldingen,
+SVG, clientstate of effects toegevoegd.
+
+Verificatie van ronde 1:
+
+- `npm run check` geslaagd: lint, TypeScript, 46 tests en productiebuild.
+- 72 combinaties van scenario, schermbreedte en sidebarstand gecontroleerd op
+  320, 390, 640, 768, 1024 en 1440 px, zonder horizontale overflow.
+- Acht bestaande dashboardscenario's gecontroleerd, inclusief leeg, laden, fout,
+  lange namen en uitgeschakelde/opslagtoestanden van delen.
+- Geen nieuwe toegankelijkheidsbevindingen vergeleken met verborgen decoratie.
+  Bestaand aandachtspunt: twee teksten in de development-previewbediening hebben
+  contrast 4,48:1 tegenover de vereiste 4,5:1; dit staat los van de achtergrond.
+- Delen, mobiele sidebar, Escape en focusherstel gecontroleerd; geen
+  browserfouten of API-verzoeken. De laag scrollt mee en ontbreekt op applications
+  en de publieke preview.
+- Screenshots en browserrapport: `artifacts/dashboard-background-review/`.
+
+Ronde 2 is op expliciete vervolgopdracht uitgevoerd voor applications. Dezelfde
+reliëfstijl krijgt een compactere compositie rechtsboven, begrensd tot 320 px
+hoog. Het vlak links vervalt en de achtergrond loopt onderaan over in de effen
+basiskleur. De witte zoek-/filterbediening, tabel en mobiele rijen zijn behouden.
+De applications-variant is alleen actief op pathname `/applications`, inclusief
+de bestaande preview, niet op aanmaken, detail of bewerken. De standaardvariant
+van het dashboard is behouden. Publiek en hero blijven buiten deze rondes.
+
+Verificatie van ronde 2:
+
+- `npm run check` geslaagd: lint, TypeScript, 46 tests en productiebuild.
+- 72 combinaties van de acht previewscenario's, zes breedtes (320, 390, 640,
+  768, 1024 en 1440 px) en sidebarstanden zonder horizontale overflow.
+- Axe-controle van alle scenario's op 390, 768 en 1440 px: geen nieuwe
+  bevindingen ten opzichte van verborgen decoratie; bestaande contrastmeldingen
+  zijn vastgelegd in het browserrapport.
+- Zoeken, statusfilter, sorteren, paginering, retry, lokaal verwijderen,
+  verwijderfout, dialogs, mobiele sidebar en focusherstel gecontroleerd.
+  Geen browserfouten of API-verzoeken; achtergrond scrollt mee.
+- Screenshots en browserrapport: `artifacts/applications-background-review/`.
+
+Applications wacht op beoordeling; geen volgende pagina gestart.
+
+## Publieke statuspagina: huidige uitwerking
+
+De route `/status/[slug]` gebruikt een eigen publieke omlijsting met het bestaande
+logo en accountbestemmingen. De compositie
+bevat een profielkop, statusverdeling, eerstvolgend interview en recente
+sollicitaties. De bestaande berekeningen, sortering en limiet van tien recente
+sollicitaties zijn behouden. De API, authenticatie en datacontracten zijn niet
+gewijzigd. Er zijn geen private notities, identificatoren of bewerklinks toegevoegd.
+
+De gedeelde presentatie staat in `src/frontend/components/status/public-status-*`.
+De publieke route heeft ook een passende laadweergave, privéweergave, foutweergave
+en 404. De algemene 404 en private dashboardpresentatie zijn niet herontworpen.
+Er is geen nieuwe `useEffect` toegevoegd; de reguliere presentatie gebruikt Server
+Components, met alleen de foutactie als expliciete clientcomponent.
+
+`/preview-design/public-page` hergebruikt deze presentatie zonder private sidebar.
+Negen scenario's zijn beschikbaar: gevuld, privé, privé met ingelogde bezoeker,
+leeg, zonder interview, laden, fout, niet gevonden en lange tekst. De data en
+referentiedatum staan vast; opnieuw proberen en navigatiemeldingen werken lokaal.
+Alle previewroutes blijven buiten development een 404 geven.
+
+Verificatie op 7 september 2026:
+
+- `npm run check`: lint, TypeScript, 46 tests en productiebuild geslaagd.
+- Negen scenario's gecontroleerd op 320, 390, 540, 640, 768, 900, 1024, 1280 en
+  1440 px: geen horizontale paginascroll, ook bij lange woorden en functietitels.
+- Axe WCAG A/AA-controle op 390, 768 en 1440 px: geen overtredingen in de negen
+  scenario's na gerichte contrastcorrecties binnen de publieke presentatie.
+- Skiplink met zichtbare focus en focusoverdracht, lokale retry,
+  accountbestemmingen en de previewpaginakeuze gecontroleerd. Geen browserfouten
+  of API-verzoeken tijdens de previewcontrole.
+- Productieserver: publieke, dashboard-, applications- en onbekende previewroute
+  geven daadwerkelijk 404, zonder fictieve profieldata in het antwoord.
+- Screenshots en browserrapport: `artifacts/public-page-review/`. De opnamen
+  gebruiken de geladen Inter-font en vaste fictieve gegevens.
+
+Omgevingsbeperking: de eerste build in de netwerksandbox kon de bestaande Google
+Fonts niet ophalen. De herhaling met netwerktoegang slaagde zonder codewijziging
+aan de lettertypen. Er is geen resterende checkblokkade. De live backend is niet
+integraal getest; de gegevens- en authenticatiestroom zijn ongewijzigd gebleven.
+
+Na feedback zijn de overbodige tabs Overview, Journey en Updates verwijderd uit de publieke pagina en preview. De inhoud begint direct onder de merkbalk. Na verdere feedback gebruikt de publieke pagina weer de oorspronkelijke ronde, zwevende `LandingNavbar`, met compacte Inter-typografie en accountknoppen in de nieuwe dashboardstijl. De landingpagina behoudt haar bestaande navbarstijl; de publieke variant gebruikt een lokaal CSS-module via className en het oorspronkelijke mobiele menu. De overbodige sectietabs blijven verwijderd.
+
+Deze pagina wacht op beoordeling. Er is geen volgende pagina gestart.
+
 ## Architectuur en componenten
 
 - Houd routes dun. Eén applicatiecomponent per bestand, met duidelijke
@@ -135,7 +242,8 @@ Paden hieronder zijn relatief aan de repositoryroot:
 ## Lokale designpreview voor elke pagina
 
 - Gebruik `/preview-design/[pageName]`, buiten de beveiligde dashboardlayout.
-- Beschikbaar: `/preview-design/dashboard` en `/preview-design/applications`.
+- Beschikbaar: `/preview-design/dashboard`, `/preview-design/applications` en
+  `/preview-design/public-page`.
   `/design-preview` blijft een alias voor het dashboard.
 - De route geeft buiten development een 404, ook voor bestaande previewpagina's.
   Onbekende paginanamen geven eveneens een 404.
@@ -157,7 +265,7 @@ Start vanuit `src/frontend` met `npm run dev`.
 3. Sollicitatie aanmaken.
 4. Sollicitatie bewerken, met hergebruik van de goedgekeurde formuliercomponenten.
 5. Instellingen; ontbrekende mogelijkheden uitsluitend in de lokale preview.
-6. Publieke statuspagina, inclusief privé-, lege en fouttoestanden.
+6. Publieke statuspagina: op expliciete opdracht eerder opgeleverd; wacht op beoordeling.
 7. Login en daarna registratie.
 8. Landingspagina, met screenshots van de goedgekeurde app en fictieve gegevens.
 
@@ -192,3 +300,25 @@ wacht. Begin niet zelfstandig aan de volgende pagina.
 > relevante scenario's. Behoud backend en functionele logica. Controleer responsive
 > gedrag en toegankelijkheid, lever desktop- en mobiele screenshots en voer
 > npm run check uit. Stop daarna voor mijn beoordeling en werk de voortgang bij.
+
+## Publieke navbar en CSS-achtergrond — nieuwe ronde
+
+Op verzoek heeft de publieke pagina een eigen architecturale compositie: een
+oversized gedempte blauwe boog met een uitgesneden binnenvlak, fijne lichtrand en
+zachte materiaalschaduw, gecombineerd met een warme steenkleurige tegenvorm.
+De vormen zijn volledig CSS, schalen mee met het scherm en scrollen met de pagina.
+Alleen de decoratie wordt afgeknipt; ze ontvangt geen pointer-events en is verborgen
+voor hulptechnologie. De presentatie wordt gedeeld door live pagina en preview.
+
+De navbar gebruikt de ronde LandingNavbar met het oorspronkelijke mobiele menu.
+Publieke typografie, pillvormige knoppen en focusringen staan in een lokaal
+CSS-module; de eerdere losse accountnavigatie is verwijderd. Escape sluit het
+menu en herstelt focus naar de menuknop. De sectietabs blijven verwijderd.
+
+Verificatie: negen scenario's op negen breedtes (320–1440 px), zonder horizontale
+overflow. De 27 axe-controles op 390, 768 en 1440 px rapporteren geen overtredingen.
+Skiplink, lokale navigatie en retry werken; geen browserfouten of API-verzoeken.
+Desktop- en mobiele screenshots staan in artifacts/public-page-review.
+Een gerichte regressietest bewaakt het sluiten en focusherstel van het menu.
+Dashboard en applications zijn in deze ronde niet aangepast. Wacht op beoordeling.
+

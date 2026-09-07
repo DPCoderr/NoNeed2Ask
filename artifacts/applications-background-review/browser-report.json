@@ -1,0 +1,999 @@
+{
+  "responsive": [
+    {
+      "width": 320,
+      "collapsed": false,
+      "scenario": "Populated",
+      "page": 320,
+      "client": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "collapsed": false,
+      "scenario": "Empty",
+      "page": 320,
+      "client": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "collapsed": false,
+      "scenario": "No results",
+      "page": 320,
+      "client": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "collapsed": false,
+      "scenario": "Loading",
+      "page": 320,
+      "client": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "collapsed": false,
+      "scenario": "Error",
+      "page": 320,
+      "client": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "collapsed": false,
+      "scenario": "Long names",
+      "page": 320,
+      "client": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "collapsed": false,
+      "scenario": "Many pages",
+      "page": 320,
+      "client": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "collapsed": false,
+      "scenario": "Delete error",
+      "page": 320,
+      "client": 320,
+      "scroll": 320
+    },
+    {
+      "width": 390,
+      "collapsed": false,
+      "scenario": "Populated",
+      "page": 390,
+      "client": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "collapsed": false,
+      "scenario": "Empty",
+      "page": 390,
+      "client": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "collapsed": false,
+      "scenario": "No results",
+      "page": 390,
+      "client": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "collapsed": false,
+      "scenario": "Loading",
+      "page": 390,
+      "client": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "collapsed": false,
+      "scenario": "Error",
+      "page": 390,
+      "client": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "collapsed": false,
+      "scenario": "Long names",
+      "page": 390,
+      "client": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "collapsed": false,
+      "scenario": "Many pages",
+      "page": 390,
+      "client": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "collapsed": false,
+      "scenario": "Delete error",
+      "page": 390,
+      "client": 390,
+      "scroll": 390
+    },
+    {
+      "width": 640,
+      "collapsed": false,
+      "scenario": "Populated",
+      "page": 640,
+      "client": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "collapsed": false,
+      "scenario": "Empty",
+      "page": 640,
+      "client": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "collapsed": false,
+      "scenario": "No results",
+      "page": 640,
+      "client": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "collapsed": false,
+      "scenario": "Loading",
+      "page": 640,
+      "client": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "collapsed": false,
+      "scenario": "Error",
+      "page": 640,
+      "client": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "collapsed": false,
+      "scenario": "Long names",
+      "page": 640,
+      "client": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "collapsed": false,
+      "scenario": "Many pages",
+      "page": 640,
+      "client": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "collapsed": false,
+      "scenario": "Delete error",
+      "page": 640,
+      "client": 640,
+      "scroll": 640
+    },
+    {
+      "width": 768,
+      "collapsed": false,
+      "scenario": "Populated",
+      "page": 768,
+      "client": 544,
+      "scroll": 544
+    },
+    {
+      "width": 768,
+      "collapsed": false,
+      "scenario": "Empty",
+      "page": 768,
+      "client": 544,
+      "scroll": 544
+    },
+    {
+      "width": 768,
+      "collapsed": false,
+      "scenario": "No results",
+      "page": 768,
+      "client": 544,
+      "scroll": 544
+    },
+    {
+      "width": 768,
+      "collapsed": false,
+      "scenario": "Loading",
+      "page": 768,
+      "client": 544,
+      "scroll": 544
+    },
+    {
+      "width": 768,
+      "collapsed": false,
+      "scenario": "Error",
+      "page": 768,
+      "client": 544,
+      "scroll": 544
+    },
+    {
+      "width": 768,
+      "collapsed": false,
+      "scenario": "Long names",
+      "page": 768,
+      "client": 544,
+      "scroll": 544
+    },
+    {
+      "width": 768,
+      "collapsed": false,
+      "scenario": "Many pages",
+      "page": 768,
+      "client": 544,
+      "scroll": 544
+    },
+    {
+      "width": 768,
+      "collapsed": false,
+      "scenario": "Delete error",
+      "page": 768,
+      "client": 544,
+      "scroll": 544
+    },
+    {
+      "width": 768,
+      "collapsed": true,
+      "scenario": "Populated",
+      "page": 768,
+      "client": 564,
+      "scroll": 564
+    },
+    {
+      "width": 768,
+      "collapsed": true,
+      "scenario": "Empty",
+      "page": 768,
+      "client": 577,
+      "scroll": 577
+    },
+    {
+      "width": 768,
+      "collapsed": true,
+      "scenario": "No results",
+      "page": 768,
+      "client": 591,
+      "scroll": 591
+    },
+    {
+      "width": 768,
+      "collapsed": true,
+      "scenario": "Loading",
+      "page": 768,
+      "client": 604,
+      "scroll": 604
+    },
+    {
+      "width": 768,
+      "collapsed": true,
+      "scenario": "Error",
+      "page": 768,
+      "client": 637,
+      "scroll": 637
+    },
+    {
+      "width": 768,
+      "collapsed": true,
+      "scenario": "Long names",
+      "page": 768,
+      "client": 704,
+      "scroll": 704
+    },
+    {
+      "width": 768,
+      "collapsed": true,
+      "scenario": "Many pages",
+      "page": 768,
+      "client": 704,
+      "scroll": 704
+    },
+    {
+      "width": 768,
+      "collapsed": true,
+      "scenario": "Delete error",
+      "page": 768,
+      "client": 704,
+      "scroll": 704
+    },
+    {
+      "width": 1024,
+      "collapsed": false,
+      "scenario": "Populated",
+      "page": 1024,
+      "client": 940,
+      "scroll": 940
+    },
+    {
+      "width": 1024,
+      "collapsed": false,
+      "scenario": "Empty",
+      "page": 1024,
+      "client": 927,
+      "scroll": 927
+    },
+    {
+      "width": 1024,
+      "collapsed": false,
+      "scenario": "No results",
+      "page": 1024,
+      "client": 920,
+      "scroll": 920
+    },
+    {
+      "width": 1024,
+      "collapsed": false,
+      "scenario": "Loading",
+      "page": 1024,
+      "client": 907,
+      "scroll": 907
+    },
+    {
+      "width": 1024,
+      "collapsed": false,
+      "scenario": "Error",
+      "page": 1024,
+      "client": 893,
+      "scroll": 893
+    },
+    {
+      "width": 1024,
+      "collapsed": false,
+      "scenario": "Long names",
+      "page": 1024,
+      "client": 867,
+      "scroll": 867
+    },
+    {
+      "width": 1024,
+      "collapsed": false,
+      "scenario": "Many pages",
+      "page": 1024,
+      "client": 840,
+      "scroll": 840
+    },
+    {
+      "width": 1024,
+      "collapsed": false,
+      "scenario": "Delete error",
+      "page": 1024,
+      "client": 820,
+      "scroll": 820
+    },
+    {
+      "width": 1024,
+      "collapsed": true,
+      "scenario": "Populated",
+      "page": 1024,
+      "client": 820,
+      "scroll": 820
+    },
+    {
+      "width": 1024,
+      "collapsed": true,
+      "scenario": "Empty",
+      "page": 1024,
+      "client": 833,
+      "scroll": 833
+    },
+    {
+      "width": 1024,
+      "collapsed": true,
+      "scenario": "No results",
+      "page": 1024,
+      "client": 840,
+      "scroll": 840
+    },
+    {
+      "width": 1024,
+      "collapsed": true,
+      "scenario": "Loading",
+      "page": 1024,
+      "client": 853,
+      "scroll": 853
+    },
+    {
+      "width": 1024,
+      "collapsed": true,
+      "scenario": "Error",
+      "page": 1024,
+      "client": 867,
+      "scroll": 867
+    },
+    {
+      "width": 1024,
+      "collapsed": true,
+      "scenario": "Long names",
+      "page": 1024,
+      "client": 893,
+      "scroll": 893
+    },
+    {
+      "width": 1024,
+      "collapsed": true,
+      "scenario": "Many pages",
+      "page": 1024,
+      "client": 920,
+      "scroll": 920
+    },
+    {
+      "width": 1024,
+      "collapsed": true,
+      "scenario": "Delete error",
+      "page": 1024,
+      "client": 940,
+      "scroll": 940
+    },
+    {
+      "width": 1440,
+      "collapsed": false,
+      "scenario": "Populated",
+      "page": 1440,
+      "client": 1363,
+      "scroll": 1363
+    },
+    {
+      "width": 1440,
+      "collapsed": false,
+      "scenario": "Empty",
+      "page": 1440,
+      "client": 1216,
+      "scroll": 1216
+    },
+    {
+      "width": 1440,
+      "collapsed": false,
+      "scenario": "No results",
+      "page": 1440,
+      "client": 1216,
+      "scroll": 1216
+    },
+    {
+      "width": 1440,
+      "collapsed": false,
+      "scenario": "Loading",
+      "page": 1440,
+      "client": 1216,
+      "scroll": 1216
+    },
+    {
+      "width": 1440,
+      "collapsed": false,
+      "scenario": "Error",
+      "page": 1440,
+      "client": 1216,
+      "scroll": 1216
+    },
+    {
+      "width": 1440,
+      "collapsed": false,
+      "scenario": "Long names",
+      "page": 1440,
+      "client": 1216,
+      "scroll": 1216
+    },
+    {
+      "width": 1440,
+      "collapsed": false,
+      "scenario": "Many pages",
+      "page": 1440,
+      "client": 1216,
+      "scroll": 1216
+    },
+    {
+      "width": 1440,
+      "collapsed": false,
+      "scenario": "Delete error",
+      "page": 1440,
+      "client": 1216,
+      "scroll": 1216
+    },
+    {
+      "width": 1440,
+      "collapsed": true,
+      "scenario": "Populated",
+      "page": 1440,
+      "client": 1289,
+      "scroll": 1289
+    },
+    {
+      "width": 1440,
+      "collapsed": true,
+      "scenario": "Empty",
+      "page": 1440,
+      "client": 1336,
+      "scroll": 1336
+    },
+    {
+      "width": 1440,
+      "collapsed": true,
+      "scenario": "No results",
+      "page": 1440,
+      "client": 1356,
+      "scroll": 1356
+    },
+    {
+      "width": 1440,
+      "collapsed": true,
+      "scenario": "Loading",
+      "page": 1440,
+      "client": 1376,
+      "scroll": 1376
+    },
+    {
+      "width": 1440,
+      "collapsed": true,
+      "scenario": "Error",
+      "page": 1440,
+      "client": 1376,
+      "scroll": 1376
+    },
+    {
+      "width": 1440,
+      "collapsed": true,
+      "scenario": "Long names",
+      "page": 1440,
+      "client": 1376,
+      "scroll": 1376
+    },
+    {
+      "width": 1440,
+      "collapsed": true,
+      "scenario": "Many pages",
+      "page": 1440,
+      "client": 1376,
+      "scroll": 1376
+    },
+    {
+      "width": 1440,
+      "collapsed": true,
+      "scenario": "Delete error",
+      "page": 1440,
+      "client": 1376,
+      "scroll": 1376
+    }
+  ],
+  "accessibility": [
+    {
+      "width": 390,
+      "scenario": "Populated",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".mt-3.flex-wrap.pl-\\[52px\\] > .bg-amber-50.text-amber-600.py-1"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.08 (foreground color: #e17100, background color: #fffbeb, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scenario": "Empty",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                "aside > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scenario": "No results",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                "aside > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".basis-full"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scenario": "Loading",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                "aside > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scenario": "Error",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                "aside > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".basis-full"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scenario": "Long names",
+      "newViolations": 0,
+      "baseline": []
+    },
+    {
+      "width": 390,
+      "scenario": "Many pages",
+      "newViolations": 0,
+      "baseline": []
+    },
+    {
+      "width": 390,
+      "scenario": "Delete error",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".mt-3.flex-wrap.pl-\\[52px\\] > .bg-amber-50.text-amber-600.py-1"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.08 (foreground color: #e17100, background color: #fffbeb, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scenario": "Populated",
+      "newViolations": 0,
+      "baseline": []
+    },
+    {
+      "width": 768,
+      "scenario": "Empty",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".pb-8 > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scenario": "No results",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".pb-8 > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".basis-full"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scenario": "Loading",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".pb-8 > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scenario": "Error",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".pb-8 > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".basis-full"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scenario": "Long names",
+      "newViolations": 0,
+      "baseline": []
+    },
+    {
+      "width": 768,
+      "scenario": "Many pages",
+      "newViolations": 0,
+      "baseline": []
+    },
+    {
+      "width": 768,
+      "scenario": "Delete error",
+      "newViolations": 0,
+      "baseline": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Populated",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".px-3:nth-child(2) > .bg-amber-50.text-amber-600.py-1"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.08 (foreground color: #e17100, background color: #fffbeb, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".px-3:nth-child(2) > .bg-rose-50.text-rose-600.py-1"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #ec003f, background color: #fff1f2, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scenario": "Empty",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".pb-8 > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".basis-full"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scenario": "No results",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".pb-8 > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".basis-full"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scenario": "Loading",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".pb-8 > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".basis-full"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scenario": "Error",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".pb-8 > .gap-2"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".basis-full"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #62748e, background color: #f7f8fa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scenario": "Long names",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".px-3:nth-child(2) > .bg-amber-50.text-amber-600.py-1"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.08 (foreground color: #e17100, background color: #fffbeb, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".px-3:nth-child(2) > .bg-rose-50.text-rose-600.py-1"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #ec003f, background color: #fff1f2, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scenario": "Many pages",
+      "newViolations": 0,
+      "baseline": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Delete error",
+      "newViolations": 0,
+      "baseline": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".px-3:nth-child(2) > .bg-amber-50.text-amber-600.py-1"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.08 (foreground color: #e17100, background color: #fffbeb, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".px-3:nth-child(2) > .bg-rose-50.text-rose-600.py-1"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #ec003f, background color: #fff1f2, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "requests": [],
+  "interactions": "Search, filter, sort, pagination, retry, local deletion, deletion error, dialogs and focus restoration passed"
+}

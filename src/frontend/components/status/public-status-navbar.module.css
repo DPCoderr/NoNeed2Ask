@@ -1,0 +1,59 @@
+.navbar {
+  max-width: 1088px;
+  color: #1e293b;
+  box-shadow: 0 6px 24px -14px rgb(29 49 72 / 28%);
+}
+
+.navbar > div:first-child {
+  min-height: 68px;
+  gap: 16px;
+}
+
+.navbar > div > a {
+  min-height: 44px;
+  gap: 10px;
+  font-size: 15px;
+  letter-spacing: -0.025em;
+  color: #1e293b;
+}
+
+.navbar [data-slot="button"] {
+  min-height: 44px;
+  padding-inline: 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: none;
+}
+
+.navbar [data-variant="default"] {
+  background: #315e96;
+  color: #fff;
+}
+
+.navbar [data-variant="default"]:hover {
+  background: #264b79;
+}
+
+.navbar [data-variant="outline"] {
+  border-color: #e2e8f0;
+  background: #fff;
+  color: #475569;
+}
+
+.navbar [data-variant="outline"]:hover {
+  background: #f1f5f9;
+}
+
+.navbar button[aria-expanded] {
+  width: 44px;
+  height: 44px;
+  border-color: #e2e8f0;
+  color: #475569;
+}
+
+.navbar a:focus-visible,
+.navbar button:focus-visible {
+  outline: 2px solid #315e96;
+  outline-offset: 3px;
+}

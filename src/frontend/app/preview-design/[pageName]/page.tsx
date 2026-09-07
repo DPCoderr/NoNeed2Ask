@@ -13,5 +13,9 @@ export default async function PreviewDesignPage({ params }: { params: Promise<{ 
     const { ApplicationsPreview } = await import("../_components/applications-preview");
     return <ApplicationsPreview />;
   }
+  if (pageName === "public-page") {
+    const { PublicPagePreview } = await import("../_components/public-page-preview");
+    return <PublicPagePreview />;
+  }
   notFound();
 }

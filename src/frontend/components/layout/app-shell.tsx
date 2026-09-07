@@ -8,6 +8,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import type { AuthMeResponseDto } from "@/lib/api/auth";
 
 import { AppBreadcrumbs } from "./app-breadcrumbs";
+import { WorkspaceBackground } from "./workspace-background";
 
 export function AppShell({ children, currentUser, sidebar, pathname: pathnameOverride }: {
   children: ReactNode;
@@ -17,6 +18,7 @@ export function AppShell({ children, currentUser, sidebar, pathname: pathnameOve
 }) {
   const currentPathname = usePathname();
   const pathname = pathnameOverride ?? currentPathname;
+  const background = pathname === "/" ? "dashboard" : pathname === "/applications" ? "applications" : null;
 
   return (
     <SidebarProvider className="h-svh min-h-svh overflow-hidden bg-[#f7f8fa]">
@@ -33,7 +35,9 @@ export function AppShell({ children, currentUser, sidebar, pathname: pathnameOve
             <span className="hidden shrink-0 text-xs text-slate-500 sm:block">Personal workspace</span>
           </div>
         </header>
-        <div id="app-main-content" tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto outline-none">{children}</div>
+        <div id="app-main-content" tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto outline-none">
+          {background ? <WorkspaceBackground variant={background}>{children}</WorkspaceBackground> : children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
