@@ -84,6 +84,9 @@ export function useApplicationsList() {
   return {
     applications: applicationsQuery.data ?? emptyApplicationPage(request.page),
     isError: applicationsQuery.isError,
+    isLoading: applicationsQuery.isPending,
+    isFetching: applicationsQuery.isFetching,
+    retry: () => { void applicationsQuery.refetch() },
     request,
     actions: {
       changePage: (page: number) => updateRequest({ page }),

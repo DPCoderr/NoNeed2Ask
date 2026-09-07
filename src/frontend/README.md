@@ -16,6 +16,22 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Local design previews
+
+With `npm run dev`, open `/preview-design/dashboard` or
+`/preview-design/applications`. The page and scenario selectors let you inspect
+filled, empty, loading, error, and feature-specific states without a backend.
+`/design-preview` remains available as a dashboard preview alias.
+
+Previews reuse the application UI with deterministic sample data. Search, filters,
+sorting, pagination, and deletion in the applications preview affect local state
+only. Edit and other unfinished destinations show a preview notice. The real API,
+authentication, and mutation implementations are not used by previews.
+
+Every preview route returns 404 outside development. Add future page previews to
+`app/preview-design/[pageName]/page.tsx` and reuse `PreviewFrame` and its scenario
+selector rather than creating a second copy of a page's UI.
+
 ## Quality checks
 
 Run the full frontend verification before review:

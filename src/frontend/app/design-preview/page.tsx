@@ -5,6 +5,6 @@ export const metadata = { title: "Dashboard design preview · NoNeed2Ask", robot
 export default async function DesignPreviewPage() {
   if (process.env.NODE_ENV !== "development") notFound();
 
-  const { DashboardPreview } = await import("./_components/dashboard-preview");
+  const { DashboardPreview } = await import("../preview-design/_components/dashboard-preview");
   return <DashboardPreview />;
 }

@@ -1,83 +1,28 @@
-import Link from "next/link"
+import type { ReactNode } from "react";
+import type { PrivateApplicationDto } from "@/lib/api/types";
+import { ApplicationTableRow } from "./application-table-row";
 
-import type { ApplicationListResponseDto } from "@/lib/api/types"
-import { formatApplicationDate } from "@/lib/applications/presentation"
-
-import { ApplicationActionsMenu } from "./application-actions-menu"
-import { ApplicationsPagination } from "./applications-pagination"
-import { CompanyMark } from "./company-mark"
-import { StatusBadge } from "./status-badge"
-
-// Desktop table view for the current page of applications.
-export function ApplicationsTable({
-  applications,
-  onPageChange,
-  onPagePrefetch,
-}: {
-  applications: ApplicationListResponseDto
-  onPageChange: (page: number) => void
-  onPagePrefetch: (page: number) => void
+export function ApplicationsTable({ applications, renderActions }: {
+  applications: PrivateApplicationDto[];
+  renderActions: (application: PrivateApplicationDto) => ReactNode;
 }) {
   return (
-    <section className="hidden overflow-hidden rounded-xl border border-white/80 bg-white/84 shadow-lg shadow-blue-950/8 backdrop-blur-xl lg:block">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[860px] table-fixed border-collapse text-left text-sm text-blue-950">
-          <thead>
-            <tr className="border-b border-blue-950/10 text-xs font-semibold text-blue-950/75">
-              <th className="w-[27%] px-4 py-5 xl:px-5">Company</th>
-              <th className="w-[24%] px-4 py-5 xl:px-5">Role</th>
-              <th className="w-[17%] px-4 py-5 xl:px-5">Status</th>
-              <th className="w-[16%] px-4 py-5 xl:px-5">Last updated</th>
-              <th className="w-[12%] px-4 py-5 xl:px-5">Next action</th>
-              <th className="w-[4%] px-4 py-5 text-right xl:px-5">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-blue-950/10">
-            {applications.items.map((application) => (
-              <tr className="hover:bg-blue-50/45" key={application.id}>
-                <td className="px-4 py-4 xl:px-5">
-                  <Link
-                    className="flex min-w-0 items-center gap-4 font-semibold text-slate-950 hover:underline"
-                    href={`/applications/${application.id}`}
-                  >
-                    <CompanyMark companyName={application.companyName} />
-                    <span className="min-w-0 truncate">{application.companyName}</span>
-                  </Link>
-                </td>
-                <td className="truncate px-4 py-4 text-blue-950/80 xl:px-5">
-                  {application.jobTitle}
-                </td>
-                <td className="px-4 py-4 xl:px-5">
-                  <StatusBadge status={application.status} />
-                </td>
-                <td className="truncate px-4 py-4 text-blue-950/80 xl:px-5">
-                  {formatApplicationDate(application.updatedAt)}
-                </td>
-                <td className="truncate px-4 py-4 text-blue-950/80 xl:px-5">
-                  {application.nextActionAt
-                    ? formatApplicationDate(application.nextActionAt)
-                    : "-"}
-                </td>
-                <td className="px-4 py-4 xl:px-5">
-                  <div className="flex justify-end">
-                    <ApplicationActionsMenu application={application} />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {applications.items.length === 0 ? (
-        <div className="px-5 py-10 text-center text-sm font-medium text-blue-950/70">
-          No applications match these filters.
-        </div>
-      ) : null}
-      <ApplicationsPagination
-        applications={applications}
-        onPageChange={onPageChange}
-        onPagePrefetch={onPagePrefetch}
-      />
-    </section>
-  )
+    <div className="hidden @min-[740px]:block">
+      <table className="w-full table-fixed border-collapse text-left">
+        <caption className="sr-only">Your applications</caption>
+        <thead>
+          <tr className="border-y border-slate-200/80 bg-[#fafbfc] text-[11px] font-medium text-slate-500">
+            <th scope="col" className="w-[38%] px-6 py-3 font-medium">Company / role</th>
+            <th scope="col" className="w-[22%] px-3 py-3 font-medium">Status</th>
+            <th scope="col" className="w-[18%] px-3 py-3 font-medium">Last updated</th>
+            <th scope="col" className="px-3 py-3 font-medium">Next action</th>
+            <th scope="col" className="w-14 py-3 pr-3"><span className="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-slate-100">
+          {applications.map((application) => <ApplicationTableRow key={application.id} application={application} actions={renderActions(application)} />)}
+        </tbody>
+      </table>
+    </div>
+  );
 }

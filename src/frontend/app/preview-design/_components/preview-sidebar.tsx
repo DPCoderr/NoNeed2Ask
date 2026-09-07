@@ -6,11 +6,11 @@ import { useSidebar } from "@/components/ui/sidebar";
 
 import { previewUser } from "../_lib/preview-data";
 
-export function PreviewSidebar({ onNotice }: { onNotice: (message: string) => void }) {
+export function PreviewSidebar({ pathname, onNotice }: { pathname: string; onNotice: (message: string) => void }) {
   const { setOpenMobile } = useSidebar();
 
   return (
-    <AppSidebarView pathname="/" account={
+    <AppSidebarView pathname={pathname} account={
       <AppAccountMenu currentUser={previewUser} isLoggingOut={false} logoutError={null} onNavigate={() => setOpenMobile(false)} onLogout={() => {
         setOpenMobile(false);
         onNotice("Logout preview: your real session has not been changed.");

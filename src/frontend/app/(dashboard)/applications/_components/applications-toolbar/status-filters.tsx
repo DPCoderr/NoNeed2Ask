@@ -1,58 +1,23 @@
-import type { ApplicationStatus } from "@/lib/api/types"
+import type { ApplicationStatus } from "@/lib/api/types";
+import { statusDetails, statuses } from "../../application-list-config";
+import type { ResolvedApplicationListRequest } from "../../_lib/application-list-query";
 
-import { statusDetails, statuses } from "../../application-list-config"
-import type { ResolvedApplicationListRequest } from "../../_lib/application-list-query"
-
-// Adds or removes one status from the active filter list.
-function toggleStatus(
-  currentStatuses: ApplicationStatus[],
-  status: ApplicationStatus
-) {
-  if (currentStatuses.includes(status)) {
-    return currentStatuses.filter((currentStatus) => currentStatus !== status)
-  }
-
-  return [...currentStatuses, status]
+function toggleStatus(current: ApplicationStatus[], status: ApplicationStatus) {
+  return current.includes(status) ? current.filter((item) => item !== status) : [...current, status];
 }
+const filterClass = "min-h-11 rounded-md px-2.5 text-xs font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-blue-600 aria-pressed:bg-[#edf3fa] aria-pressed:text-[#315e96] hover:bg-slate-100";
 
-// Renders a chip for each status and keeps the selected statuses in URL state.
-export function ApplicationsStatusFilters({
-  onStatusChange,
-  request,
-}: {
-  onStatusChange: (status: ApplicationStatus[]) => void
-  request: ResolvedApplicationListRequest
+export function ApplicationsStatusFilters({ onStatusChange, request }: {
+  onStatusChange: (status: ApplicationStatus[]) => void;
+  request: ResolvedApplicationListRequest;
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {statuses.map((status) => {
-        const isActive = request.status.includes(status)
-        const details = statusDetails[status]
-
-        return (
-          <button
-            className={`rounded-lg border px-3 py-2 text-xs font-semibold shadow-sm shadow-blue-950/5 ${
-              isActive
-                ? "border-blue-700 bg-blue-700 text-white"
-                : "border-blue-100 bg-white/78 text-blue-950 hover:bg-white"
-            }`}
-            key={status}
-            onClick={() => onStatusChange(toggleStatus(request.status, status))}
-            type="button"
-          >
-            {details.shortLabel ?? details.label}
-          </button>
-        )
-      })}
-      {request.status.length > 0 ? (
-        <button
-          className="ml-1 inline-flex items-center rounded-lg border border-transparent px-3 py-2 text-xs font-semibold text-blue-700 underline-offset-4 hover:bg-white/70 hover:underline"
-          onClick={() => onStatusChange([])}
-          type="button"
-        >
-          Clear status filters
-        </button>
-      ) : null}
+    <div role="group" aria-label="Filter by status" className="flex flex-wrap items-center gap-x-1 gap-y-1 text-slate-600">
+      <button className={filterClass} aria-pressed={!request.status.length} onClick={() => onStatusChange([])} type="button">All statuses</button>
+      {statuses.map((status) => (
+        <button className={filterClass} aria-pressed={request.status.includes(status)} key={status} onClick={() => onStatusChange(toggleStatus(request.status, status))} type="button">{statusDetails[status].label}</button>
+      ))}
+      {request.status.length > 0 && <button className="min-h-11 rounded px-2.5 text-xs text-slate-500 underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-blue-600" onClick={() => onStatusChange([])} type="button">Clear filters</button>}
     </div>
-  )
+  );
 }

@@ -1,32 +1,9 @@
-"use client"
+"use client";
 
-import { useApplicationsList } from "../_lib/use-applications-list"
-import { ApplicationsResults } from "./applications-results/applications-results"
-import { ApplicationsToolbar } from "./applications-toolbar/applications-toolbar"
+import { useApplicationsList } from "../_lib/use-applications-list";
+import { ApplicationsListView } from "./applications-list-view";
 
-// Composes the applications list page from data state and focused view sections.
 export function ApplicationsList() {
-  const { actions, applications, isError, request } = useApplicationsList()
-
-  return (
-    <>
-      {isError ? (
-        <div className="rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
-          We could not load your applications right now.
-        </div>
-      ) : null}
-
-      <ApplicationsToolbar
-        onSearchChange={actions.changeSearch}
-        onSortChange={actions.changeSort}
-        onStatusChange={actions.changeStatus}
-        request={request}
-      />
-      <ApplicationsResults
-        applications={applications}
-        onPageChange={actions.changePage}
-        onPagePrefetch={actions.prefetchPage}
-      />
-    </>
-  )
+  const { actions, applications, isError, isLoading, isFetching, request, retry } = useApplicationsList();
+  return <ApplicationsListView applications={applications} request={request} actions={actions} isError={isError} isLoading={isLoading} isFetching={isFetching} onRetry={retry} />;
 }
