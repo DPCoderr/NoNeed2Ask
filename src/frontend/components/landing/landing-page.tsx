@@ -9,12 +9,12 @@ import { LandingWorkflowSection } from "./landing-workflow-section"
 
 export function LandingPage() {
   return (
-    <main className="min-h-svh overflow-hidden bg-[#f8fbff] text-slate-950">
+    <main className="min-h-svh bg-white text-slate-950">
       <LandingNavbar />
       <LandingHeroSection />
       <LandingWorkflowSection />
-      <LandingApplicationsSection />
       <LandingPublicStatusSection />
+      <LandingApplicationsSection />
       <LandingCtaSection />
       <LandingFooter />
     </main>

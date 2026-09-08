@@ -1,106 +1,56 @@
-import { LandingReveal } from "./landing-reveal"
-import { PhoneFrame } from "./phone-frame"
-import { SectionIntro } from "./section-intro"
-
 const workflowSteps = [
   {
-    description:
-      "Keep every role, contact moment, note, and next action in one calm workspace.",
-    label: "Track privately",
-    number: "01",
+    lead: "Add your",
+    emphasis: "applications",
+    description: "Save the company, role, and where you are in the process.",
   },
   {
-    description:
-      "See what needs attention next without rebuilding a spreadsheet every week.",
-    label: "Stay ahead",
-    number: "02",
+    lead: "Keep your",
+    emphasis: "progress updated",
+    description: "Change a status or add a note as your search moves forward.",
   },
   {
-    description:
-      "Give trusted people one read-only link instead of repeating the same update.",
-    label: "Share calmly",
-    number: "03",
+    lead: "Share your",
+    emphasis: "status link",
+    description: "Turn on your public page and send the link to friends and family.",
   },
 ]
 
 export function LandingWorkflowSection() {
   return (
-    <section
-      className="scroll-mt-24 bg-white px-5 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-28"
-      id="dashboard"
-    >
-      <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] border border-blue-100 bg-[radial-gradient(circle_at_85%_20%,rgb(186_230_253_/_0.7),transparent_32%),linear-gradient(135deg,#f7fbff_0%,#eaf5ff_100%)] shadow-[0_35px_100px_-65px_rgb(30_64_175_/_0.55)] lg:grid-cols-[0.9fr_1.1fr]">
-        <LandingReveal className="p-7 sm:p-10 lg:p-14">
-          <SectionIntro
-            description="NoNeed2Ask connects the three moments that normally live in separate tools: tracking, planning, and sharing."
-            eyebrow="One calm workflow"
-            title="From private tracking to a shareable update."
-          />
-          <ol className="mt-9 grid gap-0">
-            {workflowSteps.map(({ description, label, number }, index) => (
-              <li
-                className="relative grid grid-cols-[2.75rem_1fr] gap-4 pb-7 last:pb-0"
-                key={label}
-              >
-                {index < workflowSteps.length - 1 && (
-                  <span
-                    aria-hidden="true"
-                    className="absolute bottom-0 left-[1.35rem] top-11 w-px bg-blue-200"
-                  />
-                )}
-                <span className="relative z-10 flex size-11 items-center justify-center rounded-full border border-blue-200 bg-white text-xs font-bold text-primary shadow-sm">
-                  {number}
-                </span>
-                <div className="pt-1.5">
-                  <h3 className="text-lg font-semibold tracking-[-0.02em] text-slate-950">
-                    {label}
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-6 text-slate-600 sm:text-base">
-                    {description}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </LandingReveal>
-
-        <LandingReveal
-          className="relative min-h-[500px] overflow-hidden border-t border-blue-100 px-5 pb-0 pt-10 sm:min-h-[620px] sm:px-10 lg:min-h-0 lg:border-l lg:border-t-0"
-          delay={100}
-          motion="fade"
-        >
-          <div
-            aria-hidden="true"
-            className="absolute -right-24 top-10 size-80 rounded-full bg-blue-300/35 blur-3xl"
-          />
-          <p className="relative z-10 text-center text-xs font-semibold uppercase tracking-[0.18em] text-blue-900/60">
-            The same search, two useful views
-          </p>
-          <div className="relative z-10 mx-auto mt-7 flex max-w-[31rem] items-end justify-center gap-3 sm:gap-6">
-            <div className="w-[47%] max-w-[14.5rem] -rotate-2">
-              <p className="mb-3 text-center text-xs font-semibold text-slate-700 sm:text-sm">
-                Private dashboard
-              </p>
-              <PhoneFrame
-                alt="NoNeed2Ask private dashboard on mobile"
-                height={844}
-                src="/landing/dashboard-mobile.webp"
-                width={375}
-              />
-            </div>
-            <div className="w-[47%] max-w-[14.5rem] translate-y-10 rotate-2 sm:translate-y-14">
-              <p className="mb-3 text-center text-xs font-semibold text-slate-700 sm:text-sm">
-                Application pipeline
-              </p>
-              <PhoneFrame
-                alt="NoNeed2Ask application list on mobile"
-                height={844}
-                src="/landing/applications-mobile.webp"
-                width={375}
-              />
-            </div>
-          </div>
-        </LandingReveal>
+    <section aria-labelledby="workflow-heading" className="scroll-mt-28 border-b border-slate-200/80 bg-white px-5 py-16 sm:px-8 sm:py-20" id="dashboard">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="text-center text-3xl font-semibold tracking-[-0.035em] text-[#102b46] sm:text-4xl" id="workflow-heading">
+          How it works
+        </h2>
+        <ol className="mx-auto mt-12 grid max-w-md gap-14 md:mt-16 md:max-w-none md:grid-cols-3 md:gap-12">
+          {workflowSteps.map(({ description, lead, emphasis }, index) => (
+            <li className="relative grid grid-cols-[2.75rem_1fr] gap-x-5 md:block md:text-center" key={emphasis}>
+              <span className="flex size-10 items-center justify-center rounded-full border border-[#b8ccd9] text-sm font-medium tabular-nums text-primary md:mx-auto">
+                <span className="sr-only">Step </span>0{index + 1}
+              </span>
+              <div className="min-w-0 md:mt-6">
+                <h3 className="text-xl font-semibold leading-snug tracking-[-0.025em] text-[#102b46] lg:text-2xl">
+                  <span className="block">{lead}{" "}</span>
+                  <span className="relative inline-block text-primary after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:-rotate-2 after:bg-[#7aa6be]">
+                    {emphasis}
+                  </span>
+                </h3>
+                <p className="mt-4 max-w-[17rem] text-sm leading-6 text-slate-600 md:mx-auto">{description}</p>
+              </div>
+              {index < workflowSteps.length - 1 && (
+                <>
+                  <svg aria-hidden="true" className="pointer-events-none absolute -top-2 left-[calc(50%+2.25rem)] hidden h-12 w-[calc(100%-1.5rem)] text-[#7aa6be] md:block" fill="none" preserveAspectRatio="none" viewBox="0 0 240 48">
+                    <path d="M2 28C62 0 176 0 236 28M229 18L236 28L224 29" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" vectorEffect="non-scaling-stroke" />
+                  </svg>
+                  <svg aria-hidden="true" className="pointer-events-none absolute left-1 top-14 h-[calc(100%-0.5rem)] w-8 text-[#7aa6be] md:hidden" fill="none" preserveAspectRatio="none" viewBox="0 0 32 100">
+                    <path d="M16 2C2 36 30 64 16 98M10 90L16 98L23 91" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" vectorEffect="non-scaling-stroke" />
+                  </svg>
+                </>
+              )}
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )

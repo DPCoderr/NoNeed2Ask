@@ -1,38 +1,42 @@
-import { BrowserFrame } from "./browser-frame"
-import { FeaturePoint } from "./feature-point"
-import { LandingReveal } from "./landing-reveal"
+import { PhoneFrame } from "./phone-frame"
 import { SectionIntro } from "./section-intro"
+
+const workspaceViews = [
+  {
+    title: "See where things stand",
+    description: "Review your application statuses and keep the next steps in view.",
+    alt: "Private mobile dashboard with an upcoming interview and an overview of application statuses",
+    src: "/landing/dashboard-mobile-v2.webp",
+  },
+  {
+    title: "Find the details you need",
+    description: "Search and filter your applications. Keep notes with the role they belong to.",
+    alt: "Mobile application list with company search, status filters, and individual job applications",
+    src: "/landing/applications-mobile-v2.webp",
+  },
+]
 
 export function LandingApplicationsSection() {
   return (
-    <section
-      className="scroll-mt-24 border-y border-blue-100/80 bg-[linear-gradient(180deg,#f2f8ff_0%,#f8fbff_100%)] px-5 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-32"
-      id="applications"
-    >
-      <div className="mx-auto grid min-w-0 max-w-6xl gap-12 lg:grid-cols-[1.18fr_0.82fr] lg:items-center lg:gap-16">
-        <LandingReveal className="min-w-0 order-2 lg:order-1" motion="fade">
-          <BrowserFrame
-            alt="Applications list with search, status filters, sorting, and next actions"
-            height={1000}
-            imageClassName="max-sm:h-[390px] max-sm:w-auto max-sm:max-w-none max-sm:object-cover max-sm:object-left-top"
-            sizes="(max-width: 639px) 640px, (max-width: 1023px) 90vw, 55vw"
-            src="/landing/applications-list.webp"
-            width={1585}
-          />
-        </LandingReveal>
-
-        <LandingReveal className="order-1 lg:order-2">
-          <SectionIntro
-            description="Turn scattered applications into one readable pipeline and always know what deserves your attention next."
-            eyebrow="Your private workspace"
-            title="Keep the search moving without keeping a spreadsheet alive."
-          />
-          <ul className="mt-7 grid gap-3.5">
-            <FeaturePoint>Search and filter every application in seconds.</FeaturePoint>
-            <FeaturePoint>Keep private notes separate from shareable updates.</FeaturePoint>
-            <FeaturePoint>Bring upcoming interviews and follow-ups into view.</FeaturePoint>
-          </ul>
-        </LandingReveal>
+    <section className="scroll-mt-28 border-y border-slate-200/80 bg-[#f7f8fa] px-5 py-16 sm:px-8 sm:py-24" id="applications">
+      <div className="mx-auto max-w-6xl">
+        <SectionIntro
+          align="center"
+          description="Keep companies, roles, statuses, and notes together in your private workspace. It’s the place you come back to as your search moves forward."
+          eyebrow="Just for you"
+          title="Every application, in one place."
+        />
+        <div className="mx-auto mt-12 grid max-w-4xl gap-12 sm:grid-cols-2 sm:gap-10 lg:mt-14 lg:gap-20">
+          {workspaceViews.map(({ title, description, alt, src }) => (
+            <div className="flex min-w-0 flex-col items-center" key={src}>
+              <PhoneFrame alt={alt} className="w-full max-w-[19.5rem]" height={1688} src={src} width={780} />
+              <div className="mt-6 max-w-xs text-center">
+                <h3 className="text-lg font-semibold tracking-tight text-slate-950">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

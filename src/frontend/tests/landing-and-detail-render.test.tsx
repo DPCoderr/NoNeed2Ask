@@ -19,30 +19,51 @@ const application: PrivateApplicationDto = {
 }
 
 describe("landing page", () => {
-  it("keeps every major section and call to action", () => {
+  it("explains sharing before the private workspace and keeps the navigation destinations", () => {
     render(<LandingPage />)
 
     expect(
-      screen.getByRole("heading", { level: 1, name: /Track applications/i })
+      screen.getByRole("heading", { level: 1, name: "Your job search. One link to keep everyone updated." })
     ).toBeInTheDocument()
     expect(
       screen.getByRole("heading", {
-        name: "From private tracking to a shareable update.",
+        name: "How it works",
       })
     ).toBeInTheDocument()
     expect(
       screen.getByRole("heading", {
-        name: "Keep the search moving without keeping a spreadsheet alive.",
+        name: "Every application, in one place.",
       })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole("heading", { name: "Answer “How is it going?” once." })
+      screen.getByRole("heading", { name: "Keep everyone updated, without another message." })
     ).toBeInTheDocument()
     expect(screen.getAllByRole("link", { name: /Create your tracker/i })).toHaveLength(2)
-    expect(screen.getByText("A calm place for the job search.")).toBeInTheDocument()
+    for (const link of screen.getAllByRole("link", { name: /Create your tracker/i })) {
+      expect(link).toHaveAttribute("href", "/register")
+    }
+    expect(screen.getByRole("link", { name: "See what they’ll see" })).toHaveAttribute("href", "#public-status")
+    expect(screen.getByText(`© ${new Date().getFullYear()} NoNeed2Ask`)).toBeInTheDocument()
+    expect(screen.getByText("Made by DPCoderr")).toBeInTheDocument()
     expect(document.querySelector("#dashboard")).toBeInTheDocument()
     expect(document.querySelector("#applications")).toBeInTheDocument()
     expect(document.querySelector("#public-status")).toBeInTheDocument()
+    expect(Array.from(document.querySelectorAll("section[id]"), (section) => section.id)).toEqual([
+      "dashboard", "public-status", "applications",
+    ])
+    expect(screen.getByRole("link", { name: "How it works" })).toHaveAttribute("href", "/#dashboard")
+    expect(screen.getByRole("link", { name: "Private tracker" })).toHaveAttribute("href", "/#applications")
+    expect(screen.getByRole("link", { name: "Public status" })).toHaveAttribute("href", "/#public-status")
+    expect(screen.getByRole("link", { name: "Log in" })).toHaveAttribute("href", "/login")
+  })
+
+  it("makes public visibility and private notes explicit", () => {
+    render(<LandingPage />)
+
+    expect(screen.getByText(/anyone with your link can view the page/)).toBeInTheDocument()
+    expect(screen.getByText("Your private notes stay in your workspace.")).toBeInTheDocument()
+    expect(screen.getByText("They can open your link without an account.")).toBeInTheDocument()
+    expect(screen.getByText("You can turn public sharing off at any time.")).toBeInTheDocument()
   })
 })
 

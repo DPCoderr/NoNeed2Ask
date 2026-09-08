@@ -57,7 +57,7 @@ export function LandingNavbar({
           <span>NoNeed2Ask</span>
         </Link>
 
-        {navItems.length > 0 && <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
+        {navItems.length > 0 && <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground lg:flex">
           {navItems.map((item) => (
             <a
               className="transition-colors hover:text-foreground"
@@ -70,7 +70,7 @@ export function LandingNavbar({
         </nav>}
 
         {actions ?? (isAuthenticated ? (
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <Button asChild size="lg">
               <Link href="/">Dashboard</Link>
             </Button>
@@ -84,7 +84,7 @@ export function LandingNavbar({
             </Button>
           </div>
         ) : (
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <Button
               asChild
               className="bg-white/40"
@@ -103,7 +103,7 @@ export function LandingNavbar({
           ref={menuTrigger}
           aria-expanded={isMenuOpen}
           aria-label="Toggle navigation menu"
-          className="flex size-10 items-center justify-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-muted md:hidden"
+          className="flex size-10 items-center justify-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-muted lg:hidden"
           type="button"
           onClick={() => setIsMenuOpen((open) => !open)}
         >
@@ -126,7 +126,7 @@ export function LandingNavbar({
       </div>
 
       {isMenuOpen ? (
-        <div className="border-t border-border/60 px-4 pb-4 pt-2 md:hidden">
+        <div className="border-t border-border/60 px-4 pb-4 pt-2 lg:hidden">
           <nav className="grid gap-1 text-sm font-medium text-muted-foreground">
             {navItems.map((item) => (
               <a

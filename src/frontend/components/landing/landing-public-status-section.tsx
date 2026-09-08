@@ -1,75 +1,39 @@
-import { Link2, LockKeyhole } from "lucide-react"
+import { LockKeyhole } from "lucide-react"
 
 import { FeaturePoint } from "./feature-point"
-import { LandingReveal } from "./landing-reveal"
 import { PhoneFrame } from "./phone-frame"
 import { SectionIntro } from "./section-intro"
 
 export function LandingPublicStatusSection() {
   return (
-    <section
-      className="scroll-mt-24 bg-white px-5 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-32"
-      id="public-status"
-    >
-      <div className="mx-auto grid min-w-0 max-w-6xl gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-16">
-        <LandingReveal>
+    <section className="scroll-mt-28 px-5 py-16 sm:px-8 sm:py-24" id="public-status">
+      <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center lg:gap-24">
+        <div>
           <SectionIntro
-            description="Share a quiet, read-only summary with people you trust. They see the update—not your private notes or account details."
-            eyebrow="A status page you control"
-            title="Answer “How is it going?” once."
+            description="Give friends and family a place to check in. Your public page shows the companies and roles you’ve applied to, your progress, and your latest application updates."
+            eyebrow="What they see"
+            title="Keep everyone updated, without another message."
           />
-          <div className="mt-7 rounded-2xl border border-blue-100 bg-blue-50/70 p-4 sm:p-5">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <p className="text-sm font-semibold text-slate-900">Public page</p>
-                <p className="mt-1 text-xs leading-5 text-slate-600 sm:text-sm">
-                  Visible to anyone with your link
-                </p>
-              </div>
-              <div
-                aria-label="Public sharing enabled"
-                className="flex h-7 w-12 items-center justify-end rounded-full bg-primary p-1 shadow-inner"
-                role="img"
-              >
-                <span className="size-5 rounded-full bg-white shadow-sm" />
-              </div>
-            </div>
-            <div className="mt-4 flex items-center gap-2 rounded-xl border border-blue-100 bg-white px-3 py-2.5 text-xs font-medium text-slate-600 sm:text-sm">
-              <Link2 aria-hidden="true" className="size-4 shrink-0 text-primary" />
-              <span className="truncate">noneed2ask.app/status/your-name</span>
-            </div>
-          </div>
-          <ul className="mt-6 grid gap-3.5">
-            <FeaturePoint>You decide when the page is live.</FeaturePoint>
-            <FeaturePoint>Private notes always stay private.</FeaturePoint>
-            <FeaturePoint>Visitors never need an account.</FeaturePoint>
+          <ul className="mt-7 grid gap-4">
+            <FeaturePoint>They can open your link without an account.</FeaturePoint>
+            <FeaturePoint>You can turn public sharing off at any time.</FeaturePoint>
+            <FeaturePoint>Your private notes stay in your workspace.</FeaturePoint>
           </ul>
-        </LandingReveal>
-
-        <LandingReveal className="relative min-w-0 py-4" delay={100} motion="fade">
-          <div
-            aria-hidden="true"
-            className="absolute inset-8 rounded-full bg-blue-200/55 blur-3xl"
-          />
-          <div className="relative mx-auto max-w-[18rem] sm:max-w-[21rem]">
-            <PhoneFrame
-              alt="Read-only public job search page on mobile showing a calm progress summary"
-              height={812}
-              src="/landing/public-status-mobile.webp"
-              width={360}
-            />
-            <div className="absolute -right-4 top-24 rounded-2xl border border-emerald-100 bg-white px-3.5 py-3 shadow-xl shadow-slate-900/10 sm:-right-20 sm:px-4">
-              <p className="flex items-center gap-2 text-xs font-semibold text-emerald-700 sm:text-sm">
-                <span className="size-2 rounded-full bg-emerald-500" /> Read-only and live
-              </p>
-            </div>
-            <div className="absolute -bottom-3 -left-4 rounded-2xl border border-blue-100 bg-white px-3.5 py-3 shadow-xl shadow-slate-900/10 sm:-left-20 sm:px-4">
-              <p className="flex items-center gap-2 text-xs font-semibold text-slate-700 sm:text-sm">
-                <LockKeyhole aria-hidden="true" className="size-4 text-primary" /> Private notes stay hidden
-              </p>
-            </div>
+          <div className="mt-8 flex items-start gap-3 border-t border-slate-200 pt-5 text-sm leading-6 text-slate-600">
+            <LockKeyhole aria-hidden="true" className="mt-1 size-4 shrink-0" />
+            <p>Sharing is optional. When it’s on, anyone with your link can view the page. Visitors can’t make changes.</p>
           </div>
-        </LandingReveal>
+        </div>
+        <div className="flex flex-col items-center rounded-3xl bg-[#f7f8fa] px-5 py-8 sm:px-8 sm:py-10">
+          <PhoneFrame
+            alt="Public status page showing an upcoming interview at Northstar Labs and recent applications with their statuses"
+            className="w-full max-w-[19.5rem]"
+            height={1688}
+            src="/landing/public-status-updates-mobile.webp"
+            width={780}
+          />
+          <p className="mt-5 text-center text-sm text-slate-600">One page for everyone following along.</p>
+        </div>
       </div>
     </section>
   )
