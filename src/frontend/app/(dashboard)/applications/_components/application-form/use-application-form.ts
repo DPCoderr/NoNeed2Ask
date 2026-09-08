@@ -29,7 +29,7 @@ import {
   type ApplicationFormProps,
 } from "./application-form-model"
 
-export function useApplicationForm({ mode, application }: ApplicationFormProps) {
+export function useApplicationForm({ mode, application, onPreviewSave }: ApplicationFormProps) {
   const [currentStep, setCurrentStep] = useState(0)
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const queryClient = useQueryClient()
@@ -80,17 +80,6 @@ export function useApplicationForm({ mode, application }: ApplicationFormProps) 
     setCurrentStep((step) => Math.max(step - 1, 0))
   }
 
-  async function handleStepChange(step: number) {
-    if (step <= currentStep) {
-      setCurrentStep(step)
-      return
-    }
-
-    if (await validateCurrentStep()) {
-      setCurrentStep(step)
-    }
-  }
-
   async function handleOpenConfirmDialog() {
     if (await validateCurrentStep()) {
       setIsConfirmOpen(true)
@@ -116,6 +105,10 @@ export function useApplicationForm({ mode, application }: ApplicationFormProps) 
     form.clearErrors("root")
 
     try {
+      if (onPreviewSave) {
+        await onPreviewSave(toApplicationRequest(values))
+        return
+      }
       await saveApplicationMutation.mutateAsync(toApplicationRequest(values))
     } catch (caughtError) {
       applyApiFormErrors({
@@ -141,7 +134,6 @@ export function useApplicationForm({ mode, application }: ApplicationFormProps) 
     handleFormSubmit,
     handleNext: isLastStep ? handleOpenConfirmDialog : handleNextStep,
     handlePreviousStep,
-    handleStepChange,
     isConfirmOpen,
     isFirstStep,
     isLastStep,

@@ -18,7 +18,7 @@ export function AppShell({ children, currentUser, sidebar, pathname: pathnameOve
 }) {
   const currentPathname = usePathname();
   const pathname = pathnameOverride ?? currentPathname;
-  const background = pathname === "/" ? "dashboard" : pathname === "/applications" ? "applications" : null;
+  const background = pathname === "/" ? "dashboard" : pathname === "/applications" || pathname.startsWith("/applications/") ? "applications" : null;
 
   return (
     <SidebarProvider className="h-svh min-h-svh overflow-hidden bg-[#f7f8fa]">

@@ -16,13 +16,11 @@ export function ApplicationForm(props: ApplicationFormProps) {
   return (
     <FormProvider {...controller.form}>
       <form noValidate onSubmit={controller.handleFormSubmit}>
-        <Card className="rounded-2xl border-white/80 bg-white/90 shadow-lg shadow-blue-950/8 backdrop-blur-xl">
+        <Card className="gap-0 overflow-visible rounded-2xl border-slate-200 bg-white py-0 shadow-none">
           <ApplicationFormProgress
             currentStep={controller.currentStep}
-            disabled={controller.isSaving}
-            onStepChange={controller.handleStepChange}
           />
-          <CardContent>
+          <CardContent className="px-5 py-6 sm:px-7">
             <ApplicationFormFields
               currentStep={controller.currentStep}
               disabled={controller.isSaving}
@@ -37,7 +35,7 @@ export function ApplicationForm(props: ApplicationFormProps) {
             isFirstStep={controller.isFirstStep}
             isLastStep={controller.isLastStep}
             isSaving={controller.isSaving}
-            onCancel={() => controller.router.back()}
+            onCancel={props.onCancel ?? (() => controller.router.back())}
             onConfirm={controller.handleConfirm}
             onConfirmOpenChange={controller.setIsConfirmOpen}
             onNext={controller.handleNext}

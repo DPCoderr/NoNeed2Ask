@@ -330,3 +330,43 @@ volgt de volledige inhoudshoogte; de onderste boog is aan de onderrand verankerd
 zodat deze ook op lange mobiele pagina's tijdens het scrollen zichtbaar wordt.
 De bestaande bovencompositie behoudt haar eigen fade. Beide lagen blijven achter
 de ondoorzichtige kaarten en worden uitsluitend binnen de decoratielaag afgeknipt.
+
+## 8 september — herstelcontrole en sollicitatiepagina's
+
+Herstelcontrole: de vorige publieke redesign, ronde navbar en CSS-achtergronden
+staan al in commits caa6a5f en 7e7ae73. De werkboom was schoon bij aanvang; er
+was geen ontbrekende achtergrondwijziging om opnieuw toe te passen.
+
+Op expliciet verzoek zijn create, detail en update nu samen opnieuw vormgegeven:
+- Gedeelde editorlayout met ruime kop, vier benoemde formulierstappen en uitleg
+  over publieke en private notities. De shadcn-componenten blijven behouden.
+- Detailpagina met bedrijfsidentiteit en status, afzonderlijke notities en een
+  aparte kaart voor vervolgactie/contactdatum. Bestaande actielinks blijven behouden.
+- Formuliervalidatie, datumvelden en bevestiging blijven werken zoals voorheen.
+- Lokale previews: /preview-design/application-create, application-detail en
+  application-update. Gevuld, lege notities, lange tekst en gesimuleerde opslagfout.
+  Previewopslag gebruikt een lokale callback zonder API-aanroepen of navigatie.
+
+Verificatie: 54 combinaties van pagina, scenario en schermbreedte (320–1440 px)
+zonder horizontale overflow; 18 axe-controles zonder overtredingen. Desktop- en
+mobiele screenshots en controleverslagen staan in artifacts/application-workspace-review.
+`npm run check` slaagt: lint, TypeScript, 48 tests en productiebuild.
+Deze drie pagina's wachten nu op beoordeling; eerdere volgorde is op verzoek aangepast.
+
+### Formuliercorrectie na beoordeling
+
+De vier stappen zijn nu een niet-interactieve geordende lijst met aria-current.
+Alleen Back/Next wisselt van stap. De privacyuitleg staat uitsluitend binnen Notes;
+de losse zijkaart is verwijderd. De formulierinhoud heeft op elke stap dezelfde
+24 px verticale padding zonder minimumhoogte. Notes groeit met de inhoud mee.
+De regressietest controleert de niet-klikbare indicator en contextuele uitleg.
+48 tests, productiebuild en de create/update-interacties slagen.
+
+### Gedeelde achtergrond voor de app
+
+Op verzoek gebruikt WorkspaceBackground nu dezelfde PublicStatusBackground als
+de publieke pagina. Actief op dashboard, sollicitatielijst en alle onderliggende
+sollicitatieroutes (detail, create, update), inclusief lokale previews. De laag
+blijft achter de inhoud, scrollt mee en heeft geen pointer-events. De publieke
+compositie is één gedeelde implementatie; sidebar en bovenbalk blijven ongewijzigd.
+Frontendcontrole geslaagd met 48 tests; responsive previews opnieuw gecontroleerd.
