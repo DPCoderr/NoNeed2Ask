@@ -4,8 +4,20 @@ using NoNeed2Ask.Api.Shared;
 
 namespace NoNeed2Ask.Api.Features.Application.create;
 
-public class ApplicationCreate
+public class CreateApplication
 {
+    private const string NameRequest = "CreateApplication"; 
+
+    private class Endpoint : IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapPost("/applications", Handler.Handle)
+                .WithName(NameRequest)
+                .RequireAuthorization();
+        }
+    }
+
     private sealed record ApplicationCreateRequestDto(
         string CompanyName,
         string JobTitle,
@@ -28,16 +40,6 @@ public class ApplicationCreate
         DateTimeOffset CreatedAt,
         DateTimeOffset UpdatedAt
     );
-
-    private class Endpoint : IEndpoint
-    {
-        public void MapEndpoint(IEndpointRouteBuilder app)
-        {
-            app.MapPost("/applications", Handler.Handle)
-                .WithName("CreateApplication")
-                .RequireAuthorization();
-        }
-    }
 
     private static class Handler
     {
