@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NoNeed2Ask.Api.Database;
+using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Shared;
 using NoNeed2Ask.Api.Shared.Results;
 
@@ -37,12 +40,21 @@ public class GetApplication
     {
         public static async Task<Results<Ok<ApplicationResponseDto>, NotFound>> Handle(
             Guid id,
+            ClaimsPrincipal user,
+            UserManager<AppUser> userManager,
             AppDbContext db,
             CancellationToken cancellationToken)
         {
+            var userIdString = userManager.GetUserId(user);
+
+            if (!Guid.TryParse(userIdString, out var userId))
+            {
+                return TypedResults.NotFound(); 
+            }
+            
             var application = await db.Applications
                 .AsNoTracking()
-                .Where(a => a.Id == id)
+                .Where(a => a.Id == id && userId == a.UserId)
                 .Select(a => new ApplicationResponseDto(
                     a.Id,
                     a.CompanyName,

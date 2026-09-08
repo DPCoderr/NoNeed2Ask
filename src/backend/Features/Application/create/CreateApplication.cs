@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http.HttpResults;
 using NoNeed2Ask.Api.Database;
+using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Shared;
 
 namespace NoNeed2Ask.Api.Features.Application.create;
@@ -18,7 +20,7 @@ public class CreateApplication
         }
     }
 
-    private sealed record ApplicationCreateRequestDto(
+    public sealed record CreateApplicationRequestDto(
         string CompanyName,
         string JobTitle,
         string Status,
@@ -28,7 +30,7 @@ public class CreateApplication
         DateTimeOffset? NextActionAt
     );
     
-    private sealed record ApplicationCreateResponseDto(
+    public sealed record CreateApplicationResponseDto(
         Guid Id,
         string CompanyName,
         string JobTitle,
@@ -43,8 +45,8 @@ public class CreateApplication
 
     private static class Handler
     {
-        public static async Task<CreatedAtRoute<ApplicationCreateResponseDto>> Handle(
-            ApplicationCreateRequestDto request,
+        public static async Task<CreatedAtRoute<CreateApplicationResponseDto>> Handle(
+            CreateApplicationRequestDto request,
             AppDbContext db,
             CancellationToken cancellationToken)
         {
@@ -64,7 +66,7 @@ public class CreateApplication
             db.Applications.Add(application);
             await db.SaveChangesAsync(cancellationToken);
 
-            var response = new ApplicationCreateResponseDto(
+            var response = new CreateApplicationResponseDto(
                 application.Id,
                 application.CompanyName,
                 application.JobTitle,
@@ -82,6 +84,32 @@ public class CreateApplication
                 routeName: "GetApplication",
                 routeValues: new { id = response.Id }
             );
+        }
+    }
+    
+    public sealed class CreateApplicationRequestDtoValidator : AbstractValidator<CreateApplicationRequestDto>
+    {
+        public CreateApplicationRequestDtoValidator()
+        {
+            RuleFor(x => x.CompanyName)
+                .NotEmpty()
+                .MaximumLength(200);
+
+            RuleFor(x => x.JobTitle)
+                .NotEmpty()
+                .MaximumLength(200);
+
+            RuleFor(x => x.Status)
+                .NotEmpty()
+                .MaximumLength(64)
+                .Must(ApplicationStatuses.All.Contains)
+                .WithMessage("Status must be one of: " + string.Join(", ", ApplicationStatuses.All));
+
+            RuleFor(x => x.PublicNote)
+                .MaximumLength(2000);
+
+            RuleFor(x => x.PrivateNote)
+                .MaximumLength(4000);
         }
     }
 }

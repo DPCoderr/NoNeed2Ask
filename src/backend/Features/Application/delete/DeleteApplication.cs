@@ -1,5 +1,9 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NoNeed2Ask.Api.Database;
+using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Shared;
 
 public class DeleteApplication
@@ -20,10 +24,21 @@ public class DeleteApplication
     {
         public static async Task<Results<NoContent, NotFound>> Handle(
             Guid id,
+            ClaimsPrincipal user,
+            UserManager<AppUser> userManager,
             AppDbContext db,
             CancellationToken cancellationToken)
         {
-            var application = await db.Applications.FindAsync(id, cancellationToken);
+            var userIdString = userManager.GetUserId(user);
+            
+            if (!Guid.TryParse(userIdString, out var userId))
+            {
+                return TypedResults.NotFound();
+            }
+
+            var application = await db.Applications
+                .Where(a => a.Id == id && a.UserId == userId)
+                .FirstOrDefaultAsync(cancellationToken);
 
             if (application is null)
             {
