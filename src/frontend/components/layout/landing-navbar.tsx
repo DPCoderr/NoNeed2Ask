@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,6 +15,8 @@ type LandingNavItem = {
 type LandingNavbarProps = {
   isAuthenticated?: boolean;
   navItems?: LandingNavItem[];
+  actions?: ReactNode;
+  className?: string;
 };
 
 const defaultNavItems = [
@@ -26,27 +28,36 @@ const defaultNavItems = [
 export function LandingNavbar({
   isAuthenticated = false,
   navItems = defaultNavItems,
+  actions,
+  className,
 }: LandingNavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuTrigger = useRef<HTMLButtonElement>(null);
+  function closeMenu() {
+    setIsMenuOpen(false);
+    if (isMenuOpen) menuTrigger.current?.focus();
+  }
 
   return (
     <header
+      onKeyDown={(event) => { if (event.key === "Escape" && isMenuOpen) { event.preventDefault(); closeMenu(); } }}
       className={cn(
         "landing-safe-nav fixed inset-x-4 top-4 z-[100] mx-auto max-w-6xl border border-slate-200 bg-white shadow-[0_14px_45px_-24px_rgb(15_45_75_/_0.45)]",
         isMenuOpen ? "rounded-3xl" : "rounded-full",
+        className,
       )}
     >
       <div className="flex w-full items-center justify-between px-4 py-2.5 md:px-5">
         <Link
           className="flex items-center gap-3 font-semibold text-foreground"
           href="/"
-          onClick={() => setIsMenuOpen(false)}
+          onClick={closeMenu}
         >
           <Image src="/logo-mark.webp" height={36} width={36} alt="" />
           <span>NoNeed2Ask</span>
         </Link>
 
-        <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
+        {navItems.length > 0 && <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
           {navItems.map((item) => (
             <a
               className="transition-colors hover:text-foreground"
@@ -56,9 +67,9 @@ export function LandingNavbar({
               {item.label}
             </a>
           ))}
-        </nav>
+        </nav>}
 
-        {isAuthenticated ? (
+        {actions ?? (isAuthenticated ? (
           <div className="hidden items-center gap-2 md:flex">
             <Button asChild size="lg">
               <Link href="/">Dashboard</Link>
@@ -86,9 +97,10 @@ export function LandingNavbar({
               <Link href="/register">Create tracker</Link>
             </Button>
           </div>
-        )}
+        ))}
 
-        <button
+        {!actions && <button
+          ref={menuTrigger}
           aria-expanded={isMenuOpen}
           aria-label="Toggle navigation menu"
           className="flex size-10 items-center justify-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-muted md:hidden"
@@ -110,7 +122,7 @@ export function LandingNavbar({
               )}
             />
           </span>
-        </button>
+        </button>}
       </div>
 
       {isMenuOpen ? (
@@ -121,7 +133,7 @@ export function LandingNavbar({
                 className="rounded-2xl px-3 py-2 transition-colors hover:bg-muted hover:text-foreground"
                 href={item.href}
                 key={item.href}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMenu}
               >
                 {item.label}
               </a>
@@ -130,14 +142,14 @@ export function LandingNavbar({
           {isAuthenticated ? (
             <div className="mt-3 grid gap-2">
               <Button asChild size="lg">
-                <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                <Link href="/" onClick={closeMenu}>
                   Dashboard
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
                 <Link
                   href="/applications"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={closeMenu}
                 >
                   Applications
                 </Link>
@@ -146,12 +158,12 @@ export function LandingNavbar({
           ) : (
             <div className="mt-3 grid gap-2">
               <Button asChild size="lg" variant="outline">
-                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                <Link href="/login" onClick={closeMenu}>
                   Log in
                 </Link>
               </Button>
               <Button asChild size="lg">
-                <Link href="/register" onClick={() => setIsMenuOpen(false)}>
+                <Link href="/register" onClick={closeMenu}>
                   Create tracker
                 </Link>
               </Button>

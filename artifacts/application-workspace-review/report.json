@@ -1,0 +1,432 @@
+{
+  "checks": [
+    {
+      "name": "application-create",
+      "width": 320,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 320,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 320,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 390,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 390,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 390,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 640,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 640,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 640,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 768,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 768,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 768,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 1024,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 1024,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 1024,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 1440,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 1440,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-create",
+      "width": 1440,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 320,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 320,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 320,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 390,
+      "scenario": "Populated",
+      "violations": [
+        {
+          "id": "definition-list",
+          "nodes": [
+            "<dl class=\"space-y-3\">"
+          ]
+        },
+        {
+          "id": "dlitem",
+          "nodes": [
+            "<dt class=\"text-xs font-medium\">Next action</dt>",
+            "<dt class=\"text-xs font-medium\">Last contact</dt>"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "application-detail",
+      "width": 390,
+      "scenario": "Empty notes",
+      "violations": [
+        {
+          "id": "definition-list",
+          "nodes": [
+            "<dl class=\"space-y-3\">"
+          ]
+        },
+        {
+          "id": "dlitem",
+          "nodes": [
+            "<dt class=\"text-xs font-medium\">Next action</dt>",
+            "<dt class=\"text-xs font-medium\">Last contact</dt>"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "application-detail",
+      "width": 390,
+      "scenario": "Long text",
+      "violations": [
+        {
+          "id": "definition-list",
+          "nodes": [
+            "<dl class=\"space-y-3\">"
+          ]
+        },
+        {
+          "id": "dlitem",
+          "nodes": [
+            "<dt class=\"text-xs font-medium\">Next action</dt>",
+            "<dt class=\"text-xs font-medium\">Last contact</dt>"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "application-detail",
+      "width": 640,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 640,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 640,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 768,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 768,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 768,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 1024,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 1024,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 1024,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-detail",
+      "width": 1440,
+      "scenario": "Populated",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            "<dt class=\"inline\">Created </dt>",
+            "<dd class=\"inline\">Aug 18, 2026</dd>",
+            "<dt class=\"inline\">Updated </dt>",
+            "<dd class=\"inline\">Sep 6, 2026</dd>"
+          ]
+        },
+        {
+          "id": "definition-list",
+          "nodes": [
+            "<dl class=\"space-y-3\">"
+          ]
+        },
+        {
+          "id": "dlitem",
+          "nodes": [
+            "<dt class=\"text-xs font-medium\">Next action</dt>",
+            "<dt class=\"text-xs font-medium\">Last contact</dt>"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "application-detail",
+      "width": 1440,
+      "scenario": "Empty notes",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            "<dt class=\"inline\">Created </dt>",
+            "<dd class=\"inline\">Aug 18, 2026</dd>",
+            "<dt class=\"inline\">Updated </dt>",
+            "<dd class=\"inline\">Sep 6, 2026</dd>"
+          ]
+        },
+        {
+          "id": "definition-list",
+          "nodes": [
+            "<dl class=\"space-y-3\">"
+          ]
+        },
+        {
+          "id": "dlitem",
+          "nodes": [
+            "<dt class=\"text-xs font-medium\">Next action</dt>",
+            "<dt class=\"text-xs font-medium\">Last contact</dt>"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "application-detail",
+      "width": 1440,
+      "scenario": "Long text",
+      "violations": [
+        {
+          "id": "definition-list",
+          "nodes": [
+            "<dl class=\"space-y-3\">"
+          ]
+        },
+        {
+          "id": "dlitem",
+          "nodes": [
+            "<dt class=\"text-xs font-medium\">Next action</dt>",
+            "<dt class=\"text-xs font-medium\">Last contact</dt>"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "application-update",
+      "width": 320,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 320,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 320,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 390,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 390,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 390,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 640,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 640,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 640,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 768,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 768,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 768,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 1024,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 1024,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 1024,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 1440,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 1440,
+      "scenario": "Empty notes",
+      "violations": []
+    },
+    {
+      "name": "application-update",
+      "width": 1440,
+      "scenario": "Long text",
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "requests": []
+}

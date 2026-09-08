@@ -54,7 +54,7 @@ describe("application detail", () => {
     expect(screen.getByText("Interview planned")).toBeInTheDocument()
     expect(screen.getByText(application.publicNote!)).toBeInTheDocument()
     expect(screen.getByText(application.privateNote!)).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "Edit" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Edit application" })).toHaveAttribute(
       "href",
       "/applications/app_1/update"
     )

@@ -45,6 +45,25 @@ function QueryWrapper({
 }
 
 describe("ApplicationForm", () => {
+  it("saves the preview locally without API calls or navigation", async () => {
+    const user = userEvent.setup()
+    const save = vi.fn().mockResolvedValue(undefined)
+    render(<QueryWrapper client={new QueryClient()}><ApplicationForm mode="create" onPreviewSave={save} /></QueryWrapper>)
+    await user.type(screen.getByLabelText("Company name"), "Preview company")
+    await user.type(screen.getByLabelText("Role"), "Designer")
+    expect(screen.queryByRole("button", { name: /Step/ })).not.toBeInTheDocument()
+    expect(screen.queryByText("Your notes, your space")).not.toBeInTheDocument()
+    for (let step = 0; step < 3; step++) await user.click(screen.getByRole("button", { name: "Next" }))
+    expect(screen.getByRole("listitem", { name: "Step 4: Notes" })).toHaveAttribute("aria-current", "step")
+    expect(screen.getByText("Your notes, your space")).toBeInTheDocument()
+    await user.click(screen.getByRole("button", { name: "Create application" }))
+    await user.click(within(await screen.findByRole("alertdialog")).getByRole("button", { name: "Create application" }))
+    await waitFor(() => expect(save).toHaveBeenCalledWith(expect.objectContaining({ companyName: "Preview company" })))
+    expect(mocks.createApplication).not.toHaveBeenCalled()
+    expect(mocks.updateApplication).not.toHaveBeenCalled()
+    expect(mocks.push).not.toHaveBeenCalled()
+  })
+
   beforeEach(() => {
     mocks.createApplication.mockReset()
     mocks.updateApplication.mockReset()

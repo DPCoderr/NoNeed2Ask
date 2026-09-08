@@ -1,66 +1,23 @@
-import { Calendar03Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-
 import { buildDashboardData } from "@/components/dashboard/dashboard-data";
-import { JobSearchDashboard } from "@/components/dashboard/job-search-dashboard";
 import type { PublicStatusEnabledResponseDto } from "@/lib/api/types";
 
-const recentApplicationsLimit = 10;
+import { PublicStatusHeader } from "./public-status-header";
+import { PublicStatusJourney } from "./public-status-journey";
+import { PublicStatusNextInterview } from "./public-status-next-interview";
+import { PublicStatusUpdates } from "./public-status-updates";
 
-const lastUpdatedDateFormatter = new Intl.DateTimeFormat("en", {
-  month: "long",
-  day: "numeric",
-  year: "numeric",
-});
+type PublicStatusContentProps = Pick<PublicStatusEnabledResponseDto, "applications" | "profile"> & { now?: Date };
 
-type PublicStatusContentProps = Pick<
-  PublicStatusEnabledResponseDto,
-  "applications" | "profile"
->;
-
-export function PublicStatusContent({
-  applications,
-  profile,
-}: PublicStatusContentProps) {
-  const dashboardData = buildDashboardData(applications, new Date(), {
-    recentLimit: recentApplicationsLimit,
-  });
-
+export function PublicStatusContent({ applications, profile, now = new Date() }: PublicStatusContentProps) {
+  const data = buildDashboardData(applications, now, { recentLimit: 10 });
   return (
-    <div className="relative z-10 mx-auto flex w-full max-w-screen-2xl flex-col gap-5 px-4 py-5 sm:px-5 md:gap-5 md:px-8 md:py-8 xl:px-10">
-      <JobSearchDashboard
-        dashboardData={dashboardData}
-        distributionDescription="Where all visible applications stand right now."
-        header={{
-          actions: (
-            <span className="flex items-center gap-2">
-              <HugeiconsIcon className="size-5" icon={Calendar03Icon} />
-              Last updated {formatLastUpdatedDate(profile.updatedAt)}
-            </span>
-          ),
-          description:
-            "A public view of the job search: visible pipeline health, next steps, and recent updates without private notes or edit controls.",
-          eyebrow: "Public read-only dashboard",
-          title: `${profile.displayName}'s Job Search`,
-        }}
-        journeyId="journey"
-        recentApplications={{
-          description: "A read-only timeline of the latest public updates.",
-          emptyMessage: "No public applications yet.",
-          showViewAll: false,
-          title: "Recent applications",
-        }}
-        showNextActionControls={false}
-        updatesId="updates"
-      />
+    <div className="space-y-6 sm:space-y-8">
+      <PublicStatusHeader profile={profile} />
+      <div className="grid items-stretch gap-5 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+        <PublicStatusJourney stages={data.pipelineStages} total={data.pipelineTotal} />
+        <PublicStatusNextInterview nextAction={data.nextAction} />
+      </div>
+      <PublicStatusUpdates applications={data.recentApplications} />
     </div>
   );
-}
-
-function formatLastUpdatedDate(value: string | null) {
-  if (!value) {
-    return "Not scheduled";
-  }
-
-  return lastUpdatedDateFormatter.format(new Date(value));
 }

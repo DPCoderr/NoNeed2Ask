@@ -41,10 +41,10 @@ export function ApplicationFormActions({
   onPrevious: () => void
 }) {
   return (
-    <CardFooter className="border-t bg-muted/20">
+    <CardFooter className="rounded-b-2xl border-t border-slate-200 bg-slate-50/60 px-5 py-5 sm:px-7">
       <div className="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <Button
-          className="h-10 rounded-lg px-4"
+          className="h-11 rounded-lg px-5"
           disabled={isSaving}
           type="button"
           variant="outline"
@@ -55,7 +55,7 @@ export function ApplicationFormActions({
         {isLastStep ? (
           <AlertDialog open={isConfirmOpen} onOpenChange={onConfirmOpenChange}>
             <Button
-              className="h-10 rounded-lg px-4"
+              className="h-11 rounded-lg px-5"
               disabled={isSaving}
               onClick={onNext}
               type="button"
@@ -90,7 +90,7 @@ export function ApplicationFormActions({
           </AlertDialog>
         ) : (
           <Button
-            className="h-10 rounded-lg px-4"
+            className="h-11 rounded-lg px-5"
             disabled={isSaving}
             onClick={onNext}
             type="button"

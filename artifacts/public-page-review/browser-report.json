@@ -1,0 +1,749 @@
+{
+  "responsive": [
+    {
+      "width": 320,
+      "scenario": "Populated",
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "scenario": "Private",
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "scenario": "Private · signed in",
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "scenario": "Empty",
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "scenario": "No interview",
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "scenario": "Loading",
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "scenario": "Error",
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "scenario": "Not found",
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 320,
+      "scenario": "Long text",
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 390,
+      "scenario": "Populated",
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "scenario": "Private",
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "scenario": "Private · signed in",
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "scenario": "Empty",
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "scenario": "No interview",
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "scenario": "Loading",
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "scenario": "Error",
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "scenario": "Not found",
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 390,
+      "scenario": "Long text",
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 540,
+      "scenario": "Populated",
+      "viewport": 540,
+      "scroll": 540
+    },
+    {
+      "width": 540,
+      "scenario": "Private",
+      "viewport": 540,
+      "scroll": 540
+    },
+    {
+      "width": 540,
+      "scenario": "Private · signed in",
+      "viewport": 540,
+      "scroll": 540
+    },
+    {
+      "width": 540,
+      "scenario": "Empty",
+      "viewport": 540,
+      "scroll": 540
+    },
+    {
+      "width": 540,
+      "scenario": "No interview",
+      "viewport": 540,
+      "scroll": 540
+    },
+    {
+      "width": 540,
+      "scenario": "Loading",
+      "viewport": 540,
+      "scroll": 540
+    },
+    {
+      "width": 540,
+      "scenario": "Error",
+      "viewport": 540,
+      "scroll": 540
+    },
+    {
+      "width": 540,
+      "scenario": "Not found",
+      "viewport": 540,
+      "scroll": 540
+    },
+    {
+      "width": 540,
+      "scenario": "Long text",
+      "viewport": 540,
+      "scroll": 540
+    },
+    {
+      "width": 640,
+      "scenario": "Populated",
+      "viewport": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "scenario": "Private",
+      "viewport": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "scenario": "Private · signed in",
+      "viewport": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "scenario": "Empty",
+      "viewport": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "scenario": "No interview",
+      "viewport": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "scenario": "Loading",
+      "viewport": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "scenario": "Error",
+      "viewport": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "scenario": "Not found",
+      "viewport": 640,
+      "scroll": 640
+    },
+    {
+      "width": 640,
+      "scenario": "Long text",
+      "viewport": 640,
+      "scroll": 640
+    },
+    {
+      "width": 768,
+      "scenario": "Populated",
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 768,
+      "scenario": "Private",
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 768,
+      "scenario": "Private · signed in",
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 768,
+      "scenario": "Empty",
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 768,
+      "scenario": "No interview",
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 768,
+      "scenario": "Loading",
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 768,
+      "scenario": "Error",
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 768,
+      "scenario": "Not found",
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 768,
+      "scenario": "Long text",
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 900,
+      "scenario": "Populated",
+      "viewport": 900,
+      "scroll": 900
+    },
+    {
+      "width": 900,
+      "scenario": "Private",
+      "viewport": 900,
+      "scroll": 900
+    },
+    {
+      "width": 900,
+      "scenario": "Private · signed in",
+      "viewport": 900,
+      "scroll": 900
+    },
+    {
+      "width": 900,
+      "scenario": "Empty",
+      "viewport": 900,
+      "scroll": 900
+    },
+    {
+      "width": 900,
+      "scenario": "No interview",
+      "viewport": 900,
+      "scroll": 900
+    },
+    {
+      "width": 900,
+      "scenario": "Loading",
+      "viewport": 900,
+      "scroll": 900
+    },
+    {
+      "width": 900,
+      "scenario": "Error",
+      "viewport": 900,
+      "scroll": 900
+    },
+    {
+      "width": 900,
+      "scenario": "Not found",
+      "viewport": 900,
+      "scroll": 900
+    },
+    {
+      "width": 900,
+      "scenario": "Long text",
+      "viewport": 900,
+      "scroll": 900
+    },
+    {
+      "width": 1024,
+      "scenario": "Populated",
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1024,
+      "scenario": "Private",
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1024,
+      "scenario": "Private · signed in",
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1024,
+      "scenario": "Empty",
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1024,
+      "scenario": "No interview",
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1024,
+      "scenario": "Loading",
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1024,
+      "scenario": "Error",
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1024,
+      "scenario": "Not found",
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1024,
+      "scenario": "Long text",
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1280,
+      "scenario": "Populated",
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "width": 1280,
+      "scenario": "Private",
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "width": 1280,
+      "scenario": "Private · signed in",
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "width": 1280,
+      "scenario": "Empty",
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "width": 1280,
+      "scenario": "No interview",
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "width": 1280,
+      "scenario": "Loading",
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "width": 1280,
+      "scenario": "Error",
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "width": 1280,
+      "scenario": "Not found",
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "width": 1280,
+      "scenario": "Long text",
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "width": 1440,
+      "scenario": "Populated",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1440,
+      "scenario": "Private",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1440,
+      "scenario": "Private · signed in",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1440,
+      "scenario": "Empty",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1440,
+      "scenario": "No interview",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1440,
+      "scenario": "Loading",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1440,
+      "scenario": "Error",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1440,
+      "scenario": "Not found",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1440,
+      "scenario": "Long text",
+      "viewport": 1440,
+      "scroll": 1440
+    }
+  ],
+  "accessibility": [
+    {
+      "width": 390,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scenario": "Private",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scenario": "Private · signed in",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scenario": "Empty",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scenario": "No interview",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scenario": "Loading",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scenario": "Error",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scenario": "Not found",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "scenario": "Private",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "scenario": "Private · signed in",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "scenario": "Empty",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "scenario": "No interview",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "scenario": "Loading",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "scenario": "Error",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "scenario": "Not found",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "scenario": "Long text",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Populated",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Private",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Private · signed in",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Empty",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scenario": "No interview",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Loading",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Error",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Not found",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scenario": "Long text",
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "requests": [],
+  "keyboard": {
+    "text": "Skip to content",
+    "outline": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, lab(44.0605 29.0279 -86.0352) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "bounds": {
+      "x": 16,
+      "y": 16,
+      "width": 123.46875,
+      "height": 44,
+      "top": 16,
+      "right": 139.46875,
+      "bottom": 60,
+      "left": 16
+    }
+  },
+  "skipTarget": "public-content",
+  "fonts": {
+    "family": "Inter, \"Inter Fallback\"",
+    "faces": [
+      {
+        "family": "Inter",
+        "status": "unloaded"
+      },
+      {
+        "family": "Inter",
+        "status": "unloaded"
+      },
+      {
+        "family": "Inter",
+        "status": "unloaded"
+      },
+      {
+        "family": "Inter",
+        "status": "unloaded"
+      },
+      {
+        "family": "Inter",
+        "status": "unloaded"
+      },
+      {
+        "family": "Inter",
+        "status": "unloaded"
+      },
+      {
+        "family": "Inter",
+        "status": "loaded"
+      },
+      {
+        "family": "Inter Fallback",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist Fallback",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist Mono",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist Mono",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist Mono",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist Mono",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist Mono",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist Mono",
+        "status": "unloaded"
+      },
+      {
+        "family": "Geist Mono Fallback",
+        "status": "unloaded"
+      },
+      {
+        "family": "__nextjs-Geist",
+        "status": "unloaded"
+      },
+      {
+        "family": "__nextjs-Geist Mono",
+        "status": "unloaded"
+      },
+      {
+        "family": "__nextjs-Geist",
+        "status": "unloaded"
+      },
+      {
+        "family": "__nextjs-Geist Mono",
+        "status": "unloaded"
+      }
+    ]
+  }
+}

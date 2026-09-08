@@ -10,10 +10,10 @@ export function ApplicationDetailItem({
   value: string
 }) {
   return (
-    <div className="rounded-lg border border-border/80 bg-white/75 p-4 shadow-sm sm:p-5">
+    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
       <div className="flex items-center gap-2 text-muted-foreground">
         <Icon aria-hidden="true" className="size-4" strokeWidth={2} />
-        <dt className="text-xs font-semibold uppercase tracking-normal">
+        <dt className="text-xs font-medium">
           {label}
         </dt>
       </div>
