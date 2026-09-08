@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 
 import { PrivateStatusContent } from "@/components/status/private-status-content"
 import { PublicStatusContent } from "@/components/status/public-status-content"
-import { StatusPageFrame } from "@/components/status/status-page-frame"
+import { PublicStatusFrame } from "@/components/status/public-status-frame"
 import { ApiResponseError } from "@/lib/api/errors"
 import { getPublicStatus } from "@/lib/api/public-status"
 import { getCurrentUserServer } from "@/lib/auth/get-current-user-server"
@@ -37,21 +37,21 @@ export default async function PublicStatusPage({
 
   if (publicStatus.kind === "disabled") {
     return (
-      <StatusPageFrame isAuthenticated={isAuthenticated}>
+      <PublicStatusFrame isAuthenticated={isAuthenticated}>
         <PrivateStatusContent
           isAuthenticated={isAuthenticated}
           slug={slug}
         />
-      </StatusPageFrame>
+      </PublicStatusFrame>
     )
   }
 
   return (
-    <StatusPageFrame isAuthenticated={isAuthenticated}>
+    <PublicStatusFrame isAuthenticated={isAuthenticated}>
       <PublicStatusContent
         applications={publicStatus.applications}
         profile={publicStatus.profile}
       />
-    </StatusPageFrame>
+    </PublicStatusFrame>
   )
 }

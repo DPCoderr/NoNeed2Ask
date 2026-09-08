@@ -1,0 +1,168 @@
+.surface {
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  background: #f7f8fa;
+}
+
+.decoration {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 760px;
+  max-height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(#000 0 80%, transparent 100%);
+}
+
+.decoration::before,
+.decoration::after {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+}
+
+/* Broad, lit surfaces give the geometry depth without drawing outlines. */
+.decoration::before {
+  top: -124px;
+  right: -212px;
+  width: 380px;
+  height: 340px;
+  border-radius: 90px;
+  background: linear-gradient(135deg, #f8fafc 8%, #dce5f0 64%, #e9eff6 100%);
+  box-shadow:
+    inset 2px 2px 2px #fff,
+    inset -2px -2px 4px rgb(135 157 184 / 12%),
+    -14px 22px 44px rgb(78 103 135 / 8%);
+}
+
+.decoration::after {
+  top: -126px;
+  right: -232px;
+  width: 312px;
+  height: 258px;
+  border-radius: 64px;
+  background: linear-gradient(150deg, #fff, #f3f6fa 75%);
+  box-shadow:
+    inset 1px 1px 1px #fff,
+    -8px 12px 22px rgb(93 117 149 / 10%);
+}
+
+.panel {
+  display: none;
+}
+
+/* A shorter composition keeps the applications table visually quiet. */
+.applications .decoration {
+  height: 320px;
+  mask-image: linear-gradient(#000 0 65%, transparent 100%);
+}
+
+.applications .decoration::before {
+  top: -126px;
+  right: -178px;
+  width: 300px;
+  height: 270px;
+  border-radius: 76px;
+}
+
+.applications .decoration::after {
+  top: -122px;
+  right: -196px;
+  width: 242px;
+  height: 204px;
+  border-radius: 56px;
+}
+
+.applications .panel {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .applications .decoration::before {
+    top: -168px;
+    right: -144px;
+    width: 440px;
+    height: 360px;
+    border-radius: 96px;
+  }
+
+  .applications .decoration::after {
+    top: -160px;
+    right: -166px;
+    width: 340px;
+    height: 260px;
+    border-radius: 72px;
+  }
+
+  .decoration::before {
+    top: -204px;
+    right: -190px;
+    width: 560px;
+    height: 470px;
+    border-radius: 124px;
+  }
+
+  .decoration::after {
+    top: -198px;
+    right: -218px;
+    width: 442px;
+    height: 356px;
+    border-radius: 92px;
+  }
+
+  .panel {
+    display: block;
+    position: absolute;
+    top: 272px;
+    left: -244px;
+    width: 320px;
+    height: 300px;
+    border-radius: 84px;
+    background: linear-gradient(120deg, #f8fafc 15%, #e4ebf3 80%);
+    box-shadow: inset -1px 1px 2px #fff, 12px 12px 36px rgb(78 103 135 / 5%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .applications .decoration::before {
+    top: -190px;
+    right: -140px;
+    width: 520px;
+    height: 410px;
+    border-radius: 110px;
+  }
+
+  .applications .decoration::after {
+    top: -182px;
+    right: -158px;
+    width: 398px;
+    height: 298px;
+    border-radius: 80px;
+  }
+
+  .decoration::before {
+    top: -252px;
+    right: -148px;
+    width: 700px;
+    height: 570px;
+    border-radius: 152px;
+  }
+
+  .decoration::after {
+    top: -246px;
+    right: -164px;
+    width: 552px;
+    height: 428px;
+    border-radius: 112px;
+  }
+
+  .panel {
+    top: 236px;
+    left: -280px;
+    width: 380px;
+    height: 350px;
+    border-radius: 100px;
+  }
+}

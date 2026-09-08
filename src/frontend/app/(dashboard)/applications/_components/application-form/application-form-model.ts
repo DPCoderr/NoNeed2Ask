@@ -8,7 +8,10 @@ import type {
 } from "@/lib/api/types"
 import type { CreateApplicationFormValues } from "@/lib/validation/applications"
 
-export type ApplicationFormProps =
+export type ApplicationFormProps = {
+  onPreviewSave?: (request: CreateApplicationRequestDto | UpdateApplicationRequestDto) => Promise<void>
+  onCancel?: () => void
+} & (
   | {
       mode: "create"
       application?: never
@@ -17,6 +20,7 @@ export type ApplicationFormProps =
       mode: "update"
       application: PrivateApplicationDto
     }
+)
 
 export const applicationFormFieldNames = {
   CompanyName: "companyName",

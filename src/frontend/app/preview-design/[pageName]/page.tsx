@@ -5,6 +5,10 @@ export const metadata = { title: "Design preview · NoNeed2Ask", robots: { index
 export default async function PreviewDesignPage({ params }: { params: Promise<{ pageName: string }> }) {
   if (process.env.NODE_ENV !== "development") notFound();
   const { pageName } = await params;
+  if (pageName === "application-create" || pageName === "application-detail" || pageName === "application-update") {
+    const { ApplicationWorkspacePreview } = await import("../_components/application-workspace-preview");
+    return <ApplicationWorkspacePreview pageName={pageName} />;
+  }
   if (pageName === "dashboard") {
     const { DashboardPreview } = await import("../_components/dashboard-preview");
     return <DashboardPreview />;
@@ -12,6 +16,10 @@ export default async function PreviewDesignPage({ params }: { params: Promise<{ 
   if (pageName === "applications") {
     const { ApplicationsPreview } = await import("../_components/applications-preview");
     return <ApplicationsPreview />;
+  }
+  if (pageName === "public-page") {
+    const { PublicPagePreview } = await import("../_components/public-page-preview");
+    return <PublicPagePreview />;
   }
   notFound();
 }

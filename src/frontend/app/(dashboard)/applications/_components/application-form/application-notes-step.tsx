@@ -1,5 +1,6 @@
 "use client"
 
+import { LockKeyhole } from "lucide-react"
 import { useFormContext } from "react-hook-form"
 
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
@@ -19,6 +20,13 @@ export function ApplicationNotesStep({ disabled }: { disabled: boolean }) {
       description="Notes are optional. Public notes can be shown on your status page."
       title="Notes"
     >
+      <aside className="flex items-start gap-3 rounded-xl bg-[#edf2f7] p-4 text-sm leading-6 text-slate-600">
+        <LockKeyhole aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-[#315e96]" />
+        <div>
+          <h3 className="font-semibold text-slate-800">Your notes, your space</h3>
+          <p>Public notes can appear on your shared status page. Keep interview preparation and personal thoughts in your private note.</p>
+        </div>
+      </aside>
       <div className="grid gap-5 lg:grid-cols-2">
         <Field data-invalid={!!errors.publicNote}>
           <FieldLabel htmlFor="publicNote">Public note</FieldLabel>

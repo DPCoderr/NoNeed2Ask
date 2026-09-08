@@ -4,6 +4,7 @@ const { notFound } = vi.hoisted(() => ({ notFound: vi.fn(() => { throw new Error
 vi.mock("next/navigation", () => ({ notFound }));
 vi.mock("@/app/preview-design/_components/dashboard-preview", () => ({ DashboardPreview: () => null }));
 vi.mock("@/app/preview-design/_components/applications-preview", () => ({ ApplicationsPreview: () => null }));
+vi.mock("@/app/preview-design/_components/public-page-preview", () => ({ PublicPagePreview: () => null }));
 
 import DesignPreviewPage from "@/app/design-preview/page";
 import PreviewDesignPage from "@/app/preview-design/[pageName]/page";
@@ -22,12 +23,12 @@ describe("design preview boundary", () => {
     expect(notFound).not.toHaveBeenCalled();
   });
 
-  it.each(["dashboard", "applications", "unknown"])("rejects %s previews in production", async (pageName) => {
+  it.each(["dashboard", "applications", "public-page", "unknown"])("rejects %s previews in production", async (pageName) => {
     vi.stubEnv("NODE_ENV", "production");
     await expect(PreviewDesignPage({ params: Promise.resolve({ pageName }) })).rejects.toThrow("NEXT_HTTP_ERROR_FALLBACK;404");
   });
 
-  it.each(["dashboard", "applications"])("renders the %s development preview", async (pageName) => {
+  it.each(["dashboard", "applications", "public-page"])("renders the %s development preview", async (pageName) => {
     vi.stubEnv("NODE_ENV", "development");
     await expect(PreviewDesignPage({ params: Promise.resolve({ pageName }) })).resolves.toBeTruthy();
   });

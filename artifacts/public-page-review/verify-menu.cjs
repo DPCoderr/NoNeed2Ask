@@ -1,0 +1,21 @@
+const { chromium } = require('C:/Users/dppc2/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const assert = require('node:assert/strict');
+(async()=>{
+const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+const page=await browser.newPage({viewport:{width:390,height:844}});
+await page.goto('http://localhost:3007/preview-design/public-page',{waitUntil:'networkidle'});
+const trigger=page.getByRole('button',{name:'Toggle navigation menu'});
+await trigger.click();
+await page.getByRole('link',{name:'Log in',exact:true}).focus();
+await page.keyboard.press('Escape');
+assert.equal(await trigger.getAttribute('aria-expanded'),'false');
+assert.ok(await trigger.evaluate(e=>document.activeElement===e));
+await trigger.click();
+await page.addStyleTag({content:'nextjs-portal{display:none}'});
+await page.screenshot({path:'artifacts/public-page-review/mobile-menu-390.png'});
+await page.getByRole('link',{name:'Log in',exact:true}).click();
+assert.equal(await trigger.getAttribute('aria-expanded'),'false');
+assert.match(await page.getByRole('status').innerText(),/Preview destination: \/login/);
+console.log('Mobile menu: Escape, focus restoration, local navigation and close passed.');
+await browser.close();
+})();
