@@ -41,6 +41,12 @@ Each slice may contain:
 - validators
 - slice-local handlers or query logic
 
+For Auth, keep each use-case's endpoint, DTOs, handler, and any validator together in
+`Login.cs`, `Register.cs`, `Logout.cs`, or `Me.cs`. Split a use-case into multiple
+files in its own folder when that improves readability. `MapAuthEndpoints()`
+creates the `/auth` group and explicitly registers each use-case's `IEndpoint`;
+the individual endpoint mappings use paths relative to that group.
+
 Avoid large generic folders like `Controllers`, `Services`, and `Repositories`.
 
 ### Entity Framework Core

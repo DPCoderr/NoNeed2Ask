@@ -9,7 +9,7 @@ public sealed class AuthValidatorTests
     [Fact]
     public void RegisterRequestValidator_Passes_ForValidRequest()
     {
-        var validator = new RegisterRequestValidator();
+        var validator = new Register.RegisterRequestValidator();
         var request = new Register.RegisterRequest(
             "valid-user",
             "valid@example.test",
@@ -35,7 +35,7 @@ public sealed class AuthValidatorTests
         string password,
         string expectedProperty)
     {
-        var validator = new RegisterRequestValidator();
+        var validator = new Register.RegisterRequestValidator();
         var request = new Register.RegisterRequest(username, email, password, RememberMe: false);
 
         var result = validator.Validate(request);
@@ -47,7 +47,7 @@ public sealed class AuthValidatorTests
     [Fact]
     public void LoginRequestDtoValidator_Passes_ForValidRequest()
     {
-        var validator = new LoginRequestDtoValidator();
+        var validator = new Login.LoginRequestDtoValidator();
         var request = new Login.LoginRequestDto("valid@example.test", ApiTestHelpers.ValidPassword, RememberMe: false);
 
         var result = validator.Validate(request);
@@ -64,7 +64,7 @@ public sealed class AuthValidatorTests
         string password,
         string expectedProperty)
     {
-        var validator = new LoginRequestDtoValidator();
+        var validator = new Login.LoginRequestDtoValidator();
         var request = new Login.LoginRequestDto(email, password, RememberMe: false);
 
         var result = validator.Validate(request);
