@@ -1,11 +1,22 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http.HttpResults;
 using NoNeed2Ask.Api.Database;
+using NoNeed2Ask.Api.Shared;
 
 namespace NoNeed2Ask.Api.Features.Settings;
 
 public static class PublicProfileSettingsGet
 {
+    public sealed class Endpoint : IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapGet("/settings/public-profile", Handle)
+                .WithTags("Settings")
+                .RequireAuthorization();
+        }
+    }
+
     public static async Task<Results<Ok<PublicProfileSettingsDto>, ProblemHttpResult>> Handle(
         AppDbContext dbContext,
         ClaimsPrincipal principal,

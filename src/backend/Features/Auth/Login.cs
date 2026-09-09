@@ -12,7 +12,8 @@ public static class Login
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("/login", Handler.Handle)
+            app.MapPost("/auth/login", Handler.Handle)
+                .WithTags("Auth")
                 .AddEndpointFilter<ValidationFilter<LoginRequestDto>>()
                 .RequireRateLimiting("auth");
         }

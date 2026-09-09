@@ -11,14 +11,15 @@ namespace NoNeed2Ask.Api.Features.Application;
 
 public static class UpdateApplication
 {
-    private const string NameRequest = "UpdateApplication"; 
+    public const string RouteName = nameof(UpdateApplication);
 
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("/", Handler.Handle)
-                .WithName(NameRequest)
+            app.MapPut("/applications/{id:guid}", Handler.Handle)
+                .WithTags("Applications")
+                .WithName(RouteName)
                 .AddEndpointFilter<ValidationFilter<UpdateApplicationRequestDto>>()
                 .RequireAuthorization();
         }
@@ -34,22 +35,9 @@ public static class UpdateApplication
         DateTimeOffset? NextActionAt
     );
 
-    private sealed record UpdateApplicationResponseDto(
-        Guid Id,
-        string CompanyName,
-        string JobTitle,
-        string Status,
-        string? PublicNote,
-        string? PrivateNote,
-        DateTimeOffset? LastContactAt,
-        DateTimeOffset? NextActionAt,
-        DateTimeOffset CreatedAt,
-        DateTimeOffset UpdatedAt
-    );
-
     private static class Handler
     {
-        public static async Task<Results<Ok<UpdateApplicationResponseDto>, UnauthorizedHttpResult,NotFound>> Handle(
+        public static async Task<Results<NoContent, UnauthorizedHttpResult, NotFound>> Handle(
             Guid id,
             ClaimsPrincipal user,
             UserManager<AppUser> userManager,
@@ -84,20 +72,7 @@ public static class UpdateApplication
             
             await db.SaveChangesAsync(cancellationToken);
 
-            var response = new UpdateApplicationResponseDto(
-                application.Id,
-                application.CompanyName,
-                application.JobTitle,
-                application.Status,
-                application.PublicNote,
-                application.PrivateNote,
-                application.LastContactAt,
-                application.NextActionAt,
-                application.CreatedAt,
-                application.UpdatedAt
-            );
-            
-            return TypedResults.Ok(response);
+            return TypedResults.NoContent();
         }
     }
     

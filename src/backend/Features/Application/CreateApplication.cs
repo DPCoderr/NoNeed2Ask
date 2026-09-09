@@ -10,17 +10,18 @@ namespace NoNeed2Ask.Api.Features.Application;
 
 public static class CreateApplication
 {
-    private const string NameRequest = "CreateApplication"; 
+    public const string RouteName = nameof(CreateApplication);
 
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("/", Handler.Handle)
-                .WithName(NameRequest)
+            app.MapPost("/applications/", Handler.Handle)
+                .WithTags("Applications")
+                .WithName(RouteName)
                 .AddEndpointFilter<ValidationFilter<CreateApplicationRequestDto>>()
                 .RequireAuthorization();
-        } 
+        }
     }
 
     public sealed record CreateApplicationRequestDto(
@@ -63,6 +64,7 @@ public static class CreateApplication
                 return TypedResults.Unauthorized();
             }
             
+            var now = DateTimeOffset.UtcNow;
             var application = new Domain.Entities.Application()
             {
                 UserId = userId,
@@ -73,8 +75,8 @@ public static class CreateApplication
                 PrivateNote = request.PrivateNote,
                 LastContactAt = request.LastContactAt,
                 NextActionAt = request.NextActionAt,
-                CreatedAt = DateTimeOffset.UtcNow,
-                UpdatedAt = DateTimeOffset.UtcNow
+                CreatedAt = now,
+                UpdatedAt = now
             };
             
             db.Applications.Add(application);
@@ -95,7 +97,7 @@ public static class CreateApplication
             
             return TypedResults.CreatedAtRoute(
                 response,
-                routeName: "GetApplication",
+                routeName: GetApplication.RouteName,
                 routeValues: new { id = response.Id }
             );
         }

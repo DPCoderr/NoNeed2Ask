@@ -8,9 +8,10 @@ public static class GetAllApplicationsEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("/", GetAllApplicationsHandler.Handle)
+            app.MapGet("/applications/", GetAllApplicationsHandler.Handle)
+                .WithTags("Applications")
                 .WithName("GetAllApplications")
                 .RequireAuthorization();;
         }
     }
-} 
+}

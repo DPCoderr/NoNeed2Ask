@@ -14,7 +14,8 @@ public static class Register
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("/register", Handler.Handle)
+            app.MapPost("/auth/register", Handler.Handle)
+                .WithTags("Auth")
                 .AddEndpointFilter<ValidationFilter<RegisterRequest>>()
                 .RequireRateLimiting("auth");
         }

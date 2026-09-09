@@ -2,6 +2,10 @@ using FluentAssertions;
 using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Features.Application;
 using NoNeed2Ask.Api.Tests.Support;
+using CreateApplicationRequestDto = NoNeed2Ask.Api.Features.Application.CreateApplication.CreateApplicationRequestDto;
+using CreateApplicationRequestDtoValidator = NoNeed2Ask.Api.Features.Application.CreateApplication.CreateApplicationRequestDtoValidator;
+using UpdateApplicationRequestDto = NoNeed2Ask.Api.Features.Application.UpdateApplication.UpdateApplicationRequestDto;
+using UpdateApplicationRequestDtoValidator = NoNeed2Ask.Api.Features.Application.UpdateApplication.UpdateApplicationRequestDtoValidator;
 
 namespace NoNeed2Ask.Api.Tests;
 
@@ -22,11 +26,13 @@ public sealed class ApplicationValidatorTests
     public void CreateApplicationRequestDtoValidator_AllowsNullableOptionalFields()
     {
         var validator = new CreateApplicationRequestDtoValidator();
-        var request = ToCreateRequest(ApiTestHelpers.ValidApplicationRequest(
-            publicNote: null,
-            privateNote: null,
-            lastContactAt: null,
-            nextActionAt: null));
+        var request = ToCreateRequest(ApiTestHelpers.ValidApplicationRequest()) with
+        {
+            PublicNote = null,
+            PrivateNote = null,
+            LastContactAt = null,
+            NextActionAt = null
+        };
 
         var result = validator.Validate(request);
 

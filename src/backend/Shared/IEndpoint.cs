@@ -2,5 +2,6 @@
 
 public interface IEndpoint
 {
-    void MapEndpoint (IEndpointRouteBuilder app);
+    // Called at startup. Inject request-scoped services into the handler.
+    void MapEndpoint(IEndpointRouteBuilder app);
 }

@@ -1,11 +1,21 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using NoNeed2Ask.Api.Database;
+using NoNeed2Ask.Api.Shared;
 
 namespace NoNeed2Ask.Api.Features.PublicStatus;
 
 public static class PublicStatusGet
 {
+    public sealed class Endpoint : IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapGet("/status/{publicPageId:guid}", Handle)
+                .WithTags("Public Status");
+        }
+    }
+
     private const string PrivateMessage = "This status page is currently private.";
 
     public static async Task<Results<

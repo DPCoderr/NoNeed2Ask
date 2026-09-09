@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NoNeed2Ask.Api.Database;
 using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Features;
+using NoNeed2Ask.Api.Shared;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.AddServiceDefaults();
 
 builder.Services.AddDatabaseServices(builder.Configuration);
 builder.Services.AddFeatureServices();
+builder.Services.AddEndpoints(typeof(Program).Assembly);
 builder.Services.AddAuthorization();
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
@@ -90,7 +92,7 @@ if (!app.Environment.IsEnvironment("Testing"))
 
 // Endpoints
 app.MapDefaultEndpoints();
-app.MapFeatureEndpoints();
+app.MapEndpoints();
 
 
 app.Run();

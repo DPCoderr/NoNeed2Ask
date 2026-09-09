@@ -5,20 +5,20 @@ using Microsoft.EntityFrameworkCore;
 using NoNeed2Ask.Api.Database;
 using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Shared;
-using NoNeed2Ask.Api.Shared.Results;
 
 namespace NoNeed2Ask.Api.Features.Application;
 
 public static class GetApplication
 {
-    private const string NameRequest = "GetApplication";
+    public const string RouteName = nameof(GetApplication);
 
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("/{id:guid}", Handler.Handle)
-                .WithName(NameRequest)
+            app.MapGet("/applications/{id:guid}", Handler.Handle)
+                .WithTags("Applications")
+                .WithName(RouteName)
                 .RequireAuthorization();
         }
     }

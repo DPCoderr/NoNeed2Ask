@@ -12,7 +12,8 @@ public static class Me
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("/me", Handler.Handle)
+            app.MapGet("/auth/me", Handler.Handle)
+                .WithTags("Auth")
                 .RequireAuthorization();
         }
     }

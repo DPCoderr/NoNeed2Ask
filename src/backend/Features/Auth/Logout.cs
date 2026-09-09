@@ -11,7 +11,8 @@ public static class Logout
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("/logout", Handler.Handle)
+            app.MapPost("/auth/logout", Handler.Handle)
+                .WithTags("Auth")
                 .RequireAuthorization();
         }
     }

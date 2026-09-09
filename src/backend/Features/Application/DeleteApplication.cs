@@ -10,14 +10,15 @@ namespace NoNeed2Ask.Api.Features.Application;
 
 public static class DeleteApplication
 {
-    private const string NameRequest = "DeleteApplication"; 
+    public const string RouteName = nameof(DeleteApplication);
 
     public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapDelete("/", Handler.Handle)
-                .WithName(NameRequest)
+            app.MapDelete("/applications/{id:guid}", Handler.Handle)
+                .WithTags("Applications")
+                .WithName(RouteName)
                 .RequireAuthorization();
         }
     }

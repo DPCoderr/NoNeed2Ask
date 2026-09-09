@@ -73,7 +73,13 @@ public sealed class ApplicationIntegrationTests(ApiFactory factory) : IClassFixt
         var getResponse = await user.Client.GetAsync($"/applications/{created.Id}");
         getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         var persisted = await getResponse.Content.ReadFromJsonAsync<TestApplicationResponse>();
-        persisted.Should().BeEquivalentTo(created);
+        // PostgreSQL stores microseconds; .NET timestamps also contain sub-microsecond ticks.
+        persisted.Should().BeEquivalentTo(created, options => options
+            .Excluding(application => application.CreatedAt)
+            .Excluding(application => application.UpdatedAt));
+        persisted!.CreatedAt.Should().BeCloseTo(created.CreatedAt, TimeSpan.FromMicroseconds(1));
+        persisted.UpdatedAt.Should().BeCloseTo(created.UpdatedAt, TimeSpan.FromMicroseconds(1));
+        created.CreatedAt.Should().Be(created.UpdatedAt);
     }
 
     [Fact]
