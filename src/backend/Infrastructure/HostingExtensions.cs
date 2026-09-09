@@ -87,13 +87,15 @@ public static class HostingExtensions
 
     public static WebApplication MapDefaultEndpoints(this WebApplication app)
     {
+        // Public liveness check lets the landing page wake a sleeping instance.
+        app.MapHealthChecks(AlivenessEndpointPath, new HealthCheckOptions
+        {
+            Predicate = registration => registration.Tags.Contains("live")
+        }).AllowAnonymous();
+
         if (app.Environment.IsDevelopment())
         {
             app.MapHealthChecks(HealthEndpointPath);
-            app.MapHealthChecks(AlivenessEndpointPath, new HealthCheckOptions
-            {
-                Predicate = registration => registration.Tags.Contains("live")
-            });
         }
 
         return app;
