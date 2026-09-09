@@ -2,13 +2,13 @@
 
 namespace NoNeed2Ask.Api.Features.Application.GetAllApplications;
 
-public class GetAllApplicationsEndpoint
+public static class GetAllApplicationsEndpoint
 {
-    public class Endpoint : IEndpoint
+    public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("/applications", GetAllApplicationsHandler.Handle)
+            app.MapGet("/", GetAllApplicationsHandler.Handle)
                 .WithName("GetAllApplications")
                 .RequireAuthorization();;
         }

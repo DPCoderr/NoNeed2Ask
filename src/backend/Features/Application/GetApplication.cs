@@ -7,17 +7,17 @@ using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Shared;
 using NoNeed2Ask.Api.Shared.Results;
 
-namespace NoNeed2Ask.Api.Features.Application.get;
+namespace NoNeed2Ask.Api.Features.Application;
 
-public class GetApplication
+public static class GetApplication
 {
     private const string NameRequest = "GetApplication";
 
-    private class Endpoint : IEndpoint
+    public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("/applications/{id:guid}", Handler.Handle)
+            app.MapGet("/{id:guid}", Handler.Handle)
                 .WithName(NameRequest)
                 .RequireAuthorization();
         }
@@ -38,7 +38,7 @@ public class GetApplication
 
     private static class Handler
     {
-        public static async Task<Results<Ok<ApplicationResponseDto>, NotFound>> Handle(
+        public static async Task<Results<Ok<ApplicationResponseDto>, UnauthorizedHttpResult, NotFound>> Handle(
             Guid id,
             ClaimsPrincipal user,
             UserManager<AppUser> userManager,
@@ -49,12 +49,12 @@ public class GetApplication
 
             if (!Guid.TryParse(userIdString, out var userId))
             {
-                return TypedResults.NotFound(); 
+                return TypedResults.Unauthorized();
             }
             
             var application = await db.Applications
                 .AsNoTracking()
-                .Where(a => a.Id == id && userId == a.UserId)
+                .Where(a => a.Id == id && a.UserId == userId)
                 .Select(a => new ApplicationResponseDto(
                     a.Id,
                     a.CompanyName,
@@ -70,7 +70,7 @@ public class GetApplication
                 .FirstOrDefaultAsync(cancellationToken);
 
             return application is null ? 
-                TypedResults.NotFound() : 
+                TypedResults.NotFound() :
                 TypedResults.Ok(application);
         }
     }

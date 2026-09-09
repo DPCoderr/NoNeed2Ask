@@ -6,15 +6,17 @@ using NoNeed2Ask.Api.Database;
 using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Shared;
 
-public class DeleteApplication
+namespace NoNeed2Ask.Api.Features.Application;
+
+public static class DeleteApplication
 {
     private const string NameRequest = "DeleteApplication"; 
 
-    private class Endpoint : IEndpoint
+    public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapDelete("/applications", Handler.Handle)
+            app.MapDelete("/", Handler.Handle)
                 .WithName(NameRequest)
                 .RequireAuthorization();
         }
@@ -22,7 +24,7 @@ public class DeleteApplication
 
     private static class Handler
     {
-        public static async Task<Results<NoContent, NotFound>> Handle(
+        public static async Task<Results<NoContent, UnauthorizedHttpResult, NotFound>> Handle(
             Guid id,
             ClaimsPrincipal user,
             UserManager<AppUser> userManager,
@@ -33,7 +35,7 @@ public class DeleteApplication
             
             if (!Guid.TryParse(userIdString, out var userId))
             {
-                return TypedResults.NotFound();
+                return TypedResults.Unauthorized();
             }
 
             var application = await db.Applications
@@ -45,8 +47,8 @@ public class DeleteApplication
                 return TypedResults.NotFound();
             }
 
-			db.Applications.Remove(application);
-			await db.SaveChangesAsync(cancellationToken);
+            db.Applications.Remove(application);
+            await db.SaveChangesAsync(cancellationToken);
             
             return TypedResults.NoContent();
         }

@@ -1,27 +1,29 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using NoNeed2Ask.Api.Database;
 using NoNeed2Ask.Api.Domain.Entities;
 using NoNeed2Ask.Api.Shared;
 
-public class UpdateApplication
-{
-    private const string NameRequest = "UpdateApplication"; 
+namespace NoNeed2Ask.Api.Features.Application;
 
-    private class Endpoint : IEndpoint
+public static class CreateApplication
+{
+    private const string NameRequest = "CreateApplication"; 
+
+    public sealed class Endpoint : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("/applications", Handler.Handle)
+            app.MapPost("/", Handler.Handle)
                 .WithName(NameRequest)
+                .AddEndpointFilter<ValidationFilter<CreateApplicationRequestDto>>()
                 .RequireAuthorization();
-        }
+        } 
     }
 
-    public sealed record UpdateApplicationRequestDto(
+    public sealed record CreateApplicationRequestDto(
         string CompanyName,
         string JobTitle,
         string Status,
@@ -30,8 +32,8 @@ public class UpdateApplication
         DateTimeOffset? LastContactAt,
         DateTimeOffset? NextActionAt
     );
-
-    private sealed record UpdateApplicationResponseDto(
+    
+    public sealed record CreateApplicationResponseDto(
         Guid Id,
         string CompanyName,
         string JobTitle,
@@ -46,42 +48,39 @@ public class UpdateApplication
 
     private static class Handler
     {
-        public static async Task<Results<Ok<UpdateApplicationResponseDto>, NotFound>> Handle(
-            Guid id,
-            ClaimsPrincipal user,
-            UserManager<AppUser> userManager,
-            UpdateApplicationRequestDto request,
-            AppDbContext db,
-            CancellationToken cancellationToken)
+        public static async Task<Results<CreatedAtRoute<CreateApplicationResponseDto>, UnauthorizedHttpResult>> 
+            Handle(
+                CreateApplicationRequestDto request,
+                UserManager<AppUser> userManager,
+                ClaimsPrincipal user,
+                AppDbContext db,
+                CancellationToken cancellationToken)
         {
             var userIdString = userManager.GetUserId(user);
             
             if (!Guid.TryParse(userIdString, out var userId))
             {
-                return TypedResults.NotFound();
+                return TypedResults.Unauthorized();
             }
-
-            var application = await db.Applications
-                .Where(a => a.Id == id && a.UserId == userId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            if (application is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            application.CompanyName = request.CompanyName;
-            application.JobTitle = request.JobTitle;
-            application.Status = request.Status;
-            application.PublicNote = request.PublicNote;
-            application.PrivateNote = request.PrivateNote;
-            application.LastContactAt = request.LastContactAt;
-            application.NextActionAt = request.NextActionAt;
-            application.UpdatedAt = DateTimeOffset.UtcNow;
             
+            var application = new Domain.Entities.Application()
+            {
+                UserId = userId,
+                CompanyName = request.CompanyName,
+                JobTitle = request.JobTitle,
+                Status = request.Status,
+                PublicNote = request.PublicNote,
+                PrivateNote = request.PrivateNote,
+                LastContactAt = request.LastContactAt,
+                NextActionAt = request.NextActionAt,
+                CreatedAt = DateTimeOffset.UtcNow,
+                UpdatedAt = DateTimeOffset.UtcNow
+            };
+            
+            db.Applications.Add(application);
             await db.SaveChangesAsync(cancellationToken);
 
-            var response = new UpdateApplicationResponseDto(
+            var response = new CreateApplicationResponseDto(
                 application.Id,
                 application.CompanyName,
                 application.JobTitle,
@@ -94,13 +93,17 @@ public class UpdateApplication
                 application.UpdatedAt
             );
             
-            return TypedResults.Ok(response);
+            return TypedResults.CreatedAtRoute(
+                response,
+                routeName: "GetApplication",
+                routeValues: new { id = response.Id }
+            );
         }
     }
     
-    public sealed class UpdateApplicationRequestDtoValidator : AbstractValidator<UpdateApplicationRequestDto>
+    public sealed class CreateApplicationRequestDtoValidator : AbstractValidator<CreateApplicationRequestDto>
     {
-        public UpdateApplicationRequestDtoValidator()
+        public CreateApplicationRequestDtoValidator()
         {
             RuleFor(x => x.CompanyName)
                 .NotEmpty()
