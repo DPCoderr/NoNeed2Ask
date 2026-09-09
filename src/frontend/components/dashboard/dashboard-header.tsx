@@ -11,7 +11,7 @@ export type DashboardHeaderProps = {
   eyebrow?: string;
   isPublicProfileAvailable?: boolean;
   isPublicSharingEnabled?: boolean;
-  publicSlug?: string;
+  publicPageId?: string;
   title?: string;
   userDisplayName?: string;
 };
@@ -22,7 +22,7 @@ export function DashboardHeader({
   eyebrow = "Private dashboard",
   isPublicProfileAvailable,
   isPublicSharingEnabled,
-  publicSlug,
+  publicPageId,
   title,
   userDisplayName,
 }: DashboardHeaderProps) {
@@ -34,7 +34,7 @@ export function DashboardHeader({
     "Your applications, upcoming interview, and latest progress at a glance.";
   const headerActions =
     actions ??
-    (publicSlug ? (
+    (publicPageId ? (
       <>
         <PublicProfileSharingSwitch
           disabled={!isPublicProfileAvailable}
@@ -44,7 +44,7 @@ export function DashboardHeader({
         {isPublicProfileAvailable && isPublicSharingPreviewEnabled ? (
           <PreviewPublicPageButton
             isAvailable={Boolean(isPublicProfileAvailable)}
-            publicSlug={publicSlug}
+            publicPageId={publicPageId}
           />
         ) : null}
       </>

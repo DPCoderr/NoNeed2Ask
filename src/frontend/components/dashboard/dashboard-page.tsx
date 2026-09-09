@@ -31,7 +31,7 @@ export async function DashboardPage() {
         <OwnerSharing
           isPublicProfileAvailable={publicProfile.isSettingsAvailable}
           isPublicSharingEnabled={publicProfile.isPublicSharingEnabled}
-          publicSlug={publicProfile.publicSlug}
+          publicPageId={publicProfile.publicPageId}
         />
       }
       isInterviewPlaceholder

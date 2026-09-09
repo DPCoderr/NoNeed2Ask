@@ -9,10 +9,10 @@ const previewButtonClassName =
 
 export function PreviewPublicPageButton({
   isAvailable,
-  publicSlug,
+  publicPageId,
 }: {
   isAvailable: boolean
-  publicSlug: string
+  publicPageId: string
 }) {
   const content = (
     <>
@@ -46,7 +46,7 @@ export function PreviewPublicPageButton({
       size="sm"
       variant="outline"
     >
-      <Link href={`/status/${publicSlug}`}>{content}</Link>
+      <Link href={`/status/${publicPageId}`}>{content}</Link>
     </Button>
   )
 }

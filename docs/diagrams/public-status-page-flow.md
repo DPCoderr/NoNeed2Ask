@@ -9,11 +9,14 @@ sequenceDiagram
     participant Api as PublicStatus slice
     participant Db as PostgreSQL
 
-    Visitor->>Web: Open /status/[slug]
-    Web->>Api: GET public status by slug
-    Api->>Db: Find owner profile by publicSlug
-    alt Sharing disabled or slug missing
-        Api-->>Web: Private or not found response
+    Visitor->>Web: Open /status/[publicPageId]
+    Web->>Api: GET public status by publicPageId
+    Api->>Db: Find public_profile_settings by UUID publicPageId
+    alt Invalid UUID or page missing
+        Api-->>Web: 404 Not Found
+        Web-->>Visitor: Page not found
+    else Sharing disabled
+        Api-->>Web: Disabled response without profile or applications
         Web-->>Visitor: This status page is currently private.
     else Sharing enabled
         Api->>Db: Load shareable application fields

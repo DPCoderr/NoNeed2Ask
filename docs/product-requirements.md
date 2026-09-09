@@ -18,7 +18,7 @@ The public page should reduce repeated "How is the job search going?" questions 
 3. The owner creates, edits, views, and deletes job applications.
 4. The owner controls which information is public.
 5. The owner enables or disables public sharing.
-6. Visitors can open `/status/[slug]` without logging in.
+6. Visitors can open `/status/[publicPageId]` without logging in.
 7. If sharing is disabled, the public page shows: `This status page is currently private.`
 
 ## Application data
@@ -48,11 +48,10 @@ Allowed statuses:
 
 ## Public profile data
 
-Each owner profile includes:
+Each owner has an Identity user (`id`, `userName`, `email`) and a separate public profile settings row:
 
-- `id`
-- `email`
-- `publicSlug`
+- `userId` (primary key and foreign key to the owner)
+- `publicPageId` (unique random UUID v4, independent of the owner's ID)
 - `isPublicSharingEnabled`
 - `createdAt`
 - `updatedAt`
@@ -60,6 +59,8 @@ Each owner profile includes:
 ## Public page rules
 
 The public page is read-only and never requires login.
+
+The URL uses the generated `publicPageId`; usernames and old name-based slugs return 404. Anyone with the link can view the public fields while sharing is enabled.
 
 If public sharing is enabled, only these application fields may be shown:
 
@@ -85,7 +86,7 @@ Included in MVP:
 - Private dashboard
 - CRUD for applications
 - Public sharing toggle
-- Public slug management
+- Automatically generated public page identifiers
 - Public read-only status page
 
 Not included in MVP:

@@ -67,7 +67,7 @@ export type PublicStatusApplicationDto = Pick<
 
 export type PublicProfileSettingsDto = {
   userId: string
-  publicSlug: string
+  publicPageId: string
   isPublicSharingEnabled: boolean
   createdAt: string
   updatedAt: string
@@ -80,7 +80,7 @@ export type OwnerDashboardResponseDto = {
 }
 
 export type PublicStatusProfileDto = {
-  publicSlug: string
+  publicPageId: string
   displayName: string
   isPublicSharingEnabled: boolean
   updatedAt: string

@@ -11,7 +11,7 @@ export function PublicPagePreviewContent({ scenario, onRetry }: { scenario: Publ
   const isAuthenticated = scenario === "Private · signed in";
   const { applications, profile } = getPublicPreviewData(scenario);
   let content = <PublicStatusContent applications={applications} profile={profile} now={publicPreviewDate} />;
-  if (isPrivate) content = <PrivateStatusContent isAuthenticated={isAuthenticated} slug={profile.publicSlug} />;
+  if (isPrivate) content = <PrivateStatusContent isAuthenticated={isAuthenticated} publicPageId={profile.publicPageId} />;
   if (scenario === "Loading") content = <PublicStatusLoading />;
   if (scenario === "Error") content = <PublicStatusError onRetry={onRetry} />;
   if (scenario === "Not found") content = <PublicStatusNotFound />;

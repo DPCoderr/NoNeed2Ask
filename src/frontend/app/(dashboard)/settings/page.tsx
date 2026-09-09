@@ -19,8 +19,8 @@ export default function SettingsPage() {
           <h2 className="text-base font-semibold">Public profile</h2>
           <dl className="mt-4 grid gap-3 text-sm">
             <div className="flex items-center justify-between gap-4">
-              <dt className="text-muted-foreground">Slug</dt>
-              <dd className="font-medium">{profile.publicSlug}</dd>
+              <dt className="text-muted-foreground">Public page ID</dt>
+              <dd className="font-medium">{profile.publicPageId}</dd>
             </div>
             <div className="flex items-center justify-between gap-4">
               <dt className="text-muted-foreground">Sharing</dt>
@@ -31,7 +31,7 @@ export default function SettingsPage() {
           </dl>
           <div className="mt-5">
             <Button asChild variant="outline">
-              <Link href={`/status/${profile.publicSlug}`}>Open public page</Link>
+              <Link href={`/status/${profile.publicPageId}`}>Open public page</Link>
             </Button>
           </div>
         </div>

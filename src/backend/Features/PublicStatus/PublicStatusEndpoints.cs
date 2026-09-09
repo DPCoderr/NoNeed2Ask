@@ -7,7 +7,7 @@ public static class PublicStatusEndpoints
         var group = app.MapGroup("/status")
             .WithTags("Public Status");
 
-        group.MapGet("/{slug}", PublicStatusGet.Handle);
+        group.MapGet("/{publicPageId:guid}", PublicStatusGet.Handle);
 
         return app;
     }

@@ -1,7 +1,7 @@
 namespace NoNeed2Ask.Api.Features.PublicStatus;
 
 public sealed record PublicStatusProfileDto(
-    string PublicSlug,
+    Guid PublicPageId,
     string DisplayName,
     bool IsPublicSharingEnabled,
     DateTimeOffset UpdatedAt);

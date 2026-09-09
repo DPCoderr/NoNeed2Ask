@@ -12,17 +12,17 @@ public static class PublicStatusGet
         Ok<PublicStatusEnabledResponseDto>,
         Ok<PublicStatusDisabledResponseDto>,
         NotFound>> Handle(
-        string slug,
+        Guid publicPageId,
         AppDbContext dbContext,
         CancellationToken cancellationToken)
     {
         var profile = await dbContext.PublicProfileSettings
             .AsNoTracking()
-            .Where(settings => settings.PublicSlug == slug)
+            .Where(settings => settings.PublicPageId == publicPageId)
             .Select(settings => new
             {
                 settings.UserId,
-                settings.PublicSlug,
+                settings.PublicPageId,
                 settings.IsPublicSharingEnabled,
                 settings.UpdatedAt,
                 DisplayName = settings.User.UserName ?? "Job search"
@@ -58,7 +58,7 @@ public static class PublicStatusGet
         var response = new PublicStatusEnabledResponseDto(
             "enabled",
             new PublicStatusProfileDto(
-                profile.PublicSlug,
+                profile.PublicPageId,
                 profile.DisplayName,
                 true,
                 profile.UpdatedAt),

@@ -31,7 +31,7 @@ public sealed class PublicProfileIntegrationTests(ApiFactory factory) : IClassFi
     [Fact]
     public async Task Register_CreatesPrivatePublicProfileSettings()
     {
-        var user = await factory.RegisterUserAsync(username: "Jane Doe");
+        var user = await factory.RegisterUserAsync(username: "Jane-Doe");
 
         var response = await user.Client.GetAsync("/settings/public-profile");
 
@@ -39,7 +39,8 @@ public sealed class PublicProfileIntegrationTests(ApiFactory factory) : IClassFi
         var settings = await response.Content.ReadFromJsonAsync<TestPublicProfileSettingsResponse>();
         settings.Should().NotBeNull();
         settings!.UserId.Should().Be(user.Id);
-        settings.PublicSlug.Should().Be("jane-doe-job-search");
+        settings.PublicPageId.Should().NotBeEmpty().And.NotBe(user.Id);
+        settings.PublicPageId.ToString()[14].Should().Be('4');
         settings.IsPublicSharingEnabled.Should().BeFalse();
         settings.CreatedAt.Should().BeCloseTo(settings.UpdatedAt, TimeSpan.FromSeconds(1));
     }
@@ -61,32 +62,63 @@ public sealed class PublicProfileIntegrationTests(ApiFactory factory) : IClassFi
         var updated = await updateResponse.Content.ReadFromJsonAsync<TestPublicProfileSettingsResponse>();
         updated.Should().NotBeNull();
         updated!.IsPublicSharingEnabled.Should().BeTrue();
+        updated.PublicPageId.Should().Be(initial!.PublicPageId);
         updated.UpdatedAt.Should().BeAfter(initial!.UpdatedAt);
 
         var persistedResponse = await user.Client.GetAsync("/settings/public-profile");
         var persisted = await persistedResponse.Content.ReadFromJsonAsync<TestPublicProfileSettingsResponse>();
         persisted.Should().NotBeNull();
         persisted!.IsPublicSharingEnabled.Should().BeTrue();
-        persisted.UpdatedAt.Should().Be(updated.UpdatedAt);
+        persisted.PublicPageId.Should().Be(initial!.PublicPageId);
+        // PostgreSQL stores microseconds; .NET timestamps can contain sub-microsecond ticks.
+        persisted.UpdatedAt.Should().BeCloseTo(updated.UpdatedAt, TimeSpan.FromMicroseconds(1));
     }
 
     [Fact]
-    public async Task PublicStatus_ReturnsNotFound_WhenSlugDoesNotExist()
+    public async Task PublicStatus_ReturnsNotFound_WhenPageIdDoesNotExist()
     {
         var client = factory.CreateCookieClient();
 
-        var response = await client.GetAsync("/status/missing-job-search");
+        var response = await client.GetAsync($"/status/{Guid.NewGuid()}");
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
     [Fact]
+    public async Task PublicStatus_RejectsNamesAndUserId_EvenWhenSharingIsOn()
+    {
+        var user = await factory.RegisterUserAsync(username: "Guessable-Owner");
+        var other = await factory.RegisterUserAsync();
+        var settings = await GetSettingsAsync(user.Client);
+        var otherSettings = await GetSettingsAsync(other.Client);
+        settings.PublicPageId.Should().NotBe(otherSettings.PublicPageId);
+        await user.Client.PatchAsJsonAsync(
+            "/settings/public-profile", new { isPublicSharingEnabled = true });
+
+        var visitor = factory.CreateCookieClient();
+        foreach (var identifier in new[] { user.Username, "guessable-owner-job-search", "not-a-guid", user.Id.ToString() })
+        {
+            var response = await visitor.GetAsync($"/status/{identifier}");
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        (await visitor.GetAsync($"/status/{settings.PublicPageId}")).StatusCode.Should().Be(HttpStatusCode.OK);
+        await user.Client.PatchAsJsonAsync(
+            "/settings/public-profile", new { isPublicSharingEnabled = false });
+        var disabled = await visitor.GetAsync($"/status/{settings.PublicPageId}");
+        using var json = await JsonDocument.ParseAsync(await disabled.Content.ReadAsStreamAsync());
+        json.RootElement.GetProperty("kind").GetString().Should().Be("disabled");
+        json.RootElement.TryGetProperty("profile", out _).Should().BeFalse();
+        json.RootElement.TryGetProperty("applications", out _).Should().BeFalse();
+    }
+
+    [Fact]
     public async Task PublicStatus_ReturnsDisabledResponse_WhenSharingIsOff()
     {
-        var user = await factory.RegisterUserAsync(username: "Private Owner");
+        var user = await factory.RegisterUserAsync(username: "Private-Owner");
         var settings = await GetSettingsAsync(user.Client);
 
-        var response = await user.Client.GetAsync($"/status/{settings.PublicSlug}");
+        var response = await factory.CreateCookieClient().GetAsync($"/status/{settings.PublicPageId}");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         using var json = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
@@ -99,7 +131,7 @@ public sealed class PublicProfileIntegrationTests(ApiFactory factory) : IClassFi
     [Fact]
     public async Task PublicStatus_ReturnsPublicApplicationsOnly_WhenSharingIsOn()
     {
-        var user = await factory.RegisterUserAsync(username: "Public Owner");
+        var user = await factory.RegisterUserAsync(username: "Public-Owner");
         var application = await user.Client.CreateApplicationAsync(
             ApiTestHelpers.ValidApplicationRequest(
                 companyName: "Northstar Labs",
@@ -111,13 +143,13 @@ public sealed class PublicProfileIntegrationTests(ApiFactory factory) : IClassFi
             "/settings/public-profile",
             new { isPublicSharingEnabled = true });
 
-        var response = await user.Client.GetAsync($"/status/{settings.PublicSlug}");
+        var response = await factory.CreateCookieClient().GetAsync($"/status/{settings.PublicPageId}");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         using var json = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
         json.RootElement.GetProperty("kind").GetString().Should().Be("enabled");
-        json.RootElement.GetProperty("profile").GetProperty("publicSlug").GetString()
-            .Should().Be(settings.PublicSlug);
+        json.RootElement.GetProperty("profile").GetProperty("publicPageId").GetGuid()
+            .Should().Be(settings.PublicPageId);
         var publicApplications = json.RootElement.GetProperty("applications")
             .EnumerateArray()
             .ToList();

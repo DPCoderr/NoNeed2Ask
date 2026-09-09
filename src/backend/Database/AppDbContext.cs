@@ -99,16 +99,13 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
 
             settings.HasKey(x => x.UserId);
 
-            settings.Property(x => x.PublicSlug)
-                .HasMaxLength(100);
-
             settings.Property(x => x.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             settings.Property(x => x.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            settings.HasIndex(x => x.PublicSlug)
+            settings.HasIndex(x => x.PublicPageId)
                 .IsUnique();
 
             settings.HasOne(x => x.User)

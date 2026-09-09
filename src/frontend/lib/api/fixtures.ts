@@ -18,7 +18,7 @@ export const mockAuthUser: AuthUserDto = {
 
 export const mockPublicProfileSettings: PublicProfileSettingsDto = {
   userId: mockAuthUser.id,
-  publicSlug: "john-job-search",
+  publicPageId: "43b75bc3-66d2-4fa8-925f-92746835d1d1",
   isPublicSharingEnabled: true,
   createdAt: "2026-05-01T09:05:00.000Z",
   updatedAt: "2026-05-22T13:45:00.000Z",
@@ -114,7 +114,7 @@ export const mockEmptyOwnerDashboardResponse: OwnerDashboardResponseDto = {
 export const mockPublicStatusEnabledResponse: PublicStatusResponseDto = {
   kind: "enabled",
   profile: {
-    publicSlug: mockPublicProfileSettings.publicSlug,
+    publicPageId: mockPublicProfileSettings.publicPageId,
     displayName: mockAuthUser.displayName,
     isPublicSharingEnabled: true,
     updatedAt: mockPublicProfileSettings.updatedAt,
@@ -125,7 +125,7 @@ export const mockPublicStatusEnabledResponse: PublicStatusResponseDto = {
 export const mockPublicStatusEmptyResponse: PublicStatusResponseDto = {
   kind: "enabled",
   profile: {
-    publicSlug: mockPublicProfileSettings.publicSlug,
+    publicPageId: mockPublicProfileSettings.publicPageId,
     displayName: mockAuthUser.displayName,
     isPublicSharingEnabled: true,
     updatedAt: mockPublicProfileSettings.updatedAt,

@@ -11,20 +11,20 @@ import { backendUrls } from "@/lib/server/backend-urls"
 
 type PublicStatusPageProps = {
   params: Promise<{
-    slug: string
+    publicPageId: string
   }>
 }
 
 export default async function PublicStatusPage({
   params,
 }: PublicStatusPageProps) {
-  const { slug } = await params
+  const { publicPageId } = await params
   const currentUser = await getCurrentUserServer()
   const isAuthenticated = Boolean(currentUser)
   let publicStatus: PublicStatusResponseDto
 
   try {
-    publicStatus = await getPublicStatus(slug, {
+    publicStatus = await getPublicStatus(publicPageId, {
       baseUrl: backendUrls.publicStatus,
     })
   } catch (error) {
@@ -40,7 +40,7 @@ export default async function PublicStatusPage({
       <PublicStatusFrame isAuthenticated={isAuthenticated}>
         <PrivateStatusContent
           isAuthenticated={isAuthenticated}
-          slug={slug}
+          publicPageId={publicPageId}
         />
       </PublicStatusFrame>
     )

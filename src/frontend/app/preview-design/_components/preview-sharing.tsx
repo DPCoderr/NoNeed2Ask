@@ -12,7 +12,7 @@ export function PreviewSharing({ unavailable, saving }: { unavailable: boolean; 
   return (
     <OwnerSharingPanel>
       <PublicProfileSharingControl enabled={enabled && !unavailable} onCheckedChange={setEnabled} disabled={unavailable || saving} appearance="compact" />
-      {enabled && !unavailable && <OwnerPublicPreviewLink href="/status/alex-job-search" />}
+      {enabled && !unavailable && <OwnerPublicPreviewLink href="/status/aee53011-d8b3-42aa-82b5-aaf58a1eb81f" />}
       {unavailable && <span className="text-xs text-slate-500">Sharing is currently unavailable.</span>}
       {saving && <span role="status" className="text-xs text-slate-500">Saving…</span>}
     </OwnerSharingPanel>

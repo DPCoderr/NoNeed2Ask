@@ -34,11 +34,7 @@ public static class Register
                 detail: "One or more registration fields are invalid.");
         }
 
-        await PublicProfileSettingsService.CreateDefaultAsync(
-            dbContext,
-            user.Id,
-            user.UserName!,
-            cancellationToken);
+        PublicProfileSettingsService.CreateDefault(dbContext, user.Id);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         await signInManager.SignInAsync(user, isPersistent: request.RememberMe);

@@ -89,7 +89,7 @@ Use it for:
 - required fields
 - max lengths
 - valid status values
-- public slug rules
+- public page identifier rules (random UUID v4)
 - request-level guardrails before persistence
 
 Validation belongs on the backend even if the frontend already validates the same form.
@@ -187,7 +187,7 @@ If another service later owns separate data and lifecycle concerns, give that se
 - `Features/Auth/`: register, login, logout, me
 - `Features/Applications/`: create, list, get by id, update, delete
 - `Features/Settings/`: get and update public profile settings
-- `Features/PublicStatus/`: get public status by slug
+- `Features/PublicStatus/`: get public status by publicPageId
 - `Shared/`: small cross-cutting helpers only when they truly serve multiple slices
 
 ## What to avoid

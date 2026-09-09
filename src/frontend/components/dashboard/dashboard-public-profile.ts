@@ -14,7 +14,7 @@ export type DashboardPublicProfileSettings = PublicProfileSettingsDto & {
 };
 
 export async function getDashboardPublicProfileSettings(
-  user: Pick<AuthMeResponseDto, "id" | "username">
+  user: Pick<AuthMeResponseDto, "id">
 ): Promise<DashboardPublicProfileSettings | null> {
   const cookieStore = await cookies();
   const authCookie = cookieStore.get(authCookieName);
@@ -41,7 +41,7 @@ export async function getDashboardPublicProfileSettings(
 
       return {
         userId: user.id,
-        publicSlug: `${slugify(user.username)}-job-search`,
+        publicPageId: "",
         isPublicSharingEnabled: false,
         createdAt: now,
         updatedAt: now,
@@ -51,14 +51,4 @@ export async function getDashboardPublicProfileSettings(
 
     throw error;
   }
-}
-
-function slugify(value: string) {
-  const slug = value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-  return slug || "user";
 }

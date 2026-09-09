@@ -4,7 +4,7 @@ public sealed class PublicProfileSettings
 {
     public Guid UserId { get; set; }
 
-    public string PublicSlug { get; set; } = string.Empty;
+    public Guid PublicPageId { get; set; } = Guid.NewGuid();
 
     public bool IsPublicSharingEnabled { get; set; }
 

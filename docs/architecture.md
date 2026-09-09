@@ -51,7 +51,7 @@ Required routes:
 - `/` (landing page guest and home page with a dashboard for logged user)
 - `/applications` (private)
 - `/settings` (private)
-- `/status/[slug]` 
+- `/status/[publicPageId]`
 
 The private dashboard can be richer and operational. The public page should stay calm, minimal, and clearly read-only.
 

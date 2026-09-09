@@ -9,7 +9,7 @@ flowchart TB
     end
 
     subgraph Frontend["src/frontend - Next.js App Router"]
-        PublicRoutes["Public routes\n/, /login, /register, /status/[slug]"]
+        PublicRoutes["Public routes\n/, /login, /register, /status/[publicPageId]"]
         PrivateRoutes["Private dashboard routes\n/dashboard, /dashboard/applications, /dashboard/settings"]
         UI["shadcn/ui components\nforms, tables, settings"]
         QueryState["React Query + URL search params"]

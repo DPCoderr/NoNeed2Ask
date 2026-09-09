@@ -2,7 +2,7 @@ import type { PublicStatusApplicationDto, PublicStatusProfileDto } from "@/lib/a
 
 export const publicPreviewDate = new Date("2026-09-07T09:00:00Z");
 export const publicPreviewProfile: PublicStatusProfileDto = {
-  publicSlug: "alex-morgan", displayName: "Alex Morgan", isPublicSharingEnabled: true, updatedAt: "2026-09-07T08:30:00Z",
+  publicPageId: "aee53011-d8b3-42aa-82b5-aaf58a1eb81f", displayName: "Alex Morgan", isPublicSharingEnabled: true, updatedAt: "2026-09-07T08:30:00Z",
 };
 export const publicPreviewApplications: PublicStatusApplicationDto[] = [
   { companyName: "Northstar Labs", jobTitle: "Senior Frontend Engineer", status: "interview_planned", nextActionAt: "2026-09-09T10:30:00Z", updatedAt: "2026-09-07T08:30:00Z", publicNote: "Looking forward to meeting the team." },

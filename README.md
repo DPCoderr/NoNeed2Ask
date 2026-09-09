@@ -14,7 +14,7 @@ This repository is organized as a small monorepo with:
 
 - Let an owner register and sign in securely
 - Let the owner manage their own job applications privately
-- Let the owner choose a public slug and toggle public sharing on or off
+- Give each owner a random GUID-based public link and let them toggle public sharing on or off
 - Provide a read-only public status page for visitors
 - Keep private notes and private application data off the public page
 

@@ -39,7 +39,7 @@ describe("owner dashboard", () => {
 
 function renderSharing(available = true) {
   const client = new QueryClient({ defaultOptions: { mutations: { retry: false } } });
-  render(<QueryClientProvider client={client}><OwnerSharing isPublicProfileAvailable={available} isPublicSharingEnabled={false} publicSlug="alex-job-search" /></QueryClientProvider>);
+  render(<QueryClientProvider client={client}><OwnerSharing isPublicProfileAvailable={available} isPublicSharingEnabled={false} publicPageId="aee53011-d8b3-42aa-82b5-aaf58a1eb81f" /></QueryClientProvider>);
 }
 
 describe("owner sharing", () => {
@@ -55,7 +55,7 @@ describe("owner sharing", () => {
     await waitFor(() => expect(updateSettings).toHaveBeenCalledWith({ isPublicSharingEnabled: true }));
     expect(screen.getByRole("switch")).toBeDisabled();
     expect(screen.getByRole("switch")).toBeChecked();
-    expect(screen.getByRole("link", { name: "Preview page" })).toHaveAttribute("href", "/status/alex-job-search");
+    expect(screen.getByRole("link", { name: "Preview page" })).toHaveAttribute("href", "/status/aee53011-d8b3-42aa-82b5-aaf58a1eb81f");
     await act(async () => finish());
     await waitFor(() => expect(screen.getByRole("switch")).toBeEnabled());
   });

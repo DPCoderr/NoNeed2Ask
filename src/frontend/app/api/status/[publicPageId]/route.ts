@@ -5,17 +5,17 @@ import { backendUrls, createBackendUrl } from "@/lib/server/backend-urls"
 
 type RouteContext = {
   params: Promise<{
-    slug: string
+    publicPageId: string
   }>
 }
 
 export const dynamic = "force-dynamic"
 
 export async function GET(request: NextRequest, context: RouteContext) {
-  const { slug } = await context.params
+  const { publicPageId } = await context.params
   return proxyBackendRequest(
     request,
-    createBackendUrl(backendUrls.publicStatus, slug),
+    createBackendUrl(backendUrls.publicStatus, publicPageId),
     "Public status service is unavailable."
   )
 }

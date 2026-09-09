@@ -32,7 +32,7 @@ public sealed record TestApplicationListResponse(
 
 public sealed record TestPublicProfileSettingsResponse(
     Guid UserId,
-    string PublicSlug,
+    Guid PublicPageId,
     bool IsPublicSharingEnabled,
     DateTimeOffset CreatedAt,
     DateTimeOffset UpdatedAt);
