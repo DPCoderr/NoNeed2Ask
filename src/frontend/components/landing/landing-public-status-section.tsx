@@ -8,18 +8,18 @@ export function LandingPublicStatusSection() {
   return (
     <section className="scroll-mt-28 px-5 py-16 sm:px-8 sm:py-24" id="public-status">
       <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center lg:gap-24">
-        <div>
+        <div className="mx-auto w-full max-w-2xl text-center lg:mx-0 lg:text-left">
           <SectionIntro
             description="Give friends and family a place to check in. Your public page shows the companies and roles you’ve applied to, your progress, and your latest application updates."
             eyebrow="What they see"
             title="Keep everyone updated, without another message."
           />
-          <ul className="mt-7 grid gap-4">
+          <ul className="mt-7 grid justify-items-center gap-4 lg:justify-items-stretch">
             <FeaturePoint>They can open your link without an account.</FeaturePoint>
             <FeaturePoint>You can turn public sharing off at any time.</FeaturePoint>
             <FeaturePoint>Your private notes stay in your workspace.</FeaturePoint>
           </ul>
-          <div className="mt-8 flex items-start gap-3 border-t border-slate-200 pt-5 text-sm leading-6 text-slate-600">
+          <div className="mt-8 flex flex-col items-center gap-3 border-t border-slate-200 pt-5 text-sm leading-6 text-slate-600 lg:flex-row lg:items-start">
             <LockKeyhole aria-hidden="true" className="mt-1 size-4 shrink-0" />
             <p>Sharing is optional. When it’s on, anyone with your link can view the page. Visitors can’t make changes.</p>
           </div>
